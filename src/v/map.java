@@ -171,7 +171,7 @@ public class map extends javax.swing.JFrame {
         getContentPane().add(back, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 660, -1, -1));
 
         labeluang.setFont(new java.awt.Font("DFPOP1-W9", 0, 24)); // NOI18N
-        labeluang.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        labeluang.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         labeluang.setToolTipText("");
         getContentPane().add(labeluang, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 20, 160, 50));
 
@@ -179,12 +179,12 @@ public class map extends javax.swing.JFrame {
         user.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         getContentPane().add(user, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 20, 140, 40));
 
-        achievementbtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ui export/add.png"))); // NOI18N
+        achievementbtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ui export/logoacv.png"))); // NOI18N
         achievementbtn.setBorder(null);
         achievementbtn.setBorderPainted(false);
         achievementbtn.setContentAreaFilled(false);
         achievementbtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        getContentPane().add(achievementbtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 110, -1, -1));
+        getContentPane().add(achievementbtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 10, -1, -1));
 
         bg.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ui export/map.png"))); // NOI18N
         getContentPane().add(bg, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));

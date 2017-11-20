@@ -18,16 +18,6 @@ public class pengolahan extends func {
 
     }
 
-    public int cekIdOlahBuah() throws SQLException {
-        String query = "select idOlah from olahbuah where idOlah = ";
-        return checkId(query);
-    }
-
-    public int cekIdOlahBahan() throws SQLException {
-        String query = "select idOlah from olahbahan where idOlah = ";
-        return checkId(query);
-    }
-
     public int selectIdBeli(int idBuah) throws SQLException {
         String query = "select o.idBeli from olahbuah o join "
                 + "pembelianbuah p on p.idBeliBuah = o.idBeli "
@@ -49,6 +39,21 @@ public class pengolahan extends func {
         return getDataInt(query);
     }
 
+    public int getProduk(String username, int id1, int id2, int id3, int id4, int id5) throws SQLException {
+        String query = "select sum(Jumlah) from olahproduk b join player p on p.idPlayer=b.idPlayer "
+                + "where b.idProduk in ('" + id1 + "','" + id2 + "','" + id3 + "','" + id4 + "','" + id5 + "') "
+                + "and p.username ='" + username + "' ";
+        return getDataInt(query);
+    }
+
+    public boolean olahProduk(int idProduk, String idPlayer, int jml) {
+        String query = "INSERT INTO `olahproduk`(`id`, `idProduk`, `idPlayer`, `Jumlah`) "
+                + "VALUES (null,'" + idProduk + "','" + idPlayer + "','" + jml + "')";
+        System.out.println("ye");
+        System.out.println(query);
+        return getStatusQuery(query);
+    }
+
     public int cekIdHasilOlah() throws SQLException {
         String query = "select idHasilOlah from hasilpengolahan where idHasilOlah = ";
         return checkId(query);
@@ -59,7 +64,7 @@ public class pengolahan extends func {
         return getDataInt(query);
     }
 
-  public boolean resetHasilPengolahan(String idPlayer) throws SQLException {
+    public boolean resetHasilPengolahan(String idPlayer) throws SQLException {
         String query = "UPDATE `hasilpengolahan` SET `Jumlah` = '0' WHERE idPlayer = '" + idPlayer + "'";
         return getStatusQuery(query);
     }
@@ -71,6 +76,10 @@ public class pengolahan extends func {
         return getStatusQuery(query);
     }
 
+    public boolean resetOlah(String idPlayer) throws SQLException { //gausamasuk
+        String query = "Delete from olahproduk WHERE idPlayer = '" + idPlayer + "'";
+        return getStatusQuery(query);
+    }
 
     public boolean insertHasilOlah(String idPlayer) {
         String query = "INSERT INTO `hasilpengolahan`(`idHasilOlah`, `idProduk`, "

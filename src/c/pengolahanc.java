@@ -43,6 +43,7 @@ public class pengolahanc {
     boolean stesbuah = false, stsaladbuah = false, stsale = false;
     int jusmelon, jusmangga, jusapel, juspisang, jussemangka, kripikapel, kripikpisang, kripikmangga;
     int brownismelon, brownisapel, brownismangga, brownispisang, brownissemangka, esbuah, saladbuah, sale;
+    boolean tb1, tb2, tb3, rr1, rr2, rr3, k1, k2, k3;
 
     public pengolahanc(String username) throws SQLException {
         this.username = username;
@@ -138,6 +139,95 @@ public class pengolahanc {
         es = maset.cekResep(username, "esbuah");
         salad = maset.cekResep(username, "salad");
         salepisang = maset.cekResep(username, "sale");
+    }
+
+    public void cekStatusPenghargaan() throws SQLException {
+        k1 = maset.cekAchv(username, "kriuk", 0);
+        k2 = maset.cekAchv(username, "kriuk", 1);
+        k3 = maset.cekAchv(username, "kriuk", 2);
+        tb3 = maset.cekAchv(username, "tukangblender", 2);
+        tb2 = maset.cekAchv(username, "tukangblender", 1);
+        tb1 = maset.cekAchv(username, "tukangblender", 0);
+        rr1 = maset.cekAchv(username, "ramerasanya", 0);
+        rr2 = maset.cekAchv(username, "ramerasanya", 1);
+        rr3 = maset.cekAchv(username, "ramerasanya", 2);
+    }
+
+    private void cekPenghargaanKriuk() throws SQLException {
+        int produk = molah.getProduk(username, 6, 7, 8, 0, 0); //gausa masuk sequence
+        if (k1) {
+            if (produk >= 60) {
+                maset.updatePenghargaan(mplayer.getIdPlayer(username), "kriuk", 1);
+                vpengolahan.tampilPesan2("KRIUK rank 3!!\nAnda berhasil mendapatkan penghargaan ini!\n"
+                        + "Resep kripik lainnya telah terbuka!");
+                if (kripikp) {
+                    maset.insertResep(mplayer.getIdPlayer(username), "kripikmangga");
+                    maset.insertResep(mplayer.getIdPlayer(username), "kripikapel");
+                } else if (kripikm) {
+                    maset.insertResep(mplayer.getIdPlayer(username), "kripikpisang");
+                    maset.insertResep(mplayer.getIdPlayer(username), "kripikapel");
+                } else if (kripika) {
+                    maset.insertResep(mplayer.getIdPlayer(username), "kripikmangga");
+                    maset.insertResep(mplayer.getIdPlayer(username), "kripikpisang");
+                }
+            }
+        }
+        if (k2) {
+            if (produk >= 120) {
+                maset.updatePenghargaan(mplayer.getIdPlayer(username), "kriuk", 2);
+                vpengolahan.tampilPesan2("KRIUK rank 2!!\nAnda berhasil mendapatkan penghargaan ini!");
+            }
+        }
+        if (k3) {
+            if (produk >= 360) {
+                maset.updatePenghargaan(mplayer.getIdPlayer(username), "kriuk", 3);
+                vpengolahan.tampilPesan2("KRIUK rank 1!!\nAnda berhasil mendapatkan penghargaan ini!");
+            }
+        }
+    }
+
+    public void cekPenghargaanRameRasanya() throws SQLException {
+        int produk = molah.getProduk(username, 16, 0, 0, 0, 0); //gausa masuk sequence
+        if (rr1) {
+            if (produk >= 250) {
+                maset.updatePenghargaan(mplayer.getIdPlayer(username), "ramerasanya", 1);
+                vpengolahan.tampilPesan2("RAME RASANYA rank 3!!\nAnda berhasil mendapatkan penghargaan ini!");
+            }
+        }
+        if (rr2) {
+            if (produk >= 500) {
+                maset.updatePenghargaan(mplayer.getIdPlayer(username), "ramerasanya", 2);
+                vpengolahan.tampilPesan2("RAME RASANYA rank 2!!\nAnda berhasil mendapatkan penghargaan ini!");
+            }
+        }
+        if (rr3) {
+            if (produk >= 1000) {
+                maset.updatePenghargaan(mplayer.getIdPlayer(username), "ramerasanya", 3);
+                vpengolahan.tampilPesan2("RAME RASANYA rank 1!!\nAnda berhasil mendapatkan penghargaan ini!");
+            }
+        }
+    }
+
+    public void cekPenghargaanTukangBlender() throws SQLException {
+        int produk = molah.getProduk(username, 1, 2, 3, 4, 5); //gausa masuk sequence
+        if (tb1) {
+            if (produk >= 250) {
+                maset.updatePenghargaan(mplayer.getIdPlayer(username), "tukangblender", 1);
+                vpengolahan.tampilPesan2("TUKANG BLENDER rank 3!!\nAnda berhasil mendapatkan penghargaan ini!");
+            }
+        }
+        if (tb2) {
+            if (produk >= 500) {
+                maset.updatePenghargaan(mplayer.getIdPlayer(username), "tukangblender", 2);
+                vpengolahan.tampilPesan2("TUKANG BLENDER rank 2!!\nAnda berhasil mendapatkan penghargaan ini!");
+            }
+        }
+        if (tb3) {
+            if (produk >= 1000) {
+                maset.updatePenghargaan(mplayer.getIdPlayer(username), "tukangblender", 3);
+                vpengolahan.tampilPesan2("TUKANG BLENDER rank 1!!\nAnda berhasil mendapatkan penghargaan ini!");
+            }
+        }
     }
 
     public void cekResep() throws SQLException {
@@ -280,11 +370,11 @@ public class pengolahanc {
         public void actionPerformed(ActionEvent e) {
             try {
                 int uang = maset.getUang(username);
-                if (uang >= 150000) {
+                if (uang >= 500000) {
                     int pilih = JOptionPane.showConfirmDialog(vpengolahan, "Yakin Membeli?",
                             "Konfirmasi Pembelian Resep", JOptionPane.YES_NO_OPTION);
                     if (pilih == 0) {
-                        uang = uang - 150000;
+                        uang = uang - 500000;
                         maset.updateUang(uang, mplayer.getIdPlayer(username));
                         maset.insertResep(mplayer.getIdPlayer(username), "salad");
                         cekResep();
@@ -304,11 +394,11 @@ public class pengolahanc {
         public void actionPerformed(ActionEvent e) {
             try {
                 int uang = maset.getUang(username);
-                if (uang >= 250000) {
+                if (uang >= 350000) {
                     int pilih = JOptionPane.showConfirmDialog(vpengolahan, "Yakin Membeli?",
                             "Konfirmasi Pembelian Resep", JOptionPane.YES_NO_OPTION);
                     if (pilih == 0) {
-                        uang = uang - 250000;
+                        uang = uang - 350000;
                         maset.updateUang(uang, mplayer.getIdPlayer(username));
                         maset.insertResep(mplayer.getIdPlayer(username), "sale");
                         cekResep();
@@ -328,11 +418,11 @@ public class pengolahanc {
         public void actionPerformed(ActionEvent e) {
             try {
                 int uang = maset.getUang(username);
-                if (uang >= 150000) {
+                if (uang >= 500000) {
                     int pilih = JOptionPane.showConfirmDialog(vpengolahan, "Yakin Membeli?",
                             "Konfirmasi Pembelian Resep", JOptionPane.YES_NO_OPTION);
                     if (pilih == 0) {
-                        uang = uang - 150000;
+                        uang = uang - 500000;
                         maset.updateUang(uang, mplayer.getIdPlayer(username));
                         maset.insertResep(mplayer.getIdPlayer(username), "esbuah");
                         cekResep();
@@ -352,16 +442,16 @@ public class pengolahanc {
         public void actionPerformed(ActionEvent e) {
             try {
                 int uang = maset.getUang(username);
-                if (uang >= 150000) {
+                if (uang >= 350000) {
                     int pilih = JOptionPane.showConfirmDialog(vpengolahan, "Yakin Membeli?",
                             "Konfirmasi Pembelian Resep", JOptionPane.YES_NO_OPTION);
                     if (pilih == 0) {
-                        uang = uang - 250000;
+                        uang = uang - 350000;
                         maset.updateUang(uang, mplayer.getIdPlayer(username));
                         maset.insertResep(mplayer.getIdPlayer(username), "kripikpisang");
                         cekResep();
-                       // vpengolahan.belikripikapel.setVisible(false);
-                       // vpengolahan.belikripikmangga.setVisible(false);
+                        // vpengolahan.belikripikapel.setVisible(false);
+                        // vpengolahan.belikripikmangga.setVisible(false);
                     }
                 } else {
                     vpengolahan.tampilPesan1("uang anda tidak cukup");
@@ -378,11 +468,11 @@ public class pengolahanc {
         public void actionPerformed(ActionEvent e) {
             try {
                 int uang = maset.getUang(username);
-                if (uang >= 250000) {
+                if (uang >= 350000) {
                     int pilih = JOptionPane.showConfirmDialog(vpengolahan, "Yakin Membeli?",
                             "Konfirmasi Pembelian Resep", JOptionPane.YES_NO_OPTION);
                     if (pilih == 0) {
-                        uang = uang - 250000;
+                        uang = uang - 350000;
                         maset.updateUang(uang, mplayer.getIdPlayer(username));
                         maset.insertResep(mplayer.getIdPlayer(username), "kripikmangga");
                         cekResep();
@@ -402,11 +492,11 @@ public class pengolahanc {
         public void actionPerformed(ActionEvent e) {
             try {
                 int uang = maset.getUang(username);
-                if (uang >= 150000) {
+                if (uang >= 350000) {
                     int pilih = JOptionPane.showConfirmDialog(vpengolahan, "Yakin Membeli?",
                             "Konfirmasi Pembelian Resep", JOptionPane.YES_NO_OPTION);
                     if (pilih == 0) {
-                        uang = uang - 150000;
+                        uang = uang - 350000;
                         maset.updateUang(uang, mplayer.getIdPlayer(username));
                         maset.insertResep(mplayer.getIdPlayer(username), "kripikapel");
                         cekResep();
@@ -669,10 +759,9 @@ public class pengolahanc {
                 vpengolahan.setJmlMelon(maset.getJmlBuahAll(username, idbuah));
                 vpengolahan.setJmlSusu(susu);
                 vpengolahan.setJmlGula(gula);
-                if (jus >= 150) {
-//                    maset.insertPenghargaan(username, "tukangblender");
-                    vpengolahan.tampilPesan2("TUKANG BLENDER!!\nAnda mendapatkan penghargaan ini");
-                }
+                molah.olahProduk(idproduk, username, 5);
+                cekStatusPenghargaan();
+                cekPenghargaanTukangBlender();
                 vpengolahan.popup().setVisible(false);
                 vpengolahan.enable();
             } else {
@@ -706,10 +795,9 @@ public class pengolahanc {
                 vpengolahan.setJmlApel(maset.getJmlBuahAll(username, idbuah));
                 vpengolahan.setJmlSusu(susu);
                 vpengolahan.setJmlGula(gula);
-                if (jus >= 150) {
-//                    maset.insertPenghargaan(username, "tukangblender");
-                    vpengolahan.tampilPesan2("TUKANG BLENDER!!\nAnda mendapatkan penghargaan ini");
-                }
+                molah.olahProduk(idproduk, username, 10);
+                cekStatusPenghargaan();
+                cekPenghargaanTukangBlender();
                 vpengolahan.popup().setVisible(false);
                 vpengolahan.enable();
             } else {
@@ -722,7 +810,7 @@ public class pengolahanc {
 
     private void JusSemangkaAction() throws SQLException, InterruptedException {
         int idbuah = 4;
-        int idproduk = 4;
+        int idproduk = 5;
         int jus = maset.getJus(username);
         int getIdKualitas = Integer.valueOf(maset.getIdKualitas(vpengolahan.getTeksKualitas()));
         System.out.println(getIdKualitas);
@@ -743,10 +831,9 @@ public class pengolahanc {
                 vpengolahan.setJmlSemangka(maset.getJmlBuahAll(username, idbuah));
                 vpengolahan.setJmlSusu(susu);
                 vpengolahan.setJmlGula(gula);
-                if (jus >= 150) {
-//                    maset.insertPenghargaan(username, "tukangblender");
-                    vpengolahan.tampilPesan2("TUKANG BLENDER!!\nAnda mendapatkan penghargaan ini");
-                }
+                molah.olahProduk(idproduk, username, 4);
+                cekStatusPenghargaan();
+                cekPenghargaanTukangBlender();
                 vpengolahan.popup().setVisible(false);
                 vpengolahan.enable();
             } else {
@@ -780,10 +867,9 @@ public class pengolahanc {
                 vpengolahan.setJmlPisang(maset.getJmlBuahAll(username, idbuah));
                 vpengolahan.setJmlSusu(susu);
                 vpengolahan.setJmlGula(gula);
-                if (jus >= 150) {
-           //         maset.insertPenghargaan(username, "tukangblender");
-                    vpengolahan.tampilPesan2("TUKANG BLENDER!!\nAnda mendapatkan penghargaan ini");
-                }
+                molah.olahProduk(idproduk, username, 10);
+                cekStatusPenghargaan();
+                cekPenghargaanTukangBlender();
                 vpengolahan.popup().setVisible(false);
                 vpengolahan.enable();
             } else {
@@ -817,10 +903,9 @@ public class pengolahanc {
                 vpengolahan.setJmlMangga(maset.getJmlBuahAll(username, idbuah));
                 vpengolahan.setJmlSusu(susu);
                 vpengolahan.setJmlGula(gula);
-                if (jus >= 150) {
-//                    maset.insertPenghargaan(username, "tukangblender");
-                    vpengolahan.tampilPesan2("TUKANG BLENDER!!\nAnda mendapatkan penghargaan ini");
-                }
+                molah.olahProduk(idproduk, username, 10);
+                cekStatusPenghargaan();
+                cekPenghargaanTukangBlender();
                 vpengolahan.popup().setVisible(false);
                 vpengolahan.enable();
             } else {
@@ -1059,6 +1144,9 @@ public class pengolahanc {
                 vpengolahan.setJmlApel(maset.getJmlBuahAll(username, idbuah));
                 vpengolahan.setJmlMinyak(minyak);
                 vpengolahan.setJmlGula(gula);
+                molah.olahProduk(idproduk, username, 3);
+                cekStatusPenghargaan();
+                cekPenghargaanKriuk();
                 vpengolahan.popup().setVisible(false);
                 vpengolahan.enable();
             } else {
@@ -1091,6 +1179,9 @@ public class pengolahanc {
                 vpengolahan.setJmlPisang(maset.getJmlBuahAll(username, idbuah));
                 vpengolahan.setJmlMinyak(minyak);
                 vpengolahan.setJmlGula(gula);
+                molah.olahProduk(idproduk, username, 3);
+                cekStatusPenghargaan();
+                cekPenghargaanKriuk();
                 vpengolahan.popup().setVisible(false);
                 vpengolahan.enable();
             } else {
@@ -1123,6 +1214,9 @@ public class pengolahanc {
                 vpengolahan.setJmlMangga(maset.getJmlBuahAll(username, idbuah));
                 vpengolahan.setJmlMinyak(minyak);
                 vpengolahan.setJmlGula(gula);
+                molah.olahProduk(idproduk, username, 3);
+                cekStatusPenghargaan();
+                cekPenghargaanKriuk();
                 vpengolahan.popup().setVisible(false);
                 vpengolahan.enable();
             } else {
@@ -1247,6 +1341,9 @@ public class pengolahanc {
                 vpengolahan.setJmlMelon(maset.getJmlBuahAll(username, 5));
                 vpengolahan.setJmlSusu(susu);
                 vpengolahan.setJmlMayo(mayo);
+                molah.olahProduk(idproduk, username, 25); //GAUSA JG
+                cekStatusPenghargaan();
+                cekPenghargaanRameRasanya();
                 vpengolahan.popup().setVisible(false);
                 vpengolahan.enable();
             } else {

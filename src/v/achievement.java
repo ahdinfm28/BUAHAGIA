@@ -13,6 +13,7 @@ import java.awt.event.MouseListener;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -48,7 +49,7 @@ public class achievement extends javax.swing.JFrame {
         dmaniakmangga.addActionListener(a);
     }
 
-    public void klikPengolahRoti(ActionListener a) {
+    public void klikRameRasanya(ActionListener a) {
         dramerasanya.addActionListener(a);
     }
 
@@ -64,15 +65,13 @@ public class achievement extends javax.swing.JFrame {
         dlegend.addActionListener(a);
     }
 
-    public void klikPenguasaKriuk(ActionListener a) {
+    public void klikPebisnisEsbuah(ActionListener a) {
         dpebisnisesbuah.addActionListener(a);
     }
 
     public void klikPengusahaSale(ActionListener a) {
         dpengusahasale.addActionListener(a);
     }
-
-   
 
     public void klikSaudagar(ActionListener a) {
         dsaudagar.addActionListener(a);
@@ -101,7 +100,10 @@ public class achievement extends javax.swing.JFrame {
     public JLabel setGambar() {
         return gambar;
     }
-    
+
+    public void tampilPesan(String pesan) {
+        JOptionPane.showMessageDialog(this, pesan);
+    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -142,7 +144,7 @@ public class achievement extends javax.swing.JFrame {
         jLabel17 = new javax.swing.JLabel();
 
         popupdetail.setUndecorated(true);
-        popupdetail.setSize(new java.awt.Dimension(618, 340));
+        popupdetail.setSize(new java.awt.Dimension(811, 690));
         popupdetail.setType(java.awt.Window.Type.POPUP);
         popupdetail.getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -151,9 +153,9 @@ public class achievement extends javax.swing.JFrame {
         close.setBorderPainted(false);
         close.setContentAreaFilled(false);
         close.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        popupdetail.getContentPane().add(close, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 290, -1, -1));
+        popupdetail.getContentPane().add(close, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 620, -1, -1));
 
-        gambar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ui export/saudagar.png"))); // NOI18N
+        gambar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ui export/detailmaniakapel.png"))); // NOI18N
         popupdetail.getContentPane().add(gambar, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -303,7 +305,7 @@ public class achievement extends javax.swing.JFrame {
         getContentPane().add(kriuk, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 490, -1, -1));
 
         legend.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ui export/logolegend3.png"))); // NOI18N
-        getContentPane().add(legend, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 610, 110, 100));
+        getContentPane().add(legend, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 610, 90, 100));
 
         pengusahasale.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ui export/logorank3.png"))); // NOI18N
         getContentPane().add(pengusahasale, new org.netbeans.lib.awtextra.AbsoluteConstraints(1030, 490, -1, -1));

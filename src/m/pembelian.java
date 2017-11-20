@@ -37,6 +37,11 @@ public class pembelian extends func {
                 + "where b.idBahan = '" + idBahan + "' and p.username ='" + username + "' ";
         return getDataInt(query);
     }
+    public int getBuah(String username, int idBuah) throws SQLException {
+        String query = "select sum(Jumlah) from belibuah b join player p on p.idPlayer=b.idPlayer "
+                + "where b.idBuah = '" + idBuah + "' and p.username ='" + username + "' ";
+        return getDataInt(query);
+    }
 
     public boolean insertBahan(int idBeli, String idPlayer, int idBahan, int stok) {
         String query = "INSERT INTO `pembelianBahan`(`idBeliB`, `idPlayer`, `idBahan`, `JumlahBeli`) VALUES ('" + idBeli + "','" + idPlayer + "','" + idBahan + "','" + stok + "')";
@@ -48,6 +53,13 @@ public class pembelian extends func {
     public boolean beliBahan(int idBahan, String idPlayer, int jml) { //gausamasuksequence dan kelasdig
         String query = "INSERT INTO `belibahan`(`id`,`idBahan`,`idPlayer`,`Jumlah`) "
                 + "VALUES (null,'" + idBahan + "','" + idPlayer + "','" + jml + "')";
+        System.out.println("ye");
+        System.out.println(query);
+        return getStatusQuery(query);
+    }
+    public boolean beliBuah(int idBuah, String idPlayer, int jml) { //gausamasuksequence dan kelasdig
+        String query = "INSERT INTO `belibuah`(`id`,`idBUah`,`idPlayer`,`Jumlah`) "
+                + "VALUES (null,'" + idBuah + "','" + idPlayer + "','" + jml + "')";
         System.out.println("ye");
         System.out.println(query);
         return getStatusQuery(query);
@@ -121,6 +133,10 @@ public class pembelian extends func {
     }
     public boolean resetBeliBahan(String idPlayer) throws SQLException {
         String query = "Delete from belibahan WHERE idPlayer = '" + idPlayer + "'";
+        return getStatusQuery(query);
+    }
+    public boolean resetBeliBuah(String idPlayer) throws SQLException {
+        String query = "Delete from belibuah WHERE idPlayer = '" + idPlayer + "'";
         return getStatusQuery(query);
     }
 

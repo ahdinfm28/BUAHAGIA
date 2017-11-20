@@ -36,7 +36,7 @@ public class penjualanc {
     penjualan mjual;
     buahagiashop vshop;
     player mplayer;
-    int brownisterjual,kripikterjual,saleterjual;
+    int brownisterjual, kripikterjual, saleterjual;
     int uang, jml, kualitas = 1;
     int jusmelon, jusmangga, jusapel, juspisang, jussemangka, kripikapel, kripikpisang, kripikmangga;
     int brownismelon, brownisapel, brownismangga, brownispisang, brownissemangka, esbuah, saladbuah, sale;
@@ -45,6 +45,7 @@ public class penjualanc {
     boolean statusKA = false, statusKP = false, statusKM = false;
     boolean statusEs = false, statusSale = false, statusSalad = false;
     boolean detail1 = false, detail2 = false;
+    boolean peb1, peb2, peb3, jr1, jr2, jr3, ps1, ps2, ps3, s1, s2, s3;
 
     public penjualanc(String username) throws SQLException {
         this.username = username;
@@ -106,7 +107,6 @@ public class penjualanc {
         saladbuah = vshop.setJmlSalad(maset.getJmlProdukAll(username, 16));
         sale = vshop.setJmlSale(maset.getJmlProdukAll(username, 14));
     }
-
 
     public void cekStok() {
         if (brownismelon < 1) {
@@ -188,6 +188,131 @@ public class penjualanc {
             vshop.btn_sale.setEnabled(false);
         } else if (sale >= 1) {
             vshop.btn_sale.setEnabled(true);
+        }
+    }
+
+    public void cekStatusPenghargaan() throws SQLException {
+        peb1 = maset.cekAchv(username, "pebisnisesbuah", 0);
+        peb2 = maset.cekAchv(username, "pebisnisesbuah", 1);
+        peb3 = maset.cekAchv(username, "pebisnisesbuah", 2);
+        ps3 = maset.cekAchv(username, "pengusahasale", 2);
+        ps2 = maset.cekAchv(username, "pengusahasale", 1);
+        ps1 = maset.cekAchv(username, "pengusahasale", 0);
+        jr1 = maset.cekAchv(username, "juraganroti", 0);
+        jr2 = maset.cekAchv(username, "juraganroti", 1);
+        jr3 = maset.cekAchv(username, "juraganroti", 2);
+        s1 = maset.cekAchv(username, "saudagar", 0);
+        s2 = maset.cekAchv(username, "saudagar", 1);
+        s3 = maset.cekAchv(username, "saudagar", 2);
+    }
+
+    private void suarakoin() {
+        try {
+            audio = AudioSystem.getAudioInputStream(new File("src//ui export//Coin achieve.wav"));
+            clip = AudioSystem.getClip();
+            clip.open(audio);
+            clip.start();
+
+        } catch (Exception ex) {
+            Logger.getLogger(penjualanc.class
+                    .getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void cekPenghargaanPebisnisEsBuah() throws SQLException {
+        int produk = mjual.getProduk(username, 15, 0, 0, 0, 0); //gausa masuk sequence
+        if (peb1) {
+            if (produk >= 750) {
+                maset.updatePenghargaan(mplayer.getIdPlayer(username), "pebisnisesbuah", 1);
+                vshop.tampilPesan("PEBISNIS ES BUAH rank 3!!\nAnda berhasil mendapatkan penghargaan ini!");
+            }
+        }
+        if (peb2) {
+            if (produk >= 1000) {
+                maset.updatePenghargaan(mplayer.getIdPlayer(username), "pebisnisesbuah", 2);
+                vshop.tampilPesan("PEBISNIS ES BUAH rank 2!!\nAnda berhasil mendapatkan penghargaan ini!");
+            }
+        }
+        if (peb3) {
+            if (produk >= 1500) {
+                maset.updatePenghargaan(mplayer.getIdPlayer(username), "pebisnisesbuah", 3);
+                vshop.tampilPesan("PEBISNIS ES BUAH rank 1!!\nAnda berhasil mendapatkan penghargaan ini!");
+            }
+        }
+    }
+
+    private void cekPenghargaanPengusahaSale() throws SQLException {
+        int produk = mjual.getProduk(username, 14, 0, 0, 0, 0); //gausa masuk sequence
+        if (ps1) {
+            if (produk >= 50) {
+                maset.updatePenghargaan(mplayer.getIdPlayer(username), "pengusahasale", 1);
+                vshop.tampilPesan("PENGUSAHA SALE rank 3!!\nAnda berhasil mendapatkan penghargaan ini!");
+            }
+        }
+        if (ps2) {
+            if (produk >= 100) {
+                maset.updatePenghargaan(mplayer.getIdPlayer(username), "pengusahasale", 2);
+                vshop.tampilPesan("PENGUSAHA SALE rank 2!!\nAnda berhasil mendapatkan penghargaan ini!");
+            }
+        }
+        if (ps3) {
+            if (produk >= 250) {
+                maset.updatePenghargaan(mplayer.getIdPlayer(username), "pengusahasale", 3);
+                vshop.tampilPesan("PENGUSAHA SALE rank 1!!\nAnda berhasil mendapatkan penghargaan ini!");
+            }
+        }
+
+    }
+
+    private void cekPenghargaanJuraganRoti() throws SQLException {
+        int produk = mjual.getProduk(username, 9, 10, 11, 12, 13); //gausa masuk sequence
+        if (jr1) {
+            if (produk >= 150) {
+                maset.updatePenghargaan(mplayer.getIdPlayer(username), "juraganroti", 1);
+                vshop.tampilPesan("JURAGAN ROTI rank 3!!\nAnda berhasil mendapatkan penghargaan ini!");
+            }
+        }
+        if (jr2) {
+            if (produk >= 250) {
+                maset.updatePenghargaan(mplayer.getIdPlayer(username), "juraganroti", 2);
+                vshop.tampilPesan("JURAGAN ROTI rank 2!!\nAnda berhasil mendapatkan penghargaan ini!");
+            }
+        }
+        if (jr3) {
+            if (produk >= 500) {
+                maset.updatePenghargaan(mplayer.getIdPlayer(username), "juraganroti", 3);
+                vshop.tampilPesan("JURAGAN ROTI rank 1!!\nAnda berhasil mendapatkan penghargaan ini!");
+            }
+        }
+    }
+
+    public void cekPenghargaanSaudagar() throws SQLException {
+        if (s1) {
+            if (uang >= 5000000) {
+                maset.updatePenghargaan(mplayer.getIdPlayer(username), "saudagar", 1);
+                vshop.tampilPesan("SAUDAGAR rank 3!!\nAnda berhasil mendapatkan penghargaan ini!\n"
+                        + "Anda juga mendapat tambahan uang 150.000");
+                maset.updateUang(uang + 150000, mplayer.getIdPlayer(username));
+                vshop.setJmlUang(maset.getUang(username));
+            }
+        }
+        if (s2) {
+            if (uang >= 10000000) {
+                maset.updatePenghargaan(mplayer.getIdPlayer(username), "saudagar", 2);
+                vshop.tampilPesan("SAUDAGAR rank 2!!\nAnda berhasil mendapatkan penghargaan ini!\n"
+                        + "Anda juga mendapat tambahan uang 250.000");
+                maset.updateUang(uang + 250000, mplayer.getIdPlayer(username));
+                vshop.setJmlUang(maset.getUang(username));
+            }
+        }
+        if (s3) {
+            if (uang >= 25000000) {
+                maset.updatePenghargaan(mplayer.getIdPlayer(username), "saudagar", 2);
+                vshop.tampilPesan("SAUDAGAR rank 2!!\nAnda berhasil mendapatkan penghargaan ini!\n"
+                        + "Anda juga mendapat tambahan uang 500.000");
+                maset.updateUang(uang + 500000, mplayer.getIdPlayer(username));
+                vshop.setJmlUang(maset.getUang(username));
+            }
         }
     }
 
@@ -735,16 +860,7 @@ public class penjualanc {
                 int Pilih = JOptionPane.showConfirmDialog(null, "Total: " + tot
                         + "\nAnda jadi menjual?", "Konfirmasi Penjualan", JOptionPane.YES_NO_OPTION);
                 if (Pilih == 0) {
-                    try {
-                        audio = AudioSystem.getAudioInputStream(new File("src//ui export//Coin achieve.wav"));
-                        clip = AudioSystem.getClip();
-                        clip.open(audio);
-                        clip.start();
-
-                    } catch (Exception ex) {
-                        Logger.getLogger(supermarketc.class
-                                .getName()).log(Level.SEVERE, null, ex);
-                    }
+                    suarakoin();
                     uang = uang + (harga * jml);
                     stok = stok - jml;
                     brownismelon = brownismelon - jml;
@@ -754,6 +870,9 @@ public class penjualanc {
                     vshop.tampilPesan("Transaksi Berhasil");
                     vshop.setJmlUang(maset.getUang(username));
                     vshop.setJmlBrownisMelon(brownismelon);
+                    cekStatusPenghargaan();
+                    cekPenghargaanJuraganRoti();
+                    cekPenghargaanSaudagar();
                     vshop.popup().dispose();
                     vshop.setVisible(true);
                     vshop.enable();
@@ -792,16 +911,7 @@ public class penjualanc {
                 int Pilih = JOptionPane.showConfirmDialog(null, "Total: " + tot
                         + "\nAnda jadi menjual?", "Konfirmasi Penjualan", JOptionPane.YES_NO_OPTION);
                 if (Pilih == 0) {
-                    try {
-                        audio = AudioSystem.getAudioInputStream(new File("src//ui export//Coin achieve.wav"));
-                        clip = AudioSystem.getClip();
-                        clip.open(audio);
-                        clip.start();
-
-                    } catch (Exception ex) {
-                        Logger.getLogger(penjualanc.class
-                                .getName()).log(Level.SEVERE, null, ex);
-                    }
+                    suarakoin();
                     uang = uang + (harga * jml);
                     stok = stok - jml;
                     brownisapel = brownisapel - jml;
@@ -811,6 +921,9 @@ public class penjualanc {
                     vshop.tampilPesan("Transaksi Berhasil");
                     vshop.setJmlUang(maset.getUang(username));
                     vshop.setJmlBrownisApel(brownisapel);
+                    cekStatusPenghargaan();
+                    cekPenghargaanJuraganRoti();
+                    cekPenghargaanSaudagar();
                     vshop.popup().dispose();
                     vshop.enable();
                     vshop.setJumlah(jml + "");
@@ -848,16 +961,7 @@ public class penjualanc {
                 int Pilih = JOptionPane.showConfirmDialog(null, "Total: " + tot
                         + "\nAnda jadi menjual?", "Konfirmasi Penjualan", JOptionPane.YES_NO_OPTION);
                 if (Pilih == 0) {
-                    try {
-                        audio = AudioSystem.getAudioInputStream(new File("src//ui export//Coin achieve.wav"));
-                        clip = AudioSystem.getClip();
-                        clip.open(audio);
-                        clip.start();
-
-                    } catch (Exception ex) {
-                        Logger.getLogger(penjualanc.class
-                                .getName()).log(Level.SEVERE, null, ex);
-                    }
+                    suarakoin();
                     uang = uang + (harga * jml);
                     stok = stok - jml;
                     brownissemangka = brownissemangka - jml;
@@ -867,7 +971,11 @@ public class penjualanc {
                     vshop.tampilPesan("Transaksi Berhasil");
                     vshop.setJmlUang(maset.getUang(username));
                     vshop.setJmlBrownisSemangka(brownissemangka);
+                    cekStatusPenghargaan();
+                    cekPenghargaanJuraganRoti();
+                    cekPenghargaanSaudagar();
                     vshop.popup().dispose();
+                    vshop.setVisible(true);
                     vshop.enable();
                     vshop.setJumlah(jml + "");
                     statusBS = false;
@@ -904,16 +1012,7 @@ public class penjualanc {
                 int Pilih = JOptionPane.showConfirmDialog(null, "Total: " + tot
                         + "\nAnda jadi menjual?", "Konfirmasi Penjualan", JOptionPane.YES_NO_OPTION);
                 if (Pilih == 0) {
-                    try {
-                        audio = AudioSystem.getAudioInputStream(new File("src//ui export//Coin achieve.wav"));
-                        clip = AudioSystem.getClip();
-                        clip.open(audio);
-                        clip.start();
-
-                    } catch (Exception ex) {
-                        Logger.getLogger(penjualanc.class
-                                .getName()).log(Level.SEVERE, null, ex);
-                    }
+                    suarakoin();
                     uang = uang + (harga * jml);
                     stok = stok - jml;
                     brownismangga = brownismangga - jml;
@@ -923,6 +1022,9 @@ public class penjualanc {
                     vshop.tampilPesan("Transaksi Berhasil");
                     vshop.setJmlUang(maset.getUang(username));
                     vshop.setJmlBrownisMangga(brownismangga);
+                    cekStatusPenghargaan();
+                    cekPenghargaanJuraganRoti();
+                    cekPenghargaanSaudagar();
                     vshop.popup().dispose();
                     vshop.enable();
                     vshop.setJumlah(jml + "");
@@ -960,16 +1062,7 @@ public class penjualanc {
                 int Pilih = JOptionPane.showConfirmDialog(null, "Total: " + tot
                         + "\nAnda jadi menjual?", "Konfirmasi Penjualan", JOptionPane.YES_NO_OPTION);
                 if (Pilih == 0) {
-                    try {
-                        audio = AudioSystem.getAudioInputStream(new File("src//ui export//Coin achieve.wav"));
-                        clip = AudioSystem.getClip();
-                        clip.open(audio);
-                        clip.start();
-
-                    } catch (Exception ex) {
-                        Logger.getLogger(penjualanc.class
-                                .getName()).log(Level.SEVERE, null, ex);
-                    }
+                    suarakoin();
                     uang = uang + (harga * jml);
                     stok = stok - jml;
                     brownispisang = brownispisang - jml;
@@ -979,6 +1072,9 @@ public class penjualanc {
                     vshop.tampilPesan("Transaksi Berhasil");
                     vshop.setJmlUang(maset.getUang(username));
                     vshop.setJmlBrownisPisang(brownispisang);
+                    cekStatusPenghargaan();
+                    cekPenghargaanJuraganRoti();
+                    cekPenghargaanSaudagar();
                     vshop.popup().dispose();
                     vshop.enable();
                     vshop.setJumlah(jml + "");
@@ -1016,16 +1112,7 @@ public class penjualanc {
                 int Pilih = JOptionPane.showConfirmDialog(null, "Total: " + tot
                         + "\nAnda jadi menjual?", "Konfirmasi Penjualan", JOptionPane.YES_NO_OPTION);
                 if (Pilih == 0) {
-                    try {
-                        audio = AudioSystem.getAudioInputStream(new File("src//ui export//Coin achieve.wav"));
-                        clip = AudioSystem.getClip();
-                        clip.open(audio);
-                        clip.start();
-
-                    } catch (Exception ex) {
-                        Logger.getLogger(penjualanc.class
-                                .getName()).log(Level.SEVERE, null, ex);
-                    }
+                    suarakoin();
                     uang = uang + (harga * jml);
                     stok = stok - jml;
                     juspisang = juspisang - jml;
@@ -1035,6 +1122,8 @@ public class penjualanc {
                     vshop.tampilPesan("Transaksi Berhasil");
                     vshop.setJmlUang(maset.getUang(username));
                     vshop.setJmlJusPisang(juspisang);
+                    cekStatusPenghargaan();
+                    cekPenghargaanSaudagar();
                     vshop.popup().dispose();
                     vshop.enable();
                     vshop.setJumlah(jml + "");
@@ -1072,16 +1161,7 @@ public class penjualanc {
                 int Pilih = JOptionPane.showConfirmDialog(null, "Total: " + tot
                         + "\nAnda jadi menjual?", "Konfirmasi Penjualan", JOptionPane.YES_NO_OPTION);
                 if (Pilih == 0) {
-                    try {
-                        audio = AudioSystem.getAudioInputStream(new File("src//ui export//Coin achieve.wav"));
-                        clip = AudioSystem.getClip();
-                        clip.open(audio);
-                        clip.start();
-
-                    } catch (Exception ex) {
-                        Logger.getLogger(penjualanc.class
-                                .getName()).log(Level.SEVERE, null, ex);
-                    }
+                    suarakoin();
                     uang = uang + (harga * jml);
                     stok = stok - jml;
                     jusapel = jusapel - jml;
@@ -1091,6 +1171,8 @@ public class penjualanc {
                     vshop.tampilPesan("Transaksi Berhasil");
                     vshop.setJmlUang(maset.getUang(username));
                     vshop.setJmlJusApel(jusapel);
+                    cekStatusPenghargaan();
+                    cekPenghargaanSaudagar();
                     vshop.popup().dispose();
                     vshop.enable();
                     vshop.setJumlah(jml + "");
@@ -1128,16 +1210,7 @@ public class penjualanc {
                 int Pilih = JOptionPane.showConfirmDialog(null, "Total: " + tot
                         + "\nAnda jadi menjual?", "Konfirmasi Penjualan", JOptionPane.YES_NO_OPTION);
                 if (Pilih == 0) {
-                    try {
-                        audio = AudioSystem.getAudioInputStream(new File("src//ui export//Coin achieve.wav"));
-                        clip = AudioSystem.getClip();
-                        clip.open(audio);
-                        clip.start();
-
-                    } catch (Exception ex) {
-                        Logger.getLogger(penjualanc.class
-                                .getName()).log(Level.SEVERE, null, ex);
-                    }
+                    suarakoin();
                     uang = uang + (harga * jml);
                     stok = stok - jml;
                     jusmelon = jusmelon - jml;
@@ -1147,6 +1220,8 @@ public class penjualanc {
                     vshop.tampilPesan("Transaksi Berhasil");
                     vshop.setJmlUang(maset.getUang(username));
                     vshop.setJmlJusMelon(jusmelon);
+                    cekStatusPenghargaan();
+                    cekPenghargaanSaudagar();
                     vshop.popup().dispose();
                     vshop.enable();
                     vshop.setJumlah(jml + "");
@@ -1173,7 +1248,7 @@ public class penjualanc {
     }
 
     private void jusManggaAction() throws SQLException {
-        int id = 7;
+        int id = 3;
         int harga = vshop.getTeksHarga();
         int kualitas = mjual.getIdKualitas(vshop.getKualitas());
         int stok = maset.getJmlProduk(username, id, kualitas);
@@ -1184,16 +1259,7 @@ public class penjualanc {
                 int Pilih = JOptionPane.showConfirmDialog(null, "Total: " + tot
                         + "\nAnda jadi menjual?", "Konfirmasi Penjualan", JOptionPane.YES_NO_OPTION);
                 if (Pilih == 0) {
-                    try {
-                        audio = AudioSystem.getAudioInputStream(new File("src//ui export//Coin achieve.wav"));
-                        clip = AudioSystem.getClip();
-                        clip.open(audio);
-                        clip.start();
-
-                    } catch (Exception ex) {
-                        Logger.getLogger(penjualanc.class
-                                .getName()).log(Level.SEVERE, null, ex);
-                    }
+                    suarakoin();
                     uang = uang + (harga * jml);
                     stok = stok - jml;
                     jusmangga = jusmangga - jml;
@@ -1203,6 +1269,8 @@ public class penjualanc {
                     vshop.tampilPesan("Transaksi Berhasil");
                     vshop.setJmlUang(maset.getUang(username));
                     vshop.setJmlJusMangga(jusmangga);
+                    cekStatusPenghargaan();
+                    cekPenghargaanSaudagar();
                     vshop.popup().dispose();
                     vshop.enable();
                     vshop.setJumlah(jml + "");
@@ -1240,16 +1308,7 @@ public class penjualanc {
                 int Pilih = JOptionPane.showConfirmDialog(null, "Total: " + tot
                         + "\nAnda jadi menjual?", "Konfirmasi Penjualan", JOptionPane.YES_NO_OPTION);
                 if (Pilih == 0) {
-                    try {
-                        audio = AudioSystem.getAudioInputStream(new File("src//ui export//Coin achieve.wav"));
-                        clip = AudioSystem.getClip();
-                        clip.open(audio);
-                        clip.start();
-
-                    } catch (Exception ex) {
-                        Logger.getLogger(penjualanc.class
-                                .getName()).log(Level.SEVERE, null, ex);
-                    }
+                    suarakoin();
                     uang = uang + (harga * jml);
                     stok = stok - jml;
                     jussemangka = jussemangka - jml;
@@ -1259,6 +1318,8 @@ public class penjualanc {
                     vshop.tampilPesan("Transaksi Berhasil");
                     vshop.setJmlUang(maset.getUang(username));
                     vshop.setJmlJusSemangka(jussemangka);
+                    cekStatusPenghargaan();
+                    cekPenghargaanSaudagar();
                     vshop.popup().dispose();
                     vshop.enable();
                     vshop.setJumlah(jml + "");
@@ -1296,16 +1357,7 @@ public class penjualanc {
                 int Pilih = JOptionPane.showConfirmDialog(null, "Total: " + tot
                         + "\nAnda jadi menjual?", "Konfirmasi Penjualan", JOptionPane.YES_NO_OPTION);
                 if (Pilih == 0) {
-                    try {
-                        audio = AudioSystem.getAudioInputStream(new File("src//ui export//Coin achieve.wav"));
-                        clip = AudioSystem.getClip();
-                        clip.open(audio);
-                        clip.start();
-
-                    } catch (Exception ex) {
-                        Logger.getLogger(penjualanc.class
-                                .getName()).log(Level.SEVERE, null, ex);
-                    }
+                    suarakoin();
                     uang = uang + (harga * jml);
                     stok = stok - jml;
                     kripikapel = kripikapel - jml;
@@ -1315,6 +1367,8 @@ public class penjualanc {
                     vshop.tampilPesan("Transaksi Berhasil");
                     vshop.setJmlUang(maset.getUang(username));
                     vshop.setJmlKripikApel(kripikapel);
+                    cekStatusPenghargaan();
+                    cekPenghargaanSaudagar();
                     vshop.popup().dispose();
                     vshop.enable();
                     vshop.setJumlah(jml + "");
@@ -1352,16 +1406,7 @@ public class penjualanc {
                 int Pilih = JOptionPane.showConfirmDialog(null, "Total: " + tot
                         + "\nAnda jadi menjual?", "Konfirmasi Penjualan", JOptionPane.YES_NO_OPTION);
                 if (Pilih == 0) {
-                    try {
-                        audio = AudioSystem.getAudioInputStream(new File("src//ui export//Coin achieve.wav"));
-                        clip = AudioSystem.getClip();
-                        clip.open(audio);
-                        clip.start();
-
-                    } catch (Exception ex) {
-                        Logger.getLogger(penjualanc.class
-                                .getName()).log(Level.SEVERE, null, ex);
-                    }
+                    suarakoin();
                     uang = uang + (harga * jml);
                     stok = stok - jml;
                     kripikmangga = kripikmangga - jml;
@@ -1371,6 +1416,8 @@ public class penjualanc {
                     vshop.tampilPesan("Transaksi Berhasil");
                     vshop.setJmlUang(maset.getUang(username));
                     vshop.setJmlKripikMangga(kripikmangga);
+                    cekStatusPenghargaan();
+                    cekPenghargaanSaudagar();
                     vshop.popup().dispose();
                     vshop.enable();
                     vshop.setJumlah(jml + "");
@@ -1408,16 +1455,7 @@ public class penjualanc {
                 int Pilih = JOptionPane.showConfirmDialog(null, "Total: " + tot
                         + "\nAnda jadi menjual?", "Konfirmasi Penjualan", JOptionPane.YES_NO_OPTION);
                 if (Pilih == 0) {
-                    try {
-                        audio = AudioSystem.getAudioInputStream(new File("src//ui export//Coin achieve.wav"));
-                        clip = AudioSystem.getClip();
-                        clip.open(audio);
-                        clip.start();
-
-                    } catch (Exception ex) {
-                        Logger.getLogger(penjualanc.class
-                                .getName()).log(Level.SEVERE, null, ex);
-                    }
+                    suarakoin();
                     uang = uang + (harga * jml);
                     stok = stok - jml;
                     kripikpisang = kripikpisang - jml;
@@ -1427,6 +1465,8 @@ public class penjualanc {
                     vshop.tampilPesan("Transaksi Berhasil");
                     vshop.setJmlUang(maset.getUang(username));
                     vshop.setJmlKripikPisang(kripikpisang);
+                    cekStatusPenghargaan();
+                    cekPenghargaanSaudagar();
                     vshop.popup().dispose();
                     vshop.enable();
                     vshop.setJumlah(jml + "");
@@ -1464,16 +1504,7 @@ public class penjualanc {
                 int Pilih = JOptionPane.showConfirmDialog(null, "Total: " + tot
                         + "\nAnda jadi menjual?", "Konfirmasi Penjualan", JOptionPane.YES_NO_OPTION);
                 if (Pilih == 0) {
-                    try {
-                        audio = AudioSystem.getAudioInputStream(new File("src//ui export//Coin achieve.wav"));
-                        clip = AudioSystem.getClip();
-                        clip.open(audio);
-                        clip.start();
-
-                    } catch (Exception ex) {
-                        Logger.getLogger(penjualanc.class
-                                .getName()).log(Level.SEVERE, null, ex);
-                    }
+                    suarakoin();
                     uang = uang + (harga * jml);
                     stok = stok - jml;
                     esbuah = esbuah - jml;
@@ -1483,6 +1514,9 @@ public class penjualanc {
                     vshop.tampilPesan("Transaksi Berhasil");
                     vshop.setJmlUang(maset.getUang(username));
                     vshop.setJmlEs(esbuah);
+                    cekStatusPenghargaan();
+                    cekPenghargaanPebisnisEsBuah();
+                    cekPenghargaanSaudagar();
                     vshop.popup().dispose();
                     vshop.enable();
                     vshop.setJumlah(jml + "");
@@ -1520,16 +1554,8 @@ public class penjualanc {
                 int Pilih = JOptionPane.showConfirmDialog(null, "Total: " + tot
                         + "\nAnda jadi menjual?", "Konfirmasi Penjualan", JOptionPane.YES_NO_OPTION);
                 if (Pilih == 0) {
-                    try {
-                        audio = AudioSystem.getAudioInputStream(new File("src//ui export//Coin achieve.wav"));
-                        clip = AudioSystem.getClip();
-                        clip.open(audio);
-                        clip.start();
 
-                    } catch (Exception ex) {
-                        Logger.getLogger(penjualanc.class
-                                .getName()).log(Level.SEVERE, null, ex);
-                    }
+                    suarakoin();
                     uang = uang + (harga * jml);
                     stok = stok - jml;
                     sale = sale - jml;
@@ -1539,6 +1565,9 @@ public class penjualanc {
                     vshop.tampilPesan("Transaksi Berhasil");
                     vshop.setJmlUang(maset.getUang(username));
                     vshop.setJmlSale(sale);
+                    cekStatusPenghargaan();
+                    cekPenghargaanPengusahaSale();
+                    cekPenghargaanSaudagar();
                     vshop.popup().dispose();
                     vshop.enable();
                     vshop.setJumlah(jml + "");
@@ -1576,16 +1605,7 @@ public class penjualanc {
                 int Pilih = JOptionPane.showConfirmDialog(null, "Total: " + tot
                         + "\nAnda jadi menjual?", "Konfirmasi Penjualan", JOptionPane.YES_NO_OPTION);
                 if (Pilih == 0) {
-                    try {
-                        audio = AudioSystem.getAudioInputStream(new File("src//ui export//Coin achieve.wav"));
-                        clip = AudioSystem.getClip();
-                        clip.open(audio);
-                        clip.start();
-
-                    } catch (Exception ex) {
-                        Logger.getLogger(penjualanc.class
-                                .getName()).log(Level.SEVERE, null, ex);
-                    }
+                    suarakoin();
                     uang = uang + (harga * jml);
                     stok = stok - jml;
                     saladbuah = saladbuah - jml;
@@ -1595,6 +1615,8 @@ public class penjualanc {
                     vshop.tampilPesan("Transaksi Berhasil");
                     vshop.setJmlUang(maset.getUang(username));
                     vshop.setJmlSalad(saladbuah);
+                    cekStatusPenghargaan();
+                    cekPenghargaanSaudagar();
                     vshop.popup().dispose();
                     vshop.enable();
                     vshop.setJumlah(jml + "");

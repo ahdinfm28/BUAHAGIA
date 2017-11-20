@@ -39,6 +39,7 @@ public class kedaibuah {
     inkedaibuah1 vkedai1;
     inkedaibuah2 vkedai2;
     pengolahan molah;
+    boolean mma1, mma2, mma3, ma1, ma2, ma3, mme1, mme2, mme3;
     boolean statusMelon = false;
     boolean statusMangga = false;
     boolean statusApel = false;
@@ -111,6 +112,112 @@ public class kedaibuah {
         v.tombolBeli(new acttombolBeli());
         v.tombolBatal(new acttombolBatal());
 
+    }
+
+    private void cekPenghargaanManiakMelon() throws SQLException {
+        int buah = mbelibuah.getBuah(username, 5);
+        if (mme1) {
+            if (buah >= 25) {
+                maset.updatePenghargaan(mplayer.getIdPlayer(username), "maniakmelon", 1);
+                if (kedai1) {
+                    vkedai1.tampilPesan(vkedai1, "MANIAK MELON rank 3!!\nAnda berhasil mendapatkan penghargaan ini!");
+                } else if (kedai2) {
+                    vkedai2.tampilPesan(vkedai2, "MANIAK MELON rank 3!!\nAnda berhasil mendapatkan penghargaan ini!");
+                }
+            }
+        }
+        if (mme2) {
+            if (buah >= 50) {
+                System.out.println("yhaaaaaaaaa");
+                maset.updatePenghargaan(mplayer.getIdPlayer(username), "maniakmelon", 2);
+                if (kedai1) {
+                    vkedai1.tampilPesan(vkedai1, "MANIAK MELON rank 2!!\nAnda berhasil mendapatkan penghargaan ini!");
+                } else if (kedai2) {
+                    vkedai2.tampilPesan(vkedai2, "MANIAK MELON rank 2!!\nAnda berhasil mendapatkan penghargaan ini!");
+                }
+            }
+        }
+        if (mme3) {
+            if (buah >= 100) {
+                System.out.println("yhaaaaaaaaa");
+                maset.updatePenghargaan(mplayer.getIdPlayer(username), "maniakmelon", 3);
+                if (kedai1) {
+                    vkedai1.tampilPesan(vkedai1, "MANIAK MELON rank 1!!\nAnda berhasil mendapatkan penghargaan ini!");
+                } else if (kedai2) {
+                    vkedai2.tampilPesan(vkedai2, "MANIAK MELON rank 1!!\nAnda berhasil mendapatkan penghargaan ini!");
+                }
+            }
+        }
+    }
+
+    private void cekPenghargaanManiakMangga() throws SQLException {
+        int buah = mbelibuah.getBuah(username, 3);
+        if (mma1) {
+            if (buah >= 25) {
+                maset.updatePenghargaan(mplayer.getIdPlayer(username), "maniakmangga", 1);
+                if (kedai1) {
+                    vkedai1.tampilPesan(vkedai1, "MANIAK MANGGA rank 3!!\nAnda berhasil mendapatkan penghargaan ini!");
+                } else if (kedai2) {
+                    vkedai2.tampilPesan(vkedai2, "MANIAK MANGGA rank 3!!\nAnda berhasil mendapatkan penghargaan ini!");
+                }
+            }
+        }
+        if (mma2) {
+            if (buah >= 50) {
+                maset.updatePenghargaan(mplayer.getIdPlayer(username), "maniakmangga", 2);
+                if (kedai1) {
+                    vkedai1.tampilPesan(vkedai1, "MANIAK MANGGA rank 2!!\nAnda berhasil mendapatkan penghargaan ini!");
+                } else if (kedai2) {
+                    vkedai2.tampilPesan(vkedai2, "MANIAK MANGGA rank 2!!\nAnda berhasil mendapatkan penghargaan ini!");
+                }
+            }
+        }
+        if (mma3) {
+            if (buah >= 100) {
+                maset.updatePenghargaan(mplayer.getIdPlayer(username), "maniakmangga", 3);
+                if (kedai1) {
+                    vkedai1.tampilPesan(vkedai1, "MANIAK MANGGA rank 1!!\nAnda berhasil mendapatkan penghargaan ini!");
+                } else if (kedai2) {
+                    vkedai2.tampilPesan(vkedai2, "MANIAK MANGGA rank 1!!\nAnda berhasil mendapatkan penghargaan ini!");
+                }
+            }
+        }
+    }
+
+    private void cekPenghargaanManiakApel() throws SQLException {
+        int buah = mbelibuah.getBuah(username, 1);
+        if (ma1) {
+            if (buah >= 25) {
+                maset.updatePenghargaan(mplayer.getIdPlayer(username), "maniakapel", 1);
+                if (kedai1) {
+                    vkedai1.tampilPesan(vkedai1, "MANIAK APEL rank 3!!\nAnda berhasil mendapatkan penghargaan ini!");
+                } else if (kedai2) {
+                    vkedai2.tampilPesan(vkedai2, "MANIAK APEL rank 3!!\nAnda berhasil mendapatkan penghargaan ini!");
+                }
+            }
+        }
+        if (ma2) {
+            if (buah >= 50) {
+                System.out.println("yhaaaaaaaaa");
+                maset.updatePenghargaan(mplayer.getIdPlayer(username), "maniakapel", 2);
+                if (kedai1) {
+                    vkedai1.tampilPesan(vkedai1, "MANIAK APEL rank 2!!\nAnda berhasil mendapatkan penghargaan ini!");
+                } else if (kedai2) {
+                    vkedai2.tampilPesan(vkedai2, "MANIAK APEL rank 2!!\nAnda berhasil mendapatkan penghargaan ini!");
+                }
+            }
+        }
+        if (ma3) {
+            if (buah >= 100) {
+                System.out.println("yhaaaaaaaaa");
+                maset.updatePenghargaan(mplayer.getIdPlayer(username), "maniakapel", 3);
+                if (kedai1) {
+                    vkedai1.tampilPesan(vkedai1, "MANIAK APEL rank 1!!\nAnda berhasil mendapatkan penghargaan ini!");
+                } else if (kedai2) {
+                    vkedai2.tampilPesan(vkedai2, "MANIAK APEL rank 1!!\nAnda berhasil mendapatkan penghargaan ini!");
+                }
+            }
+        }
     }
 
     private class acttombolkembali implements ActionListener {
@@ -337,9 +444,20 @@ public class kedaibuah {
 
     }
 
+    public void cekStatusPenghargaan() throws SQLException {
+        mma1 = maset.cekAchv(username, "maniakmangga", 0);
+        mma2 = maset.cekAchv(username, "maniakmangga", 1);
+        mma3 = maset.cekAchv(username, "maniakmangga", 2);
+        mme3 = maset.cekAchv(username, "maniakmelon", 2);
+        mme2 = maset.cekAchv(username, "maniakmelon", 1);
+        mme1 = maset.cekAchv(username, "maniakmelon", 0);
+        ma1 = maset.cekAchv(username, "maniakapel", 0);
+        ma2 = maset.cekAchv(username, "maniakapel", 1);
+        ma3 = maset.cekAchv(username, "maniakapel", 2);
+    }
+
     private void semangkaAction() throws SQLException {
         int id = 4;
-        int idbeli = mbelibuah.cekIdBeliBuah();
         if (kedai1) {
             int idKualitas = mbelibuah.getIdKualitas(vkedai1.getTeksKualitas());
             int jmlbuah = maset.getJmlBuah(username, id, idKualitas);
@@ -403,7 +521,6 @@ public class kedaibuah {
 
     private void melonAction() throws SQLException {
         int id = 5;
-        int idbeli = mbelibuah.cekIdBeliBuah();
         if (kedai1) {
             int idKualitas = mbelibuah.getIdKualitas(vkedai1.getTeksKualitas());
             int jmlbuah = maset.getJmlBuah(username, id, idKualitas);
@@ -422,10 +539,9 @@ public class kedaibuah {
                     vkedai1.tampilPesan(vkedai1.popup(), "Transaksi Berhasil");
                     vkedai1.setUang(maset.getUang(username));
                     vkedai1.setJmlMelon(melon);
-                    if (melon >= 30) {
-//                        maset.insertPenghargaan(mplayer.getIdPlayer(username), "maniakmelon");
-                        vkedai1.tampilPesan(vkedai1.popup(), "MANIAK MELON!!\nAnda telah mendapatkan penghargaan ini!");
-                    }
+                    mbelibuah.beliBuah(id, mplayer.getIdPlayer(username), jml);
+                    cekStatusPenghargaan();
+                    cekPenghargaanManiakMelon();
                     vkedai1.popup().setVisible(false);
                 } else {
                     jml = 1;
@@ -454,10 +570,9 @@ public class kedaibuah {
                     vkedai2.tampilPesan(vkedai2.popup(), "Transaksi Berhasil");
                     vkedai2.setUang(maset.getUang(username));
                     vkedai2.setJmlMelon(melon);
-                    if (melon >= 30) {
-//                        maset.insertPenghargaan(mplayer.getIdPlayer(username), "maniakmelon");
-                        vkedai2.tampilPesan(vkedai2.popup(), "MANIAK MELON!!\nAnda telah mendapatkan penghargaan ini!");
-                    }
+                    mbelibuah.beliBuah(id, mplayer.getIdPlayer(username), jml);
+                    cekStatusPenghargaan();
+                    cekPenghargaanManiakMelon();
                     vkedai2.popup().setVisible(false);
                 } else {
                     jml = 1;
@@ -473,7 +588,6 @@ public class kedaibuah {
 
     private void manggaAction() throws SQLException {
         int id = 3;
-        int idbeli = mbelibuah.cekIdBeliBuah();
         if (kedai1) {
             int idKualitas = mbelibuah.getIdKualitas(vkedai1.getTeksKualitas());
             int jmlbuah = maset.getJmlBuah(username, id, idKualitas);
@@ -492,10 +606,9 @@ public class kedaibuah {
                     vkedai1.tampilPesan(vkedai1.popup(), "Transaksi Berhasil");
                     vkedai1.setUang(maset.getUang(username));
                     vkedai1.setJmlMangga(mangga);
-                    if (mangga >= 30) {
-//                        maset.insertPenghargaan(mplayer.getIdPlayer(username), "maniakmangga");
-                        vkedai1.tampilPesan(vkedai1.popup(), "MANIAK MANGGA!!\nAnda telah mendapatkan penghargaan ini!");
-                    }
+                    mbelibuah.beliBuah(id, mplayer.getIdPlayer(username), jml);
+                    cekStatusPenghargaan();
+                    cekPenghargaanManiakMangga();
                     vkedai1.popup().setVisible(false);
                 } else {
                     jml = 1;
@@ -524,10 +637,9 @@ public class kedaibuah {
                     vkedai2.tampilPesan(vkedai2.popup(), "Transaksi Berhasil");
                     vkedai2.setUang(maset.getUang(username));
                     vkedai2.setJmlMangga(mangga);
-                    if (mangga >= 30) {
-//                        maset.insertPenghargaan(mplayer.getIdPlayer(username), "maniakmangga");
-                        vkedai2.tampilPesan(vkedai2.popup(), "MANIAK MANGGA!!\nAnda telah mendapatkan penghargaan ini!");
-                    }
+                    mbelibuah.beliBuah(id, mplayer.getIdPlayer(username), jml);
+                    cekStatusPenghargaan();
+                    cekPenghargaanManiakMangga();
                     vkedai2.popup().setVisible(false);
                 } else {
                     jml = 1;
@@ -543,7 +655,6 @@ public class kedaibuah {
 
     private void apelAction() throws SQLException {
         int id = 1;
-        int idbeli = mbelibuah.cekIdBeliBuah();
         if (kedai1) {
             int idKualitas = mbelibuah.getIdKualitas(vkedai1.getTeksKualitas());
             int jmlbuah = maset.getJmlBuah(username, id, idKualitas);
@@ -562,10 +673,9 @@ public class kedaibuah {
                     vkedai1.tampilPesan(vkedai1.popup(), "Transaksi Berhasil");
                     vkedai1.setUang(maset.getUang(username));
                     vkedai1.setJmlApel(apel);
-                    if (apel >= 25) {
-//                        maset.insertPenghargaan(mplayer.getIdPlayer(username), "maniakapel");
-                        vkedai1.tampilPesan(vkedai1.popup(), "MANIAK APEL!!\nAnda telah mendapatkan penghargaan ini!");
-                    }
+                    mbelibuah.beliBuah(id, mplayer.getIdPlayer(username), jml);
+                    cekStatusPenghargaan();
+                    cekPenghargaanManiakApel();
                     vkedai1.popup().setVisible(false);
                 } else {
                     jml = 1;
@@ -594,10 +704,9 @@ public class kedaibuah {
                     vkedai2.tampilPesan(vkedai2.popup(), "Transaksi Berhasil");
                     vkedai2.setUang(maset.getUang(username));
                     vkedai2.setJmlApel(apel);
-                    if (apel >= 25) {
-//                        maset.insertPenghargaan(mplayer.getIdPlayer(username), "maniakapel");
-                        vkedai2.tampilPesan(vkedai2.popup(), "MANIAK APEL!!\nAnda telah mendapatkan penghargaan ini!");
-                    }
+                    mbelibuah.beliBuah(id, mplayer.getIdPlayer(username), jml);
+                    cekStatusPenghargaan();
+                    cekPenghargaanManiakApel();
                     vkedai2.popup().setVisible(false);
                 } else {
                     jml = 1;
@@ -613,7 +722,6 @@ public class kedaibuah {
 
     private void pisangAction() throws SQLException {
         int id = 2;
-        int idbeli = mbelibuah.cekIdBeliBuah();
         if (kedai1) {
             int idKualitas = mbelibuah.getIdKualitas(vkedai1.getTeksKualitas());
             int jmlbuah = maset.getJmlBuah(username, id, idKualitas);
@@ -668,6 +776,7 @@ public class kedaibuah {
                 }
             } else {
                 vkedai2.tampilPesan(vkedai2.popup(), "Uang anda tidak cukup!");
+
             }
         }
     }

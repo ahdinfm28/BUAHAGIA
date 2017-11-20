@@ -32,6 +32,13 @@ public class penjualan extends func {
         return getDataInt(query);
     }
 
+    public int getProduk(String idPlayer, int id1, int id2, int id3, int id4, int id5) throws SQLException {
+        String query = "select sum(Jumlah) from penjualan where idProduk in "
+                + "('" + id1 + "','" + id2 + "','" + id3 + "','" + id4 + "','" + id5 + "') "
+                + "and idPlayer = '" + idPlayer + "' ";
+        return getDataInt(query);
+    }
+
     public boolean updateStokProduk(int idProduk, int idKualitas, String idPlayer, int jml) throws SQLException {
         String query = "UPDATE `hasilpengolahan` SET `Jumlah` = '" + jml + "' WHERE `idProduk` = '" + idProduk + "'"
                 + " and idKualitas='" + idKualitas + "' and idPlayer='" + idPlayer + "'";

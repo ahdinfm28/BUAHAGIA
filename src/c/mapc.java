@@ -104,13 +104,15 @@ public class mapc {
 
                 mbeli.resetPembelianBahan(mplayer.getIdPlayer(username));
                 mbeli.resetPembelianBuah(mplayer.getIdPlayer(username));
-                mbeli.resetBeliBahan(mplayer.getIdPlayer(username));
                 molah.resetHasilPengolahan(mplayer.getIdPlayer(username));
                 maset.resetUang(mplayer.getIdPlayer(username));
                 maset.resetPenghargaan(mplayer.getIdPlayer(username));
                 maset.resetResep(mplayer.getIdPlayer(username));
                 maset.insertResep(mplayer.getIdPlayer(username), "jusbuah");
                 maset.insertResep(mplayer.getIdPlayer(username), "brownis");
+                mbeli.resetBeliBahan(mplayer.getIdPlayer(username));//gausa
+                mbeli.resetBeliBuah(mplayer.getIdPlayer(username));//gausa
+                molah.resetOlah(mplayer.getIdPlayer(username));//gausa
                 new mapc(username);
                 // vmap.setUang(maset.getUang(username) + "");
             } catch (SQLException ex) {
