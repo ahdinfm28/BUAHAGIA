@@ -79,6 +79,7 @@ public class map extends javax.swing.JFrame {
         namagudang.setEnabled(false);
         namapasar.setEnabled(false);
         namapengolahan.setEnabled(false);
+        achievementbtn.setEnabled(false);
     }
 
     public void enabledAll() {
@@ -90,6 +91,7 @@ public class map extends javax.swing.JFrame {
         namagudang.setEnabled(true);
         namapasar.setEnabled(true);
         namapengolahan.setEnabled(true);
+        achievementbtn.setEnabled(true);
     }
 
     @SuppressWarnings("unchecked")

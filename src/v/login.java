@@ -5,6 +5,7 @@
  */
 package v;
 
+import java.awt.Component;
 import java.awt.event.ActionListener;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -69,13 +70,11 @@ public class login extends javax.swing.JFrame {
     }
 
 
-    public void tampilPesan(String pesan) {
-        JOptionPane.showMessageDialog(this, pesan);
+    public void tampilPesan(Component c, String pesan) {
+        JOptionPane.showMessageDialog(c, pesan);
     }
 
-    public void tampilPesanCreate(String pesan) {
-        JOptionPane.showMessageDialog(createAkun, pesan);
-    }
+   
 
     public int tampilYesNo(String pesan) {
         return JOptionPane.showConfirmDialog(this, pesan, null, JOptionPane.YES_NO_OPTION);

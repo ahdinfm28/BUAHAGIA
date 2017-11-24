@@ -25,6 +25,7 @@ public class ingudang extends javax.swing.JFrame {
     public void klikNexttoBahan(ActionListener a) {
         next.addActionListener(a);
     }
+
     public void klikNexttoProduk(ActionListener a) {
         nextproduk.addActionListener(a);
     }
@@ -32,6 +33,7 @@ public class ingudang extends javax.swing.JFrame {
     public void klikPreviousBahan(ActionListener a) {
         previous.addActionListener(a);
     }
+
     public void klikPreviousBuah(ActionListener a) {
         prevbuah.addActionListener(a);
     }
@@ -43,8 +45,109 @@ public class ingudang extends javax.swing.JFrame {
     public JFrame showproduk() {
         return nextgudang;
     }
+
     public JFrame showbahan() {
         return vbahan;
+    }
+
+    public void setStokBuah1(int mangga, int apel, int melon, int semangka, int pisang) {
+        setJmlMangga1(mangga);
+        setJmlApel1(apel);
+        setJmlMelon1(melon);
+        setJmlSemangka1(semangka);
+        setJmlPisang1(pisang);
+    }
+
+    public void setStokBuah2(int mangga, int apel, int melon, int semangka, int pisang) {
+        setJmlMangga2(mangga);
+        setJmlApel2(apel);
+        setJmlMelon2(melon);
+        setJmlSemangka2(semangka);
+        setJmlPisang2(pisang);
+    }
+
+    public void setStokBuah3(int mangga, int apel, int melon, int semangka, int pisang) {
+        setJmlMangga3(mangga);
+        setJmlApel3(apel);
+        setJmlMelon3(melon);
+        setJmlSemangka3(semangka);
+        setJmlPisang3(pisang);
+    }
+
+    public void setStokProduk1(int ba, int bp, int bs, int bme, int bma,
+            int ka, int kp, int km, int jp, int jma, int jme, int js, int ja,
+            int es, int sb, int sale) {
+        setJmlBrownisA1(ba);
+        setJmlBrownisMangga1(bma);
+        setJmlBrownisMelon1(bme);
+        setJmlBrownisPisang1(bp);
+        setJmlBrownisSemangka1(bs);
+        setJmlJusApel1(ja);
+        setJmlJusMangga1(jma);
+        setJmlJusMelon1(jme);
+        setJmlJusPisang1(jp);
+        setJmlJusSemangka1(js);
+        setJmlKripikApel1(ka);
+        setJmlKripikMangga1(km);
+        setJmlKripikPisang1(kp);
+        setJmlEsbuah1(es);
+        setJmlSaladbuah1(sb);
+        setJmlSale1(sale);
+    }
+
+    public void setStokProduk2(int ba, int bp, int bs, int bme, int bma,
+            int ka, int kp, int km, int jp, int jma, int jme, int js, int ja,
+            int es, int sb, int sale) {
+        setJmlBrownisA2(ba);
+        setJmlBrownisMangga2(bma);
+        setJmlBrownisMelon2(bme);
+        setJmlBrownisPisang2(bp);
+        setJmlBrownisSemangka2(bs);
+        setJmlJusApel2(ja);
+        setJmlJusMangga2(jma);
+        setJmlJusMelon2(jme);
+        setJmlJusPisang2(jp);
+        setJmlJusSemangka2(js);
+        setJmlKripikApel2(ka);
+        setJmlKripikMangga2(km);
+        setJmlKripikPisang2(kp);
+        setJmlEsbuah2(es);
+        setJmlSaladbuah2(sb);
+        setJmlSale2(sale);
+    }
+    public void setStokProduk3(int ba, int bp, int bs, int bme, int bma,
+            int ka, int kp, int km, int jp, int jma, int jme, int js, int ja,
+            int es, int sb, int sale) {
+        setJmlBrownisA3(ba);
+        setJmlBrownisMangga3(bma);
+        setJmlBrownisMelon3(bme);
+        setJmlBrownisPisang3(bp);
+        setJmlBrownisSemangka3(bs);
+        setJmlJusApel3(ja);
+        setJmlJusMangga3(jma);
+        setJmlJusMelon3(jme);
+        setJmlJusPisang3(jp);
+        setJmlJusSemangka3(js);
+        setJmlKripikApel3(ka);
+        setJmlKripikMangga3(km);
+        setJmlKripikPisang3(kp);
+        setJmlEsbuah3(es);
+        setJmlSaladbuah3(sb);
+        setJmlSale3(sale);
+    }
+
+    public void setStokBahan(int gula, int minyak, int mayo, int mentega, int sirup, int telur,
+            int tepungt, int tepungb, int sp, int susu) {
+        setJmlGula(gula);
+        setJmlMinyak(minyak);
+        setJmlTelur(telur);
+        setJmlSusu(susu);
+        setJmlSirup(sirup);
+        setJmlPengembang(sp);
+        setJmlMentega(mentega);
+        setJmlMayo(mayo);
+        setJmlTepungT(tepungt);
+        setJmlTepungB(tepungb);
     }
 
     public int setJmlApel1(int t) {
@@ -410,298 +513,6 @@ public class ingudang extends javax.swing.JFrame {
     public int setJmlTelur(int t) {
         telur.setText(t + "");
         return t;
-    }
-
-    public String getJmlMayo() {
-        return mayo.getText();
-    }
-
-    public String getJmlSusu() {
-        return susu.getText();
-    }
-
-    public String getJmlTepungt() {
-        return tt.getText();
-    }
-
-    public String getJmlTepungb() {
-        return tb.getText();
-    }
-
-    public String getJmlMentega() {
-        return mentega.getText();
-    }
-
-    public String getJmlSirup() {
-        return sirup.getText();
-    }
-
-    public String getJmlTelur() {
-        return telur.getText();
-    }
-
-    public String getJmlPengembang() {
-        return sp.getText();
-    }
-
-    public String getJmlGula() {
-        return gula.getText();
-    }
-
-    public String getJmlMinyak() {
-        return minyak.getText();
-    }
-
-    public String getJmlSemangka1() {
-        return semangka1.getText();
-    }
-
-    public String getJmlSemangka2() {
-        return semangka2.getText();
-    }
-
-    public String getJmlSemangka3() {
-        return semangka3.getText();
-    }
-
-    public String getJmlPisang1() {
-        return pisang1.getText();
-    }
-
-    public String getJmlPisang2() {
-        return pisang2.getText();
-    }
-
-    public String getJmlPisang3() {
-        return pisang3.getText();
-    }
-
-    public String getJmlMelon1() {
-        return melon1.getText();
-    }
-
-    public String getJmlMelon2() {
-        return melon2.getText();
-    }
-
-    public String getJmlMelon3() {
-        return melon3.getText();
-    }
-
-    public String getJmlMangga1() {
-        return mangga1.getText();
-    }
-
-    public String getJmlMangga2() {
-        return mangga2.getText();
-    }
-
-    public String getJmlMangga3() {
-        return mangga3.getText();
-    }
-
-    public String getJmlApel1() {
-        return apel1.getText();
-    }
-
-    public String getJmlApel2() {
-        return apel2.getText();
-    }
-
-    public String getJmlApel3() {
-        return apel3.getText();
-    }
-
-    public String getJmlJusApel1() {
-        return ja1.getText();
-    }
-
-    public String getJmlJusApel2() {
-        return ja2.getText();
-    }
-
-    public String getJmlJusApel3() {
-        return ja3.getText();
-    }
-
-    public String getJmlJusMangga1() {
-        return jma1.getText();
-    }
-
-    public String getJmlJusMangga2() {
-        return jma2.getText();
-    }
-
-    public String getJmlJusMangga3() {
-        return jma3.getText();
-    }
-
-    public String getJmlJusMelon1() {
-        return jme1.getText();
-    }
-
-    public String getJmlJusMelon2() {
-        return jme2.getText();
-    }
-
-    public String getJmlJusMelon3() {
-        return jme3.getText();
-    }
-
-    public String getJmlJusSemangka1() {
-        return js1.getText();
-    }
-
-    public String getJmlJusSemangka2() {
-        return js2.getText();
-    }
-
-    public String getJmlJusSemangka3() {
-        return js3.getText();
-    }
-
-    public String getJmlJusPisang1() {
-        return jp1.getText();
-    }
-
-    public String getJmlJusPisang2() {
-        return jp2.getText();
-    }
-
-    public String getJmlJusPisang3() {
-        return jp3.getText();
-    }
-
-    public String getJmlBrownisPisang1() {
-        return bp1.getText();
-    }
-
-    public String getJmlBrownisPisang2() {
-        return bp2.getText();
-    }
-
-    public String getJmlBrownisPisang3() {
-        return bp3.getText();
-    }
-
-    public String getJmlBrownisMangga1() {
-        return bma1.getText();
-    }
-
-    public String getJmlBrownisMangga2() {
-        return bma2.getText();
-    }
-
-    public String getJmlBrownisMangga3() {
-        return bma3.getText();
-    }
-
-    public String getJmlBrownisMelon1() {
-        return bme1.getText();
-    }
-
-    public String getJmlBrownisMelon2() {
-        return bme2.getText();
-    }
-
-    public String getJmlBrownisMelon3() {
-        return bme3.getText();
-    }
-
-    public String getJmlBrownisApel1() {
-        return ba1.getText();
-    }
-
-    public String getJmlBrownisApel2() {
-        return ba2.getText();
-    }
-
-    public String getJmlBrownisApel3() {
-        return ba3.getText();
-    }
-
-    public String getJmlBrownisSemangka1() {
-        return bs1.getText();
-    }
-
-    public String getJmlBrownisSemangka2() {
-        return bs2.getText();
-    }
-
-    public String getJmlBrownisSemangka3() {
-        return bs3.getText();
-    }
-
-    public String getJmlKripikApel1() {
-        return ka1.getText();
-    }
-
-    public String getJmlKripikApel2() {
-        return ka2.getText();
-    }
-
-    public String getJmlKripikApel3() {
-        return ka3.getText();
-    }
-
-    public String getJmlKripikPisang1() {
-        return kp1.getText();
-    }
-
-    public String getJmlKripikPisang2() {
-        return kp2.getText();
-    }
-
-    public String getJmlKripikPisang3() {
-        return kp3.getText();
-    }
-
-    public String getJmlKripikMangga1() {
-        return km1.getText();
-    }
-
-    public String getJmlKripikMangga2() {
-        return km2.getText();
-    }
-
-    public String getJmlKripikMangga3() {
-        return km3.getText();
-    }
-
-    public String getJmlEsBuah1() {
-        return es1.getText();
-    }
-
-    public String getJmlEsBuah2() {
-        return es2.getText();
-    }
-
-    public String getJmlEsBuah3() {
-        return es3.getText();
-    }
-
-    public String getJmlSaladBuah1() {
-        return salad1.getText();
-    }
-
-    public String getJmlSaladBuah2() {
-        return salad2.getText();
-    }
-
-    public String getJmlSaladBuah3() {
-        return salad2.getText();
-    }
-
-    public String getJmlSale1() {
-        return sale1.getText();
-    }
-
-    public String getJmlSale2() {
-        return sale2.getText();
-    }
-
-    public String getJmlSale3() {
-        return sale3.getText();
     }
 
     /**

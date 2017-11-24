@@ -15,10 +15,9 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.swing.JOptionPane;
-import m.aset;
-import m.pengolahan;
-import m.penjualan;
-import m.player;
+import m.maset;
+import m.molah;
+import m.mjual;
 import v.buahagiashop;
 import v.pasarmap;
 
@@ -31,13 +30,12 @@ public class penjualanc {
     AudioInputStream audio;
     Clip clip;
     String username;
-    pengolahan molah;
-    aset maset;
-    penjualan mjual;
+    molah molah;
+    maset maset;
+    mjual mjual;
     buahagiashop vshop;
-    player mplayer;
     int brownisterjual, kripikterjual, saleterjual;
-    int uang, jml, kualitas = 1;
+    int uang, jml, kualitas = 1, legend;
     int jusmelon, jusmangga, jusapel, juspisang, jussemangka, kripikapel, kripikpisang, kripikmangga;
     int brownismelon, brownisapel, brownismangga, brownispisang, brownissemangka, esbuah, saladbuah, sale;
     boolean statusBA = false, statusBMa = false, statusBMe = false, statusBS = false, statusBP = false;
@@ -49,14 +47,13 @@ public class penjualanc {
 
     public penjualanc(String username) throws SQLException {
         this.username = username;
-        this.vshop = new buahagiashop();
-        this.mjual = new penjualan();
-        this.maset = new aset();
-        this.molah = new pengolahan();
-        this.mplayer = new player();
+        this.vshop = new buahagiashop(); 
+        this.mjual = new mjual();
+        this.maset = new maset();
+        this.molah = new molah();
         vshop.setVisible(true);
         uang = vshop.setJmlUang(maset.getUang(username));
-        setStok();
+        setStokProduk();
         cekStok();
         vshop.klikBrownisMelon(new acttombolBrownisMelon());
         vshop.klikBrownisSemangka(new acttombolBrownisSemangka());
@@ -78,7 +75,7 @@ public class penjualanc {
         vshop.klikKembali(new acttombolkembali());
         vshop.klikKanan(new acttombolKanan());
         vshop.klikKiri(new acttombolKiri());
-        vshop.klikAdd(new acttombolTambah());
+        vshop.klikTambah(new acttombolTambah());
         vshop.klikMin(new acttombolMin());
         vshop.klikNext(new acttombolnext());
         vshop.klikPrevious(new acttombolprevious());
@@ -89,23 +86,31 @@ public class penjualanc {
         vshop.klikClose(new acttombolclose());
     }
 
-    public void setStok() throws SQLException {
-        brownisapel = vshop.setJmlBrownisApel(maset.getJmlProdukAll(username, 10));
-        brownismangga = vshop.setJmlBrownisMangga(maset.getJmlProdukAll(username, 13));
-        brownismelon = vshop.setJmlBrownisMelon(maset.getJmlProdukAll(username, 11));
-        brownispisang = vshop.setJmlBrownisPisang(maset.getJmlProdukAll(username, 9));
-        brownissemangka = vshop.setJmlBrownisSemangka(maset.getJmlProdukAll(username, 12));
-        jusapel = vshop.setJmlJusApel(maset.getJmlProdukAll(username, 1));
-        jusmangga = vshop.setJmlJusMangga(maset.getJmlProdukAll(username, 3));
-        jusmelon = vshop.setJmlJusMelon(maset.getJmlProdukAll(username, 4));
-        jussemangka = vshop.setJmlJusSemangka(maset.getJmlProdukAll(username, 5));
-        juspisang = vshop.setJmlJusPisang(maset.getJmlProdukAll(username, 2));
-        kripikapel = vshop.setJmlKripikApel(maset.getJmlProdukAll(username, 6));
-        kripikmangga = vshop.setJmlKripikMangga(maset.getJmlProdukAll(username, 7));
-        kripikpisang = vshop.setJmlKripikPisang(maset.getJmlProdukAll(username, 8));
-        esbuah = vshop.setJmlEs(maset.getJmlProdukAll(username, 15));
-        saladbuah = vshop.setJmlSalad(maset.getJmlProdukAll(username, 16));
-        sale = vshop.setJmlSale(maset.getJmlProdukAll(username, 14));
+    public void setStokProduk() throws SQLException {
+        getStokProduk();
+        vshop.setStokProduk(brownisapel, brownispisang,
+                brownissemangka, brownismelon,
+                brownismangga, kripikapel, kripikpisang, kripikmangga, juspisang,
+                jusmangga, jusmelon, jussemangka, jusapel, esbuah, saladbuah, sale);
+    }
+
+    public void getStokProduk() throws SQLException {
+        brownisapel = maset.getJmlProdukAll(username, 10);
+        brownismangga = maset.getJmlProdukAll(username, 13);
+        brownismelon = maset.getJmlProdukAll(username, 11);
+        brownispisang = maset.getJmlProdukAll(username, 9);
+        brownissemangka = maset.getJmlProdukAll(username, 12);
+        jusapel = maset.getJmlProdukAll(username, 1);
+        jusmangga = maset.getJmlProdukAll(username, 3);
+        jusmelon = maset.getJmlProdukAll(username, 4);
+        jussemangka = maset.getJmlProdukAll(username, 5);
+        juspisang = maset.getJmlProdukAll(username, 2);
+        kripikapel = maset.getJmlProdukAll(username, 6);
+        kripikmangga = maset.getJmlProdukAll(username, 7);
+        kripikpisang = maset.getJmlProdukAll(username, 8);
+        esbuah = maset.getJmlProdukAll(username, 15);
+        saladbuah = maset.getJmlProdukAll(username, 16);
+        sale = maset.getJmlProdukAll(username, 14);
     }
 
     public void cekStok() {
@@ -204,6 +209,7 @@ public class penjualanc {
         s1 = maset.cekAchv(username, "saudagar", 0);
         s2 = maset.cekAchv(username, "saudagar", 1);
         s3 = maset.cekAchv(username, "saudagar", 2);
+        legend = maset.getStatusLegend(username);
     }
 
     private void suarakoin() {
@@ -223,20 +229,21 @@ public class penjualanc {
         int produk = mjual.getProduk(username, 15, 0, 0, 0, 0); //gausa masuk sequence
         if (peb1) {
             if (produk >= 750) {
-                maset.updatePenghargaan(mplayer.getIdPlayer(username), "pebisnisesbuah", 1);
-                vshop.tampilPesan("PEBISNIS ES BUAH rank 3!!\nAnda berhasil mendapatkan penghargaan ini!");
+                maset.updatePenghargaan(username, "pebisnisesbuah", 1);
+                vshop.tampilPesan(vshop.popup(), "PEBISNIS ES BUAH rank 3!!\nAnda berhasil mendapatkan penghargaan ini!");
             }
         }
         if (peb2) {
             if (produk >= 1000) {
-                maset.updatePenghargaan(mplayer.getIdPlayer(username), "pebisnisesbuah", 2);
-                vshop.tampilPesan("PEBISNIS ES BUAH rank 2!!\nAnda berhasil mendapatkan penghargaan ini!");
+                maset.updatePenghargaan(username, "pebisnisesbuah", 2);
+                vshop.tampilPesan(vshop.popup(), "PEBISNIS ES BUAH rank 2!!\nAnda berhasil mendapatkan penghargaan ini!");
             }
         }
         if (peb3) {
             if (produk >= 1500) {
-                maset.updatePenghargaan(mplayer.getIdPlayer(username), "pebisnisesbuah", 3);
-                vshop.tampilPesan("PEBISNIS ES BUAH rank 1!!\nAnda berhasil mendapatkan penghargaan ini!");
+                maset.updatePenghargaan(username, "pebisnisesbuah", 3);
+                maset.updatePenghargaan(username, "legend", legend + 1);
+                vshop.tampilPesan(vshop.popup(), "PEBISNIS ES BUAH rank 1!!\nAnda berhasil mendapatkan penghargaan ini!");
             }
         }
     }
@@ -245,20 +252,21 @@ public class penjualanc {
         int produk = mjual.getProduk(username, 14, 0, 0, 0, 0); //gausa masuk sequence
         if (ps1) {
             if (produk >= 50) {
-                maset.updatePenghargaan(mplayer.getIdPlayer(username), "pengusahasale", 1);
-                vshop.tampilPesan("PENGUSAHA SALE rank 3!!\nAnda berhasil mendapatkan penghargaan ini!");
+                maset.updatePenghargaan(username, "pengusahasale", 1);
+                vshop.tampilPesan(vshop.popup(), "PENGUSAHA SALE rank 3!!\nAnda berhasil mendapatkan penghargaan ini!");
             }
         }
         if (ps2) {
             if (produk >= 100) {
-                maset.updatePenghargaan(mplayer.getIdPlayer(username), "pengusahasale", 2);
-                vshop.tampilPesan("PENGUSAHA SALE rank 2!!\nAnda berhasil mendapatkan penghargaan ini!");
+                maset.updatePenghargaan(username, "pengusahasale", 2);
+                vshop.tampilPesan(vshop.popup(), "PENGUSAHA SALE rank 2!!\nAnda berhasil mendapatkan penghargaan ini!");
             }
         }
         if (ps3) {
             if (produk >= 250) {
-                maset.updatePenghargaan(mplayer.getIdPlayer(username), "pengusahasale", 3);
-                vshop.tampilPesan("PENGUSAHA SALE rank 1!!\nAnda berhasil mendapatkan penghargaan ini!");
+                maset.updatePenghargaan(username, "pengusahasale", 3);
+                maset.updatePenghargaan(username, "legend", legend + 1);
+                vshop.tampilPesan(vshop.popup(), "PENGUSAHA SALE rank 1!!\nAnda berhasil mendapatkan penghargaan ini!");
             }
         }
 
@@ -268,20 +276,21 @@ public class penjualanc {
         int produk = mjual.getProduk(username, 9, 10, 11, 12, 13); //gausa masuk sequence
         if (jr1) {
             if (produk >= 150) {
-                maset.updatePenghargaan(mplayer.getIdPlayer(username), "juraganroti", 1);
-                vshop.tampilPesan("JURAGAN ROTI rank 3!!\nAnda berhasil mendapatkan penghargaan ini!");
+                maset.updatePenghargaan(username, "juraganroti", 1);
+                vshop.tampilPesan(vshop.popup(), "JURAGAN ROTI rank 3!!\nAnda berhasil mendapatkan penghargaan ini!");
             }
         }
         if (jr2) {
             if (produk >= 250) {
-                maset.updatePenghargaan(mplayer.getIdPlayer(username), "juraganroti", 2);
-                vshop.tampilPesan("JURAGAN ROTI rank 2!!\nAnda berhasil mendapatkan penghargaan ini!");
+                maset.updatePenghargaan(username, "juraganroti", 2);
+                vshop.tampilPesan(vshop.popup(), "JURAGAN ROTI rank 2!!\nAnda berhasil mendapatkan penghargaan ini!");
             }
         }
         if (jr3) {
             if (produk >= 500) {
-                maset.updatePenghargaan(mplayer.getIdPlayer(username), "juraganroti", 3);
-                vshop.tampilPesan("JURAGAN ROTI rank 1!!\nAnda berhasil mendapatkan penghargaan ini!");
+                maset.updatePenghargaan(username, "juraganroti", 3);
+                maset.updatePenghargaan(username, "legend", legend + 1);
+                vshop.tampilPesan(vshop.popup(), "JURAGAN ROTI rank 1!!\nAnda berhasil mendapatkan penghargaan ini!");
             }
         }
     }
@@ -289,28 +298,29 @@ public class penjualanc {
     public void cekPenghargaanSaudagar() throws SQLException {
         if (s1) {
             if (uang >= 5000000) {
-                maset.updatePenghargaan(mplayer.getIdPlayer(username), "saudagar", 1);
-                vshop.tampilPesan("SAUDAGAR rank 3!!\nAnda berhasil mendapatkan penghargaan ini!\n"
+                maset.updatePenghargaan(username, "saudagar", 1);
+                vshop.tampilPesan(vshop.popup(), "SAUDAGAR rank 3!!\nAnda berhasil mendapatkan penghargaan ini!\n"
                         + "Anda juga mendapat tambahan uang 150.000");
-                maset.updateUang(uang + 150000, mplayer.getIdPlayer(username));
+                maset.updateUang(uang + 150000, username);
                 vshop.setJmlUang(maset.getUang(username));
             }
         }
         if (s2) {
             if (uang >= 10000000) {
-                maset.updatePenghargaan(mplayer.getIdPlayer(username), "saudagar", 2);
-                vshop.tampilPesan("SAUDAGAR rank 2!!\nAnda berhasil mendapatkan penghargaan ini!\n"
+                maset.updatePenghargaan(username, "saudagar", 2);
+                vshop.tampilPesan(vshop.popup(), "SAUDAGAR rank 2!!\nAnda berhasil mendapatkan penghargaan ini!\n"
                         + "Anda juga mendapat tambahan uang 250.000");
-                maset.updateUang(uang + 250000, mplayer.getIdPlayer(username));
+                maset.updateUang(uang + 250000, username);
                 vshop.setJmlUang(maset.getUang(username));
             }
         }
         if (s3) {
             if (uang >= 25000000) {
-                maset.updatePenghargaan(mplayer.getIdPlayer(username), "saudagar", 2);
-                vshop.tampilPesan("SAUDAGAR rank 2!!\nAnda berhasil mendapatkan penghargaan ini!\n"
+                maset.updatePenghargaan(username, "saudagar", 2);
+                maset.updatePenghargaan(username, "legend", legend + 1);
+                vshop.tampilPesan(vshop.popup(), "SAUDAGAR rank 2!!\nAnda berhasil mendapatkan penghargaan ini!\n"
                         + "Anda juga mendapat tambahan uang 500.000");
-                maset.updateUang(uang + 500000, mplayer.getIdPlayer(username));
+                maset.updateUang(uang + 500000, username);
                 vshop.setJmlUang(maset.getUang(username));
             }
         }
@@ -396,30 +406,30 @@ public class penjualanc {
 
     public void detailpenjualan() throws SQLException {
         if (detail1) {
-            vshop.setBrownisMe1Terjual(mjual.getProdukTerjual(11, 1, mplayer.getIdPlayer(username)));
-            vshop.setBrownisMe2Terjual(mjual.getProdukTerjual(11, 2, mplayer.getIdPlayer(username)));
-            vshop.setBrownisMe3Terjual(mjual.getProdukTerjual(11, 3, mplayer.getIdPlayer(username)));
-            vshop.setBrownisMa1Terjual(mjual.getProdukTerjual(13, 1, mplayer.getIdPlayer(username)));
-            vshop.setBrownisMa2Terjual(mjual.getProdukTerjual(13, 2, mplayer.getIdPlayer(username)));
-            vshop.setBrownisMa3Terjual(mjual.getProdukTerjual(13, 3, mplayer.getIdPlayer(username)));
-            vshop.setBrownisP1Terjual(mjual.getProdukTerjual(9, 1, mplayer.getIdPlayer(username)));
-            vshop.setBrownisP2Terjual(mjual.getProdukTerjual(9, 2, mplayer.getIdPlayer(username)));
-            vshop.setBrownisP3Terjual(mjual.getProdukTerjual(9, 3, mplayer.getIdPlayer(username)));
-            vshop.setBrownisS1Terjual(mjual.getProdukTerjual(12, 1, mplayer.getIdPlayer(username)));
-            vshop.setBrownisS2Terjual(mjual.getProdukTerjual(12, 2, mplayer.getIdPlayer(username)));
-            vshop.setBrownisS3Terjual(mjual.getProdukTerjual(12, 3, mplayer.getIdPlayer(username)));
-            vshop.setBrownisA1Terjual(mjual.getProdukTerjual(10, 1, mplayer.getIdPlayer(username)));
-            vshop.setBrownisA2Terjual(mjual.getProdukTerjual(10, 2, mplayer.getIdPlayer(username)));
-            vshop.setBrownisA3Terjual(mjual.getProdukTerjual(10, 3, mplayer.getIdPlayer(username)));
-            vshop.setEsBuah1Terjual(mjual.getProdukTerjual(15, 1, mplayer.getIdPlayer(username)));
-            vshop.setEsBuah2Terjual(mjual.getProdukTerjual(15, 2, mplayer.getIdPlayer(username)));
-            vshop.setEsBuah3Terjual(mjual.getProdukTerjual(15, 3, mplayer.getIdPlayer(username)));
-            vshop.setSalad1Terjual(mjual.getProdukTerjual(16, 1, mplayer.getIdPlayer(username)));
-            vshop.setSalad2Terjual(mjual.getProdukTerjual(16, 2, mplayer.getIdPlayer(username)));
-            vshop.setSalad3Terjual(mjual.getProdukTerjual(16, 3, mplayer.getIdPlayer(username)));
-            vshop.setSale1Terjual(mjual.getProdukTerjual(14, 1, mplayer.getIdPlayer(username)));
-            vshop.setSale2Terjual(mjual.getProdukTerjual(14, 2, mplayer.getIdPlayer(username)));
-            vshop.setSale3Terjual(mjual.getProdukTerjual(14, 3, mplayer.getIdPlayer(username)));
+            vshop.setBrownisMe1Terjual(mjual.getProdukTerjual(11, 1, username));
+            vshop.setBrownisMe2Terjual(mjual.getProdukTerjual(11, 2, username));
+            vshop.setBrownisMe3Terjual(mjual.getProdukTerjual(11, 3, username));
+            vshop.setBrownisMa1Terjual(mjual.getProdukTerjual(13, 1, username));
+            vshop.setBrownisMa2Terjual(mjual.getProdukTerjual(13, 2, username));
+            vshop.setBrownisMa3Terjual(mjual.getProdukTerjual(13, 3, username));
+            vshop.setBrownisP1Terjual(mjual.getProdukTerjual(9, 1, username));
+            vshop.setBrownisP2Terjual(mjual.getProdukTerjual(9, 2, username));
+            vshop.setBrownisP3Terjual(mjual.getProdukTerjual(9, 3, username));
+            vshop.setBrownisS1Terjual(mjual.getProdukTerjual(12, 1, username));
+            vshop.setBrownisS2Terjual(mjual.getProdukTerjual(12, 2, username));
+            vshop.setBrownisS3Terjual(mjual.getProdukTerjual(12, 3, username));
+            vshop.setBrownisA1Terjual(mjual.getProdukTerjual(10, 1, username));
+            vshop.setBrownisA2Terjual(mjual.getProdukTerjual(10, 2, username));
+            vshop.setBrownisA3Terjual(mjual.getProdukTerjual(10, 3, username));
+            vshop.setEsBuah1Terjual(mjual.getProdukTerjual(15, 1, username));
+            vshop.setEsBuah2Terjual(mjual.getProdukTerjual(15, 2, username));
+            vshop.setEsBuah3Terjual(mjual.getProdukTerjual(15, 3, username));
+            vshop.setSalad1Terjual(mjual.getProdukTerjual(16, 1, username));
+            vshop.setSalad2Terjual(mjual.getProdukTerjual(16, 2, username));
+            vshop.setSalad3Terjual(mjual.getProdukTerjual(16, 3, username));
+            vshop.setSale1Terjual(mjual.getProdukTerjual(14, 1, username));
+            vshop.setSale2Terjual(mjual.getProdukTerjual(14, 2, username));
+            vshop.setSale3Terjual(mjual.getProdukTerjual(14, 3, username));
             vshop.setTotBrownisMe1();
             vshop.setTotBrownisMe2();
             vshop.setTotBrownisMe3();
@@ -445,30 +455,30 @@ public class penjualanc {
             vshop.setTotSalad2();
             vshop.setTotSalad3();
         } else if (detail2) {
-            vshop.setJusMe1Terjual(mjual.getProdukTerjual(4, 1, mplayer.getIdPlayer(username)));
-            vshop.setJusMe2Terjual(mjual.getProdukTerjual(4, 2, mplayer.getIdPlayer(username)));
-            vshop.setJusMe3Terjual(mjual.getProdukTerjual(4, 3, mplayer.getIdPlayer(username)));
-            vshop.setJusMa1Terjual(mjual.getProdukTerjual(3, 1, mplayer.getIdPlayer(username)));
-            vshop.setJusMa2Terjual(mjual.getProdukTerjual(3, 2, mplayer.getIdPlayer(username)));
-            vshop.setJusMa3Terjual(mjual.getProdukTerjual(3, 3, mplayer.getIdPlayer(username)));
-            vshop.setJusP1Terjual(mjual.getProdukTerjual(2, 1, mplayer.getIdPlayer(username)));
-            vshop.setJusP2Terjual(mjual.getProdukTerjual(2, 2, mplayer.getIdPlayer(username)));
-            vshop.setJusP3Terjual(mjual.getProdukTerjual(2, 3, mplayer.getIdPlayer(username)));
-            vshop.setJusS1Terjual(mjual.getProdukTerjual(5, 1, mplayer.getIdPlayer(username)));
-            vshop.setJusS2Terjual(mjual.getProdukTerjual(5, 2, mplayer.getIdPlayer(username)));
-            vshop.setJusS3Terjual(mjual.getProdukTerjual(5, 3, mplayer.getIdPlayer(username)));
-            vshop.setJusA1Terjual(mjual.getProdukTerjual(1, 1, mplayer.getIdPlayer(username)));
-            vshop.setJusA2Terjual(mjual.getProdukTerjual(1, 2, mplayer.getIdPlayer(username)));
-            vshop.setJusA3Terjual(mjual.getProdukTerjual(1, 3, mplayer.getIdPlayer(username)));
-            vshop.setKripikA1Terjual(mjual.getProdukTerjual(6, 1, mplayer.getIdPlayer(username)));
-            vshop.setKripikA2Terjual(mjual.getProdukTerjual(6, 2, mplayer.getIdPlayer(username)));
-            vshop.setKripikA3Terjual(mjual.getProdukTerjual(6, 3, mplayer.getIdPlayer(username)));
-            vshop.setKripikP1Terjual(mjual.getProdukTerjual(8, 1, mplayer.getIdPlayer(username)));
-            vshop.setKripikP2Terjual(mjual.getProdukTerjual(8, 2, mplayer.getIdPlayer(username)));
-            vshop.setKripikP3Terjual(mjual.getProdukTerjual(8, 3, mplayer.getIdPlayer(username)));
-            vshop.setKripikM1Terjual(mjual.getProdukTerjual(7, 1, mplayer.getIdPlayer(username)));
-            vshop.setKripikM2Terjual(mjual.getProdukTerjual(7, 2, mplayer.getIdPlayer(username)));
-            vshop.setKripikM3Terjual(mjual.getProdukTerjual(7, 3, mplayer.getIdPlayer(username)));
+            vshop.setJusMe1Terjual(mjual.getProdukTerjual(4, 1, username));
+            vshop.setJusMe2Terjual(mjual.getProdukTerjual(4, 2, username));
+            vshop.setJusMe3Terjual(mjual.getProdukTerjual(4, 3, username));
+            vshop.setJusMa1Terjual(mjual.getProdukTerjual(3, 1, username));
+            vshop.setJusMa2Terjual(mjual.getProdukTerjual(3, 2, username));
+            vshop.setJusMa3Terjual(mjual.getProdukTerjual(3, 3, username));
+            vshop.setJusP1Terjual(mjual.getProdukTerjual(2, 1, username));
+            vshop.setJusP2Terjual(mjual.getProdukTerjual(2, 2, username));
+            vshop.setJusP3Terjual(mjual.getProdukTerjual(2, 3, username));
+            vshop.setJusS1Terjual(mjual.getProdukTerjual(5, 1, username));
+            vshop.setJusS2Terjual(mjual.getProdukTerjual(5, 2, username));
+            vshop.setJusS3Terjual(mjual.getProdukTerjual(5, 3, username));
+            vshop.setJusA1Terjual(mjual.getProdukTerjual(1, 1, username));
+            vshop.setJusA2Terjual(mjual.getProdukTerjual(1, 2, username));
+            vshop.setJusA3Terjual(mjual.getProdukTerjual(1, 3, username));
+            vshop.setKripikA1Terjual(mjual.getProdukTerjual(6, 1, username));
+            vshop.setKripikA2Terjual(mjual.getProdukTerjual(6, 2, username));
+            vshop.setKripikA3Terjual(mjual.getProdukTerjual(6, 3, username));
+            vshop.setKripikP1Terjual(mjual.getProdukTerjual(8, 1, username));
+            vshop.setKripikP2Terjual(mjual.getProdukTerjual(8, 2, username));
+            vshop.setKripikP3Terjual(mjual.getProdukTerjual(8, 3, username));
+            vshop.setKripikM1Terjual(mjual.getProdukTerjual(7, 1, username));
+            vshop.setKripikM2Terjual(mjual.getProdukTerjual(7, 2, username));
+            vshop.setKripikM3Terjual(mjual.getProdukTerjual(7, 3, username));
             vshop.setTotJusA1();
             vshop.setTotJusA2();
             vshop.setTotJusA3();
@@ -864,10 +874,10 @@ public class penjualanc {
                     uang = uang + (harga * jml);
                     stok = stok - jml;
                     brownismelon = brownismelon - jml;
-                    maset.updateUang(uang, mplayer.getIdPlayer(username));
-                    mjual.updateStokProduk(id, kualitas, mplayer.getIdPlayer(username), stok);
-                    mjual.insertPenjualan(id, mplayer.getIdPlayer(username), kualitas, jml);
-                    vshop.tampilPesan("Transaksi Berhasil");
+                    maset.updateUang(uang, username);
+                    mjual.updateStokProduk(id, kualitas, username, stok);
+                    mjual.insertPenjualan(id, username, kualitas, jml);
+                    vshop.tampilPesan(vshop.popup(), "Transaksi Berhasil");
                     vshop.setJmlUang(maset.getUang(username));
                     vshop.setJmlBrownisMelon(brownismelon);
                     cekStatusPenghargaan();
@@ -889,12 +899,12 @@ public class penjualanc {
                 jml = 1;
                 vshop.setJumlah(jml + "");
                 vshop.popup().setVisible(true);
-                vshop.tampilPesan("Stok yang anda miliki kurang!");
+                vshop.tampilPesan(vshop.popup(), "Stok yang anda miliki kurang!");
             }
         } else {
             jml = 1;
             vshop.setJumlah(jml + "");
-            vshop.tampilPesan("Anda tidak memiliki produk dengan kualitas " + vshop.getKualitas());
+            vshop.tampilPesan(vshop.popup(), "Anda tidak memiliki produk dengan kualitas " + vshop.getKualitas());
             vshop.popup().setVisible(true);
         }
     }
@@ -915,10 +925,10 @@ public class penjualanc {
                     uang = uang + (harga * jml);
                     stok = stok - jml;
                     brownisapel = brownisapel - jml;
-                    maset.updateUang(uang, mplayer.getIdPlayer(username));
-                    mjual.updateStokProduk(id, kualitas, mplayer.getIdPlayer(username), stok);
-                    mjual.insertPenjualan(id, mplayer.getIdPlayer(username), kualitas, jml);
-                    vshop.tampilPesan("Transaksi Berhasil");
+                    maset.updateUang(uang, username);
+                    mjual.updateStokProduk(id, kualitas, username, stok);
+                    mjual.insertPenjualan(id, username, kualitas, jml);
+                    vshop.tampilPesan(vshop.popup(), "Transaksi Berhasil");
                     vshop.setJmlUang(maset.getUang(username));
                     vshop.setJmlBrownisApel(brownisapel);
                     cekStatusPenghargaan();
@@ -939,12 +949,12 @@ public class penjualanc {
                 jml = 1;
                 vshop.setJumlah(jml + "");
                 vshop.popup().setVisible(true);
-                vshop.tampilPesan("Stok yang anda miliki kurang!");
+                vshop.tampilPesan(vshop.popup(), "Stok yang anda miliki kurang!");
             }
         } else {
             jml = 1;
             vshop.setJumlah(jml + "");
-            vshop.tampilPesan("Anda tidak memiliki produk dengan kualitas " + vshop.getKualitas());
+            vshop.tampilPesan(vshop.popup(), "Anda tidak memiliki produk dengan kualitas " + vshop.getKualitas());
             vshop.popup().setVisible(true);
         }
     }
@@ -965,10 +975,10 @@ public class penjualanc {
                     uang = uang + (harga * jml);
                     stok = stok - jml;
                     brownissemangka = brownissemangka - jml;
-                    maset.updateUang(uang, mplayer.getIdPlayer(username));
-                    mjual.updateStokProduk(id, kualitas, mplayer.getIdPlayer(username), stok);
-                    mjual.insertPenjualan(id, mplayer.getIdPlayer(username), kualitas, jml);
-                    vshop.tampilPesan("Transaksi Berhasil");
+                    maset.updateUang(uang, username);
+                    mjual.updateStokProduk(id, kualitas, username, stok);
+                    mjual.insertPenjualan(id, username, kualitas, jml);
+                    vshop.tampilPesan(vshop.popup(), "Transaksi Berhasil");
                     vshop.setJmlUang(maset.getUang(username));
                     vshop.setJmlBrownisSemangka(brownissemangka);
                     cekStatusPenghargaan();
@@ -990,12 +1000,12 @@ public class penjualanc {
                 jml = 1;
                 vshop.setJumlah(jml + "");
                 vshop.popup().setVisible(true);
-                vshop.tampilPesan("Stok yang anda miliki kurang!");
+                vshop.tampilPesan(vshop.popup(), "Stok yang anda miliki kurang!");
             }
         } else {
             jml = 1;
             vshop.setJumlah(jml + "");
-            vshop.tampilPesan("Anda tidak memiliki produk dengan kualitas " + vshop.getKualitas());
+            vshop.tampilPesan(vshop.popup(), "Anda tidak memiliki produk dengan kualitas " + vshop.getKualitas());
             vshop.popup().setVisible(true);
         }
     }
@@ -1016,10 +1026,10 @@ public class penjualanc {
                     uang = uang + (harga * jml);
                     stok = stok - jml;
                     brownismangga = brownismangga - jml;
-                    maset.updateUang(uang, mplayer.getIdPlayer(username));
-                    mjual.updateStokProduk(id, kualitas, mplayer.getIdPlayer(username), stok);
-                    mjual.insertPenjualan(id, mplayer.getIdPlayer(username), kualitas, jml);
-                    vshop.tampilPesan("Transaksi Berhasil");
+                    maset.updateUang(uang, username);
+                    mjual.updateStokProduk(id, kualitas, username, stok);
+                    mjual.insertPenjualan(id, username, kualitas, jml);
+                    vshop.tampilPesan(vshop.popup(), "Transaksi Berhasil");
                     vshop.setJmlUang(maset.getUang(username));
                     vshop.setJmlBrownisMangga(brownismangga);
                     cekStatusPenghargaan();
@@ -1040,12 +1050,12 @@ public class penjualanc {
                 jml = 1;
                 vshop.setJumlah(jml + "");
                 vshop.popup().setVisible(true);
-                vshop.tampilPesan("Stok yang anda miliki kurang!");
+                vshop.tampilPesan(vshop.popup(), "Stok yang anda miliki kurang!");
             }
         } else {
             jml = 1;
             vshop.setJumlah(jml + "");
-            vshop.tampilPesan("Anda tidak memiliki produk dengan kualitas " + vshop.getKualitas());
+            vshop.tampilPesan(vshop.popup(), "Anda tidak memiliki produk dengan kualitas " + vshop.getKualitas());
             vshop.popup().setVisible(true);
         }
     }
@@ -1066,10 +1076,10 @@ public class penjualanc {
                     uang = uang + (harga * jml);
                     stok = stok - jml;
                     brownispisang = brownispisang - jml;
-                    maset.updateUang(uang, mplayer.getIdPlayer(username));
-                    mjual.updateStokProduk(id, kualitas, mplayer.getIdPlayer(username), stok);
-                    mjual.insertPenjualan(id, mplayer.getIdPlayer(username), kualitas, jml);
-                    vshop.tampilPesan("Transaksi Berhasil");
+                    maset.updateUang(uang, username);
+                    mjual.updateStokProduk(id, kualitas, username, stok);
+                    mjual.insertPenjualan(id, username, kualitas, jml);
+                    vshop.tampilPesan(vshop.popup(), "Transaksi Berhasil");
                     vshop.setJmlUang(maset.getUang(username));
                     vshop.setJmlBrownisPisang(brownispisang);
                     cekStatusPenghargaan();
@@ -1090,12 +1100,12 @@ public class penjualanc {
                 jml = 1;
                 vshop.setJumlah(jml + "");
                 vshop.popup().setVisible(true);
-                vshop.tampilPesan("Stok yang anda miliki kurang!");
+                vshop.tampilPesan(vshop.popup(), "Stok yang anda miliki kurang!");
             }
         } else {
             jml = 1;
             vshop.setJumlah(jml + "");
-            vshop.tampilPesan("Anda tidak memiliki produk dengan kualitas " + vshop.getKualitas());
+            vshop.tampilPesan(vshop.popup(), "Anda tidak memiliki produk dengan kualitas " + vshop.getKualitas());
             vshop.popup().setVisible(true);
         }
     }
@@ -1116,10 +1126,10 @@ public class penjualanc {
                     uang = uang + (harga * jml);
                     stok = stok - jml;
                     juspisang = juspisang - jml;
-                    maset.updateUang(uang, mplayer.getIdPlayer(username));
-                    mjual.updateStokProduk(id, kualitas, mplayer.getIdPlayer(username), stok);
-                    mjual.insertPenjualan(id, mplayer.getIdPlayer(username), kualitas, jml);
-                    vshop.tampilPesan("Transaksi Berhasil");
+                    maset.updateUang(uang, username);
+                    mjual.updateStokProduk(id, kualitas, username, stok);
+                    mjual.insertPenjualan(id, username, kualitas, jml);
+                    vshop.tampilPesan(vshop.popup(), "Transaksi Berhasil");
                     vshop.setJmlUang(maset.getUang(username));
                     vshop.setJmlJusPisang(juspisang);
                     cekStatusPenghargaan();
@@ -1139,12 +1149,12 @@ public class penjualanc {
                 jml = 1;
                 vshop.setJumlah(jml + "");
                 vshop.popup().setVisible(true);
-                vshop.tampilPesan("Stok yang anda miliki kurang!");
+                vshop.tampilPesan(vshop.popup(), "Stok yang anda miliki kurang!");
             }
         } else {
             jml = 1;
             vshop.setJumlah(jml + "");
-            vshop.tampilPesan("Anda tidak memiliki produk dengan kualitas " + vshop.getKualitas());
+            vshop.tampilPesan(vshop.popup(), "Anda tidak memiliki produk dengan kualitas " + vshop.getKualitas());
             vshop.popup().setVisible(true);
         }
     }
@@ -1165,10 +1175,10 @@ public class penjualanc {
                     uang = uang + (harga * jml);
                     stok = stok - jml;
                     jusapel = jusapel - jml;
-                    maset.updateUang(uang, mplayer.getIdPlayer(username));
-                    mjual.updateStokProduk(id, kualitas, mplayer.getIdPlayer(username), stok);
-                    mjual.insertPenjualan(id, mplayer.getIdPlayer(username), kualitas, jml);
-                    vshop.tampilPesan("Transaksi Berhasil");
+                    maset.updateUang(uang, username);
+                    mjual.updateStokProduk(id, kualitas, username, stok);
+                    mjual.insertPenjualan(id, username, kualitas, jml);
+                    vshop.tampilPesan(vshop.popup(), "Transaksi Berhasil");
                     vshop.setJmlUang(maset.getUang(username));
                     vshop.setJmlJusApel(jusapel);
                     cekStatusPenghargaan();
@@ -1188,12 +1198,12 @@ public class penjualanc {
                 jml = 1;
                 vshop.setJumlah(jml + "");
                 vshop.popup().setVisible(true);
-                vshop.tampilPesan("Stok yang anda miliki kurang!");
+                vshop.tampilPesan(vshop.popup(), "Stok yang anda miliki kurang!");
             }
         } else {
             jml = 1;
             vshop.setJumlah(jml + "");
-            vshop.tampilPesan("Anda tidak memiliki produk dengan kualitas " + vshop.getKualitas());
+            vshop.tampilPesan(vshop.popup(), "Anda tidak memiliki produk dengan kualitas " + vshop.getKualitas());
             vshop.popup().setVisible(true);
         }
     }
@@ -1214,10 +1224,10 @@ public class penjualanc {
                     uang = uang + (harga * jml);
                     stok = stok - jml;
                     jusmelon = jusmelon - jml;
-                    maset.updateUang(uang, mplayer.getIdPlayer(username));
-                    mjual.updateStokProduk(id, kualitas, mplayer.getIdPlayer(username), stok);
-                    mjual.insertPenjualan(id, mplayer.getIdPlayer(username), kualitas, jml);
-                    vshop.tampilPesan("Transaksi Berhasil");
+                    maset.updateUang(uang, username);
+                    mjual.updateStokProduk(id, kualitas, username, stok);
+                    mjual.insertPenjualan(id, username, kualitas, jml);
+                    vshop.tampilPesan(vshop.popup(), "Transaksi Berhasil");
                     vshop.setJmlUang(maset.getUang(username));
                     vshop.setJmlJusMelon(jusmelon);
                     cekStatusPenghargaan();
@@ -1237,12 +1247,12 @@ public class penjualanc {
                 jml = 1;
                 vshop.setJumlah(jml + "");
                 vshop.popup().setVisible(true);
-                vshop.tampilPesan("Stok yang anda miliki kurang!");
+                vshop.tampilPesan(vshop.popup(), "Stok yang anda miliki kurang!");
             }
         } else {
             jml = 1;
             vshop.setJumlah(jml + "");
-            vshop.tampilPesan("Anda tidak memiliki produk dengan kualitas " + vshop.getKualitas());
+            vshop.tampilPesan(vshop.popup(), "Anda tidak memiliki produk dengan kualitas " + vshop.getKualitas());
             vshop.popup().setVisible(true);
         }
     }
@@ -1263,10 +1273,10 @@ public class penjualanc {
                     uang = uang + (harga * jml);
                     stok = stok - jml;
                     jusmangga = jusmangga - jml;
-                    maset.updateUang(uang, mplayer.getIdPlayer(username));
-                    mjual.updateStokProduk(id, kualitas, mplayer.getIdPlayer(username), stok);
-                    mjual.insertPenjualan(id, mplayer.getIdPlayer(username), kualitas, jml);
-                    vshop.tampilPesan("Transaksi Berhasil");
+                    maset.updateUang(uang, username);
+                    mjual.updateStokProduk(id, kualitas, username, stok);
+                    mjual.insertPenjualan(id, username, kualitas, jml);
+                    vshop.tampilPesan(vshop.popup(), "Transaksi Berhasil");
                     vshop.setJmlUang(maset.getUang(username));
                     vshop.setJmlJusMangga(jusmangga);
                     cekStatusPenghargaan();
@@ -1286,12 +1296,12 @@ public class penjualanc {
                 jml = 1;
                 vshop.setJumlah(jml + "");
                 vshop.popup().setVisible(true);
-                vshop.tampilPesan("Stok yang anda miliki kurang!");
+                vshop.tampilPesan(vshop.popup(), "Stok yang anda miliki kurang!");
             }
         } else {
             jml = 1;
             vshop.setJumlah(jml + "");
-            vshop.tampilPesan("Anda tidak memiliki produk dengan kualitas " + vshop.getKualitas());
+            vshop.tampilPesan(vshop.popup(), "Anda tidak memiliki produk dengan kualitas " + vshop.getKualitas());
             vshop.popup().setVisible(true);
         }
     }
@@ -1312,10 +1322,10 @@ public class penjualanc {
                     uang = uang + (harga * jml);
                     stok = stok - jml;
                     jussemangka = jussemangka - jml;
-                    maset.updateUang(uang, mplayer.getIdPlayer(username));
-                    mjual.updateStokProduk(id, kualitas, mplayer.getIdPlayer(username), stok);
-                    mjual.insertPenjualan(id, mplayer.getIdPlayer(username), kualitas, jml);
-                    vshop.tampilPesan("Transaksi Berhasil");
+                    maset.updateUang(uang, username);
+                    mjual.updateStokProduk(id, kualitas, username, stok);
+                    mjual.insertPenjualan(id, username, kualitas, jml);
+                    vshop.tampilPesan(vshop.popup(), "Transaksi Berhasil");
                     vshop.setJmlUang(maset.getUang(username));
                     vshop.setJmlJusSemangka(jussemangka);
                     cekStatusPenghargaan();
@@ -1335,12 +1345,12 @@ public class penjualanc {
                 jml = 1;
                 vshop.setJumlah(jml + "");
                 vshop.popup().setVisible(true);
-                vshop.tampilPesan("Stok yang anda miliki kurang!");
+                vshop.tampilPesan(vshop.popup(), "Stok yang anda miliki kurang!");
             }
         } else {
             jml = 1;
             vshop.setJumlah(jml + "");
-            vshop.tampilPesan("Anda tidak memiliki produk dengan kualitas " + vshop.getKualitas());
+            vshop.tampilPesan(vshop.popup(), "Anda tidak memiliki produk dengan kualitas " + vshop.getKualitas());
             vshop.popup().setVisible(true);
         }
     }
@@ -1361,10 +1371,10 @@ public class penjualanc {
                     uang = uang + (harga * jml);
                     stok = stok - jml;
                     kripikapel = kripikapel - jml;
-                    maset.updateUang(uang, mplayer.getIdPlayer(username));
-                    mjual.updateStokProduk(id, kualitas, mplayer.getIdPlayer(username), stok);
-                    mjual.insertPenjualan(id, mplayer.getIdPlayer(username), kualitas, jml);
-                    vshop.tampilPesan("Transaksi Berhasil");
+                    maset.updateUang(uang, username);
+                    mjual.updateStokProduk(id, kualitas, username, stok);
+                    mjual.insertPenjualan(id, username, kualitas, jml);
+                    vshop.tampilPesan(vshop.popup(), "Transaksi Berhasil");
                     vshop.setJmlUang(maset.getUang(username));
                     vshop.setJmlKripikApel(kripikapel);
                     cekStatusPenghargaan();
@@ -1384,12 +1394,12 @@ public class penjualanc {
                 jml = 1;
                 vshop.setJumlah(jml + "");
                 vshop.popup().setVisible(true);
-                vshop.tampilPesan("Stok yang anda miliki kurang!");
+                vshop.tampilPesan(vshop.popup(), "Stok yang anda miliki kurang!");
             }
         } else {
             jml = 1;
             vshop.setJumlah(jml + "");
-            vshop.tampilPesan("Anda tidak memiliki produk dengan kualitas " + vshop.getKualitas());
+            vshop.tampilPesan(vshop.popup(), "Anda tidak memiliki produk dengan kualitas " + vshop.getKualitas());
             vshop.popup().setVisible(true);
         }
     }
@@ -1410,10 +1420,10 @@ public class penjualanc {
                     uang = uang + (harga * jml);
                     stok = stok - jml;
                     kripikmangga = kripikmangga - jml;
-                    maset.updateUang(uang, mplayer.getIdPlayer(username));
-                    mjual.updateStokProduk(id, kualitas, mplayer.getIdPlayer(username), stok);
-                    mjual.insertPenjualan(id, mplayer.getIdPlayer(username), kualitas, jml);
-                    vshop.tampilPesan("Transaksi Berhasil");
+                    maset.updateUang(uang, username);
+                    mjual.updateStokProduk(id, kualitas, username, stok);
+                    mjual.insertPenjualan(id, username, kualitas, jml);
+                    vshop.tampilPesan(vshop.popup(), "Transaksi Berhasil");
                     vshop.setJmlUang(maset.getUang(username));
                     vshop.setJmlKripikMangga(kripikmangga);
                     cekStatusPenghargaan();
@@ -1433,12 +1443,12 @@ public class penjualanc {
                 jml = 1;
                 vshop.setJumlah(jml + "");
                 vshop.popup().setVisible(true);
-                vshop.tampilPesan("Stok yang anda miliki kurang!");
+                vshop.tampilPesan(vshop.popup(), "Stok yang anda miliki kurang!");
             }
         } else {
             jml = 1;
             vshop.setJumlah(jml + "");
-            vshop.tampilPesan("Anda tidak memiliki produk dengan kualitas " + vshop.getKualitas());
+            vshop.tampilPesan(vshop.popup(), "Anda tidak memiliki produk dengan kualitas " + vshop.getKualitas());
             vshop.popup().setVisible(true);
         }
     }
@@ -1459,10 +1469,10 @@ public class penjualanc {
                     uang = uang + (harga * jml);
                     stok = stok - jml;
                     kripikpisang = kripikpisang - jml;
-                    maset.updateUang(uang, mplayer.getIdPlayer(username));
-                    mjual.updateStokProduk(id, kualitas, mplayer.getIdPlayer(username), stok);
-                    mjual.insertPenjualan(id, mplayer.getIdPlayer(username), kualitas, jml);
-                    vshop.tampilPesan("Transaksi Berhasil");
+                    maset.updateUang(uang, username);
+                    mjual.updateStokProduk(id, kualitas, username, stok);
+                    mjual.insertPenjualan(id, username, kualitas, jml);
+                    vshop.tampilPesan(vshop.popup(), "Transaksi Berhasil");
                     vshop.setJmlUang(maset.getUang(username));
                     vshop.setJmlKripikPisang(kripikpisang);
                     cekStatusPenghargaan();
@@ -1482,12 +1492,12 @@ public class penjualanc {
                 jml = 1;
                 vshop.setJumlah(jml + "");
                 vshop.popup().setVisible(true);
-                vshop.tampilPesan("Stok yang anda miliki kurang!");
+                vshop.tampilPesan(vshop.popup(), "Stok yang anda miliki kurang!");
             }
         } else {
             jml = 1;
             vshop.setJumlah(jml + "");
-            vshop.tampilPesan("Anda tidak memiliki produk dengan kualitas " + vshop.getKualitas());
+            vshop.tampilPesan(vshop.popup(), "Anda tidak memiliki produk dengan kualitas " + vshop.getKualitas());
             vshop.popup().setVisible(true);
         }
     }
@@ -1508,10 +1518,10 @@ public class penjualanc {
                     uang = uang + (harga * jml);
                     stok = stok - jml;
                     esbuah = esbuah - jml;
-                    maset.updateUang(uang, mplayer.getIdPlayer(username));
-                    mjual.updateStokProduk(id, kualitas, mplayer.getIdPlayer(username), stok);
-                    mjual.insertPenjualan(id, mplayer.getIdPlayer(username), kualitas, jml);
-                    vshop.tampilPesan("Transaksi Berhasil");
+                    maset.updateUang(uang, username);
+                    mjual.updateStokProduk(id, kualitas, username, stok);
+                    mjual.insertPenjualan(id, username, kualitas, jml);
+                    vshop.tampilPesan(vshop.popup(), "Transaksi Berhasil");
                     vshop.setJmlUang(maset.getUang(username));
                     vshop.setJmlEs(esbuah);
                     cekStatusPenghargaan();
@@ -1532,12 +1542,12 @@ public class penjualanc {
                 jml = 1;
                 vshop.setJumlah(jml + "");
                 vshop.popup().setVisible(true);
-                vshop.tampilPesan("Stok yang anda miliki kurang!");
+                vshop.tampilPesan(vshop.popup(), "Stok yang anda miliki kurang!");
             }
         } else {
             jml = 1;
             vshop.setJumlah(jml + "");
-            vshop.tampilPesan("Anda tidak memiliki produk dengan kualitas " + vshop.getKualitas());
+            vshop.tampilPesan(vshop.popup(), "Anda tidak memiliki produk dengan kualitas " + vshop.getKualitas());
             vshop.popup().setVisible(true);
         }
     }
@@ -1559,10 +1569,10 @@ public class penjualanc {
                     uang = uang + (harga * jml);
                     stok = stok - jml;
                     sale = sale - jml;
-                    maset.updateUang(uang, mplayer.getIdPlayer(username));
-                    mjual.updateStokProduk(id, kualitas, mplayer.getIdPlayer(username), stok);
-                    mjual.insertPenjualan(id, mplayer.getIdPlayer(username), kualitas, jml);
-                    vshop.tampilPesan("Transaksi Berhasil");
+                    maset.updateUang(uang, username);
+                    mjual.updateStokProduk(id, kualitas, username, stok);
+                    mjual.insertPenjualan(id, username, kualitas, jml);
+                    vshop.tampilPesan(vshop.popup(), "Transaksi Berhasil");
                     vshop.setJmlUang(maset.getUang(username));
                     vshop.setJmlSale(sale);
                     cekStatusPenghargaan();
@@ -1583,12 +1593,12 @@ public class penjualanc {
                 jml = 1;
                 vshop.setJumlah(jml + "");
                 vshop.popup().setVisible(true);
-                vshop.tampilPesan("Stok yang anda miliki kurang!");
+                vshop.tampilPesan(vshop.popup(), "Stok yang anda miliki kurang!");
             }
         } else {
             jml = 1;
             vshop.setJumlah(jml + "");
-            vshop.tampilPesan("Anda tidak memiliki produk dengan kualitas " + vshop.getKualitas());
+            vshop.tampilPesan(vshop.popup(), "Anda tidak memiliki produk dengan kualitas " + vshop.getKualitas());
             vshop.popup().setVisible(true);
         }
     }
@@ -1609,10 +1619,10 @@ public class penjualanc {
                     uang = uang + (harga * jml);
                     stok = stok - jml;
                     saladbuah = saladbuah - jml;
-                    maset.updateUang(uang, mplayer.getIdPlayer(username));
-                    mjual.updateStokProduk(id, kualitas, mplayer.getIdPlayer(username), stok);
-                    mjual.insertPenjualan(id, mplayer.getIdPlayer(username), kualitas, jml);
-                    vshop.tampilPesan("Transaksi Berhasil");
+                    maset.updateUang(uang, username);
+                    mjual.updateStokProduk(id, kualitas, username, stok);
+                    mjual.insertPenjualan(id, username, kualitas, jml);
+                    vshop.tampilPesan(vshop.popup(), "Transaksi Berhasil");
                     vshop.setJmlUang(maset.getUang(username));
                     vshop.setJmlSalad(saladbuah);
                     cekStatusPenghargaan();
@@ -1632,12 +1642,12 @@ public class penjualanc {
                 jml = 1;
                 vshop.setJumlah(jml + "");
                 vshop.popup().setVisible(true);
-                vshop.tampilPesan("Stok yang anda miliki kurang!");
+                vshop.tampilPesan(vshop.popup(), "Stok yang anda miliki kurang!");
             }
         } else {
             jml = 1;
             vshop.setJumlah(jml + "");
-            vshop.tampilPesan("Anda tidak memiliki produk dengan kualitas " + vshop.getKualitas());
+            vshop.tampilPesan(vshop.popup(), "Anda tidak memiliki produk dengan kualitas " + vshop.getKualitas());
             vshop.popup().setVisible(true);
 
         }
@@ -2251,7 +2261,7 @@ public class penjualanc {
                     Logger.getLogger(penjualanc.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
-
+            cekStok();
         }
     }
 

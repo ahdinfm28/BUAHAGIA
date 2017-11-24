@@ -11,9 +11,9 @@ import java.sql.SQLException;
  *
  * @author Farisya
  */
-public class penjualan extends func {
+public class mjual extends func {
 
-    public penjualan() throws SQLException {
+    public mjual() throws SQLException {
     }
 
     public int cekIdPenjualan() throws SQLException {
@@ -26,9 +26,9 @@ public class penjualan extends func {
         return getDataInt(query);
     }
 
-    public int getProdukTerjual(int idProduk, int idKualitas, String idPlayer) throws SQLException {
+    public int getProdukTerjual(int idProduk, int idKualitas, String username) throws SQLException {
         String query = "select sum(Jumlah) from penjualan where idProduk = '" + idProduk + "' "
-                + "and idPlayer = '" + idPlayer + "' and idKualitas='" + idKualitas + "'";
+                + "and idPlayer = (select idPlayer from player where username = '" + username + "') and idKualitas='" + idKualitas + "'";
         return getDataInt(query);
     }
 
@@ -39,16 +39,17 @@ public class penjualan extends func {
         return getDataInt(query);
     }
 
-    public boolean updateStokProduk(int idProduk, int idKualitas, String idPlayer, int jml) throws SQLException {
+    public boolean updateStokProduk(int idProduk, int idKualitas, String username, int jml) throws SQLException {
         String query = "UPDATE `hasilpengolahan` SET `Jumlah` = '" + jml + "' WHERE `idProduk` = '" + idProduk + "'"
-                + " and idKualitas='" + idKualitas + "' and idPlayer='" + idPlayer + "'";
+                + " and idKualitas='" + idKualitas + "' and "
+                + "idPlayer=(select idPlayer from player where username = '" + username + "')";
         System.out.println(query);
         return getStatusQuery(query);
     }
 
-    public boolean insertPenjualan(int idProduk, String idPlayer, int idKualitas, int jml) {
+    public boolean insertPenjualan(int idProduk, String username, int idKualitas, int jml) {
         String query = "INSERT INTO `penjualan`(`idPenjualan`, `idPlayer`, `idProduk`,`idKualitas`,`Jumlah`) "
-                + "VALUES(null,'" + idPlayer + "','" + idProduk + "','" + idKualitas + "','" + jml + "')";
+                + "VALUES(null,(select idPlayer from player where username = '" + username + "'),'" + idProduk + "','" + idKualitas + "','" + jml + "')";
         System.out.println(query);
         return getStatusQuery(query);
     }
@@ -72,5 +73,11 @@ public class penjualan extends func {
                 + "ON player.idPlayer=penjualan.idPlayer "
                 + "WHERE player.username='" + username + "' and idProduk=14";
         return getDataInt(query);
+    }
+
+    public boolean resetPenjualan(String username) throws SQLException {
+        String query = "DELETE FROM `penjualan` "
+                + "WHERE idPlayer = (SELECT idPlayer from player where username='"+username+"')";
+        return getStatusQuery(query);
     }
 }

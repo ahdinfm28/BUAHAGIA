@@ -11,14 +11,11 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import m.aset;
-import m.pembelian;
-import m.pengolahan;
-import m.player;
+import m.maset;
+import m.mpembelian;
+import m.molah;
 import v.inpengolahan;
-import v.mainmenu;
 import v.map;
-import v.pasarmap;
 
 /**
  *
@@ -27,13 +24,12 @@ import v.pasarmap;
 public class pengolahanc {
 
     String username;
-    aset maset;
+    maset maset;
     inpengolahan vpengolahan;
-    pembelian mbeli;
-    pengolahan molah;
-    player mplayer;
+    mpembelian mbeli;
+    molah molah;
     int kualitas = 1;
-    int jml = 1, jmlproduk = 1;
+    int jml = 1, jmlproduk = 1, legend;
     int apel, pisang, melon, semangka, mangga;
     int susu, minyak, gula, mayo, mentega, sirup, tepungt, tepungb, pengembang, telur;
     boolean jus, brownis, salepisang, salad, es, kripikm, kripika, kripikp;
@@ -48,10 +44,10 @@ public class pengolahanc {
     public pengolahanc(String username) throws SQLException {
         this.username = username;
         this.vpengolahan = new inpengolahan();
-        this.maset = new aset();
-        this.mplayer = new player();
-        this.molah = new pengolahan();
+        this.maset = new maset();
+        this.molah = new molah();
         vpengolahan.setVisible(true);
+
         vpengolahan.klikKembali(new acttombolkembali());
         vpengolahan.klikNext(new acttombolnext());
         vpengolahan.klikPrevious(new acttombolprevious());
@@ -79,23 +75,46 @@ public class pengolahanc {
 
         vpengolahan.klikBeliSaladBuah(new acttombolBeliSalad());
         vpengolahan.klikBeliKripikPisang(new acttombolBeliKripikPisang());
-
-        apel = vpengolahan.setJmlApel(maset.getJmlBuahAll(username, 1));
-        mangga = vpengolahan.setJmlMangga(maset.getJmlBuahAll(username, 3));
-        pisang = vpengolahan.setJmlPisang(maset.getJmlBuahAll(username, 2));
-        melon = vpengolahan.setJmlMelon(maset.getJmlBuahAll(username, 5));
-        semangka = vpengolahan.setJmlSemangka(maset.getJmlBuahAll(username, 4));
-        susu = vpengolahan.setJmlSusu(maset.getJmlBahan(username, 8));
-        minyak = vpengolahan.setJmlMinyak(maset.getJmlBahan(username, 3));
-        gula = vpengolahan.setJmlGula(maset.getJmlBahan(username, 1));
-        telur = vpengolahan.setJmlTelur(maset.getJmlBahan(username, 7));
-        pengembang = vpengolahan.setJmlPengembang(maset.getJmlBahan(username, 9));
-        tepungt = vpengolahan.setJmlTepungT(maset.getJmlBahan(username, 10));
-        tepungb = vpengolahan.setJmlTepungB(maset.getJmlBahan(username, 2));
-        sirup = vpengolahan.setJmlSirup(maset.getJmlBahan(username, 5));
-        mayo = vpengolahan.setJmlMayo(maset.getJmlBahan(username, 6));
-        mentega = vpengolahan.setJmlMentega(maset.getJmlBahan(username, 4));
+        vpengolahan.klikBeliEsBuah(new acttombolBeliEsBuah());
+        vpengolahan.klikBeliKripikApel(new acttombolBeliKripikApel());
+        vpengolahan.klikBeliKripikMangga(new acttombolBeliKripikMangga());
+        
+        setJmlBuah();
+        setJmlBahan();
         cekkomposisi();
+    }
+
+    public void setJmlBahan() throws SQLException {
+        getJmlBahan();
+        vpengolahan.setJmlBahan(gula, minyak, mayo, mentega, sirup, telur, tepungt, tepungb, pengembang, susu);
+
+    }
+
+    public void setJmlBuah() throws SQLException {
+        getJmlBuah();
+        vpengolahan.setJmlBuah(mangga, apel, melon, semangka, pisang);
+    }
+
+    public void getJmlBuah() throws SQLException {
+        apel = maset.getJmlBuahAll(username, 1);
+        mangga = maset.getJmlBuahAll(username, 3);
+        melon = maset.getJmlBuahAll(username, 5);
+        pisang = maset.getJmlBuahAll(username, 2);
+        semangka = maset.getJmlBuahAll(username, 4);
+    }
+
+    public void getJmlBahan() throws SQLException {
+        gula = maset.getJmlBahan(username, 1);
+        tepungb = maset.getJmlBahan(username, 2);
+        tepungt = maset.getJmlBahan(username, 10);
+        pengembang = maset.getJmlBahan(username, 9);
+        susu = maset.getJmlBahan(username, 8);
+        telur = maset.getJmlBahan(username, 7);
+        mentega = maset.getJmlBahan(username, 4);
+        mayo = maset.getJmlBahan(username, 6);
+        sirup = maset.getJmlBahan(username, 5);
+        minyak = maset.getJmlBahan(username, 3);
+
     }
 
     private class acttombolkembali implements ActionListener {
@@ -131,8 +150,7 @@ public class pengolahanc {
     }
 
     public void getResep() throws SQLException {
-//        jus = maset.cekResep(username, 1, 2, 3, 4, 5);
-//        brownis = maset.cekResep(username, 9, 10, 11, 12, 13);
+
         kripikm = maset.cekResep(username, "kripikmangga");
         kripika = maset.cekResep(username, "kripikapel");
         kripikp = maset.cekResep(username, "kripikpisang");
@@ -151,37 +169,39 @@ public class pengolahanc {
         rr1 = maset.cekAchv(username, "ramerasanya", 0);
         rr2 = maset.cekAchv(username, "ramerasanya", 1);
         rr3 = maset.cekAchv(username, "ramerasanya", 2);
+        legend = maset.getStatusLegend(username);
     }
 
     private void cekPenghargaanKriuk() throws SQLException {
         int produk = molah.getProduk(username, 6, 7, 8, 0, 0); //gausa masuk sequence
         if (k1) {
             if (produk >= 60) {
-                maset.updatePenghargaan(mplayer.getIdPlayer(username), "kriuk", 1);
-                vpengolahan.tampilPesan2("KRIUK rank 3!!\nAnda berhasil mendapatkan penghargaan ini!\n"
+                maset.updatePenghargaan(username, "kriuk", 1);
+                vpengolahan.tampilPesan(vpengolahan.popup(), "KRIUK rank 3!!\nAnda berhasil mendapatkan penghargaan ini!\n"
                         + "Resep kripik lainnya telah terbuka!");
                 if (kripikp) {
-                    maset.insertResep(mplayer.getIdPlayer(username), "kripikmangga");
-                    maset.insertResep(mplayer.getIdPlayer(username), "kripikapel");
+                    maset.insertResep(username, "kripikmangga");
+                    maset.insertResep(username, "kripikapel");
                 } else if (kripikm) {
-                    maset.insertResep(mplayer.getIdPlayer(username), "kripikpisang");
-                    maset.insertResep(mplayer.getIdPlayer(username), "kripikapel");
+                    maset.insertResep(username, "kripikpisang");
+                    maset.insertResep(username, "kripikapel");
                 } else if (kripika) {
-                    maset.insertResep(mplayer.getIdPlayer(username), "kripikmangga");
-                    maset.insertResep(mplayer.getIdPlayer(username), "kripikpisang");
+                    maset.insertResep(username, "kripikmangga");
+                    maset.insertResep(username, "kripikpisang");
                 }
             }
         }
         if (k2) {
             if (produk >= 120) {
-                maset.updatePenghargaan(mplayer.getIdPlayer(username), "kriuk", 2);
-                vpengolahan.tampilPesan2("KRIUK rank 2!!\nAnda berhasil mendapatkan penghargaan ini!");
+                maset.updatePenghargaan(username, "kriuk", 2);
+                vpengolahan.tampilPesan(vpengolahan.popup(), "KRIUK rank 2!!\nAnda berhasil mendapatkan penghargaan ini!");
             }
         }
         if (k3) {
             if (produk >= 360) {
-                maset.updatePenghargaan(mplayer.getIdPlayer(username), "kriuk", 3);
-                vpengolahan.tampilPesan2("KRIUK rank 1!!\nAnda berhasil mendapatkan penghargaan ini!");
+                maset.updatePenghargaan(username, "kriuk", 3);
+                maset.updatePenghargaan(username, "legend", legend + 1);
+                vpengolahan.tampilPesan(vpengolahan.popup(), "KRIUK rank 1!!\nAnda berhasil mendapatkan penghargaan ini!");
             }
         }
     }
@@ -190,20 +210,21 @@ public class pengolahanc {
         int produk = molah.getProduk(username, 16, 0, 0, 0, 0); //gausa masuk sequence
         if (rr1) {
             if (produk >= 250) {
-                maset.updatePenghargaan(mplayer.getIdPlayer(username), "ramerasanya", 1);
-                vpengolahan.tampilPesan2("RAME RASANYA rank 3!!\nAnda berhasil mendapatkan penghargaan ini!");
+                maset.updatePenghargaan(username, "ramerasanya", 1);
+                vpengolahan.tampilPesan(vpengolahan.popup(), "RAME RASANYA rank 3!!\nAnda berhasil mendapatkan penghargaan ini!");
             }
         }
         if (rr2) {
             if (produk >= 500) {
-                maset.updatePenghargaan(mplayer.getIdPlayer(username), "ramerasanya", 2);
-                vpengolahan.tampilPesan2("RAME RASANYA rank 2!!\nAnda berhasil mendapatkan penghargaan ini!");
+                maset.updatePenghargaan(username, "ramerasanya", 2);
+                vpengolahan.tampilPesan(vpengolahan.popup(), "RAME RASANYA rank 2!!\nAnda berhasil mendapatkan penghargaan ini!");
             }
         }
         if (rr3) {
             if (produk >= 1000) {
-                maset.updatePenghargaan(mplayer.getIdPlayer(username), "ramerasanya", 3);
-                vpengolahan.tampilPesan2("RAME RASANYA rank 1!!\nAnda berhasil mendapatkan penghargaan ini!");
+                maset.updatePenghargaan(username, "ramerasanya", 3);
+                maset.updatePenghargaan(username, "legend", legend + 1);
+                vpengolahan.tampilPesan(vpengolahan.popup(), "RAME RASANYA rank 1!!\nAnda berhasil mendapatkan penghargaan ini!");
             }
         }
     }
@@ -212,20 +233,21 @@ public class pengolahanc {
         int produk = molah.getProduk(username, 1, 2, 3, 4, 5); //gausa masuk sequence
         if (tb1) {
             if (produk >= 250) {
-                maset.updatePenghargaan(mplayer.getIdPlayer(username), "tukangblender", 1);
-                vpengolahan.tampilPesan2("TUKANG BLENDER rank 3!!\nAnda berhasil mendapatkan penghargaan ini!");
+                maset.updatePenghargaan(username, "tukangblender", 1);
+                vpengolahan.tampilPesan(vpengolahan.popup(), "TUKANG BLENDER rank 3!!\nAnda berhasil mendapatkan penghargaan ini!");
             }
         }
         if (tb2) {
             if (produk >= 500) {
-                maset.updatePenghargaan(mplayer.getIdPlayer(username), "tukangblender", 2);
-                vpengolahan.tampilPesan2("TUKANG BLENDER rank 2!!\nAnda berhasil mendapatkan penghargaan ini!");
+                maset.updatePenghargaan(username, "tukangblender", 2);
+                vpengolahan.tampilPesan(vpengolahan.popup(), "TUKANG BLENDER rank 2!!\nAnda berhasil mendapatkan penghargaan ini!");
             }
         }
         if (tb3) {
             if (produk >= 1000) {
-                maset.updatePenghargaan(mplayer.getIdPlayer(username), "tukangblender", 3);
-                vpengolahan.tampilPesan2("TUKANG BLENDER rank 1!!\nAnda berhasil mendapatkan penghargaan ini!");
+                maset.updatePenghargaan(username, "tukangblender", 3);
+                maset.updatePenghargaan(username, "legend", legend + 1);
+                vpengolahan.tampilPesan(vpengolahan.popup(), "TUKANG BLENDER rank 1!!\nAnda berhasil mendapatkan penghargaan ini!");
             }
         }
     }
@@ -361,6 +383,7 @@ public class pengolahanc {
             vpengolahan.btnesbuah.setEnabled(false);
         } else if (apel >= 1 && melon >= 1 && mangga >= 1 && semangka >= 1 && sirup >= 1) {
             vpengolahan.btnesbuah.setEnabled(true);
+
         }
     }
 
@@ -375,12 +398,12 @@ public class pengolahanc {
                             "Konfirmasi Pembelian Resep", JOptionPane.YES_NO_OPTION);
                     if (pilih == 0) {
                         uang = uang - 500000;
-                        maset.updateUang(uang, mplayer.getIdPlayer(username));
-                        maset.insertResep(mplayer.getIdPlayer(username), "salad");
+                        maset.updateUang(uang, username);
+                        maset.insertResep(username, "salad");
                         cekResep();
                     }
                 } else {
-                    vpengolahan.tampilPesan1("uang anda tidak cukup");
+                    vpengolahan.tampilPesan(vpengolahan, "uang anda tidak cukup");
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(pengolahanc.class.getName()).log(Level.SEVERE, null, ex);
@@ -399,12 +422,12 @@ public class pengolahanc {
                             "Konfirmasi Pembelian Resep", JOptionPane.YES_NO_OPTION);
                     if (pilih == 0) {
                         uang = uang - 350000;
-                        maset.updateUang(uang, mplayer.getIdPlayer(username));
-                        maset.insertResep(mplayer.getIdPlayer(username), "sale");
+                        maset.updateUang(uang, username);
+                        maset.insertResep(username, "sale");
                         cekResep();
                     }
                 } else {
-                    vpengolahan.tampilPesan1("uang anda tidak cukup");
+                    vpengolahan.tampilPesan(vpengolahan, "uang anda tidak cukup");
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(pengolahanc.class.getName()).log(Level.SEVERE, null, ex);
@@ -423,12 +446,12 @@ public class pengolahanc {
                             "Konfirmasi Pembelian Resep", JOptionPane.YES_NO_OPTION);
                     if (pilih == 0) {
                         uang = uang - 500000;
-                        maset.updateUang(uang, mplayer.getIdPlayer(username));
-                        maset.insertResep(mplayer.getIdPlayer(username), "esbuah");
+                        maset.updateUang(uang, username);
+                        maset.insertResep(username, "esbuah");
                         cekResep();
                     }
                 } else {
-                    vpengolahan.tampilPesan1("uang anda tidak cukup");
+                    vpengolahan.tampilPesan(vpengolahan, "uang anda tidak cukup");
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(pengolahanc.class.getName()).log(Level.SEVERE, null, ex);
@@ -447,14 +470,14 @@ public class pengolahanc {
                             "Konfirmasi Pembelian Resep", JOptionPane.YES_NO_OPTION);
                     if (pilih == 0) {
                         uang = uang - 350000;
-                        maset.updateUang(uang, mplayer.getIdPlayer(username));
-                        maset.insertResep(mplayer.getIdPlayer(username), "kripikpisang");
+                        maset.updateUang(uang, username);
+                        maset.insertResep(username, "kripikpisang");
                         cekResep();
                         // vpengolahan.belikripikapel.setVisible(false);
                         // vpengolahan.belikripikmangga.setVisible(false);
                     }
                 } else {
-                    vpengolahan.tampilPesan1("uang anda tidak cukup");
+                    vpengolahan.tampilPesan(vpengolahan, "uang anda tidak cukup");
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(pengolahanc.class.getName()).log(Level.SEVERE, null, ex);
@@ -473,12 +496,12 @@ public class pengolahanc {
                             "Konfirmasi Pembelian Resep", JOptionPane.YES_NO_OPTION);
                     if (pilih == 0) {
                         uang = uang - 350000;
-                        maset.updateUang(uang, mplayer.getIdPlayer(username));
-                        maset.insertResep(mplayer.getIdPlayer(username), "kripikmangga");
+                        maset.updateUang(uang, username);
+                        maset.insertResep(username, "kripikmangga");
                         cekResep();
                     }
                 } else {
-                    vpengolahan.tampilPesan1("uang anda tidak cukup");
+                    vpengolahan.tampilPesan(vpengolahan, "uang anda tidak cukup");
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(pengolahanc.class.getName()).log(Level.SEVERE, null, ex);
@@ -497,12 +520,12 @@ public class pengolahanc {
                             "Konfirmasi Pembelian Resep", JOptionPane.YES_NO_OPTION);
                     if (pilih == 0) {
                         uang = uang - 350000;
-                        maset.updateUang(uang, mplayer.getIdPlayer(username));
-                        maset.insertResep(mplayer.getIdPlayer(username), "kripikapel");
+                        maset.updateUang(uang, username);
+                        maset.insertResep(username, "kripikapel");
                         cekResep();
                     }
                 } else {
-                    vpengolahan.tampilPesan1("uang anda tidak cukup");
+                    vpengolahan.tampilPesan(vpengolahan, "uang anda tidak cukup");
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(pengolahanc.class.getName()).log(Level.SEVERE, null, ex);
@@ -749,13 +772,13 @@ public class pengolahanc {
                 int melonku = (maset.getJmlBuah(username, idbuah, getIdKualitas)) - 1;
                 susu = susu - 10;
                 gula = gula - 20;
-                molah.updateStokBuah(mplayer.getIdPlayer(username), idbuah, getIdKualitas, melonku);
-                molah.updateStokBahan(mplayer.getIdPlayer(username), 1, gula);
-                molah.updateStokBahan(mplayer.getIdPlayer(username), 8, susu);
-                molah.tambahProduk(idproduk, getIdKualitas, mplayer.getIdPlayer(username),
+                molah.updateStokBuah(username, idbuah, getIdKualitas, melonku);
+                molah.updateStokBahan(username, 1, gula);
+                molah.updateStokBahan(username, 8, susu);
+                molah.tambahProduk(idproduk, getIdKualitas, username,
                         (maset.getJmlProduk(username, idproduk, getIdKualitas) + 5));
                 //  vpengolahan.popupgif();
-                vpengolahan.tampilPesan2("Pengolahan Berhasil");
+                vpengolahan.tampilPesan(vpengolahan.popup(), "Pengolahan Berhasil");
                 vpengolahan.setJmlMelon(maset.getJmlBuahAll(username, idbuah));
                 vpengolahan.setJmlSusu(susu);
                 vpengolahan.setJmlGula(gula);
@@ -768,7 +791,7 @@ public class pengolahanc {
                 vpengolahan.popup().setVisible(true);
             }
         } else {
-            vpengolahan.tampilPesan2("Anda tidak memiliki buah dengan kualitas " + vpengolahan.getTeksKualitas());
+            vpengolahan.tampilPesan(vpengolahan.popup(), "Anda tidak memiliki buah dengan kualitas " + vpengolahan.getTeksKualitas());
         }
     }
 
@@ -785,13 +808,13 @@ public class pengolahanc {
                 int apelku = (maset.getJmlBuah(username, idbuah, getIdKualitas)) - 1;
                 susu = susu - 10;
                 gula = gula - 20;
-                molah.updateStokBuah(mplayer.getIdPlayer(username), idbuah, getIdKualitas, apelku);
-                molah.updateStokBahan(mplayer.getIdPlayer(username), 1, gula);
-                molah.updateStokBahan(mplayer.getIdPlayer(username), 8, susu);
-                molah.tambahProduk(idproduk, getIdKualitas, mplayer.getIdPlayer(username),
+                molah.updateStokBuah(username, idbuah, getIdKualitas, apelku);
+                molah.updateStokBahan(username, 1, gula);
+                molah.updateStokBahan(username, 8, susu);
+                molah.tambahProduk(idproduk, getIdKualitas, username,
                         (maset.getJmlProduk(username, idproduk, getIdKualitas) + 10));
                 //  vpengolahan.popupgif();
-                vpengolahan.tampilPesan2("Pengolahan Berhasil");
+                vpengolahan.tampilPesan(vpengolahan.popup(), "Pengolahan Berhasil");
                 vpengolahan.setJmlApel(maset.getJmlBuahAll(username, idbuah));
                 vpengolahan.setJmlSusu(susu);
                 vpengolahan.setJmlGula(gula);
@@ -804,7 +827,7 @@ public class pengolahanc {
                 vpengolahan.popup().setVisible(true);
             }
         } else {
-            vpengolahan.tampilPesan2("Anda tidak memiliki buah dengan kualitas " + vpengolahan.getTeksKualitas());
+            vpengolahan.tampilPesan(vpengolahan.popup(), "Anda tidak memiliki buah dengan kualitas " + vpengolahan.getTeksKualitas());
         }
     }
 
@@ -821,13 +844,13 @@ public class pengolahanc {
                 int semangkaku = (maset.getJmlBuah(username, idbuah, getIdKualitas)) - 1;
                 susu = susu - 10;
                 gula = gula - 20;
-                molah.updateStokBuah(mplayer.getIdPlayer(username), idbuah, getIdKualitas, semangkaku);
-                molah.updateStokBahan(mplayer.getIdPlayer(username), 1, gula);
-                molah.updateStokBahan(mplayer.getIdPlayer(username), 8, susu);
-                molah.tambahProduk(idproduk, getIdKualitas, mplayer.getIdPlayer(username),
+                molah.updateStokBuah(username, idbuah, getIdKualitas, semangkaku);
+                molah.updateStokBahan(username, 1, gula);
+                molah.updateStokBahan(username, 8, susu);
+                molah.tambahProduk(idproduk, getIdKualitas, username,
                         (maset.getJmlProduk(username, idproduk, getIdKualitas) + 4));
                 //  vpengolahan.popupgif();
-                vpengolahan.tampilPesan2("Pengolahan Berhasil");
+                vpengolahan.tampilPesan(vpengolahan.popup(), "Pengolahan Berhasil");
                 vpengolahan.setJmlSemangka(maset.getJmlBuahAll(username, idbuah));
                 vpengolahan.setJmlSusu(susu);
                 vpengolahan.setJmlGula(gula);
@@ -840,7 +863,7 @@ public class pengolahanc {
                 vpengolahan.popup().setVisible(true);
             }
         } else {
-            vpengolahan.tampilPesan2("Anda tidak memiliki buah dengan kualitas " + vpengolahan.getTeksKualitas());
+            vpengolahan.tampilPesan(vpengolahan.popup(), "Anda tidak memiliki buah dengan kualitas " + vpengolahan.getTeksKualitas());
         }
     }
 
@@ -857,13 +880,13 @@ public class pengolahanc {
                 int pisangku = (maset.getJmlBuah(username, idbuah, getIdKualitas)) - 1;
                 susu = susu - 10;
                 gula = gula - 20;
-                molah.updateStokBuah(mplayer.getIdPlayer(username), idbuah, getIdKualitas, pisangku);
-                molah.updateStokBahan(mplayer.getIdPlayer(username), 1, gula);
-                molah.updateStokBahan(mplayer.getIdPlayer(username), 8, susu);
-                molah.tambahProduk(idproduk, getIdKualitas, mplayer.getIdPlayer(username),
+                molah.updateStokBuah(username, idbuah, getIdKualitas, pisangku);
+                molah.updateStokBahan(username, 1, gula);
+                molah.updateStokBahan(username, 8, susu);
+                molah.tambahProduk(idproduk, getIdKualitas, username,
                         (maset.getJmlProduk(username, idproduk, getIdKualitas) + 10));
 //                vpengolahan.popupgif();
-                vpengolahan.tampilPesan2("Pengolahan Berhasil");
+                vpengolahan.tampilPesan(vpengolahan.popup(), "Pengolahan Berhasil");
                 vpengolahan.setJmlPisang(maset.getJmlBuahAll(username, idbuah));
                 vpengolahan.setJmlSusu(susu);
                 vpengolahan.setJmlGula(gula);
@@ -876,7 +899,7 @@ public class pengolahanc {
                 vpengolahan.popup().setVisible(true);
             }
         } else {
-            vpengolahan.tampilPesan2("Anda tidak memiliki buah dengan kualitas " + vpengolahan.getTeksKualitas());
+            vpengolahan.tampilPesan(vpengolahan.popup(), "Anda tidak memiliki buah dengan kualitas " + vpengolahan.getTeksKualitas());
         }
     }
 
@@ -893,13 +916,13 @@ public class pengolahanc {
                 int manggaku = (maset.getJmlBuah(username, idbuah, getIdKualitas)) - 1;
                 susu = susu - 10;
                 gula = gula - 20;
-                molah.updateStokBuah(mplayer.getIdPlayer(username), idbuah, getIdKualitas, manggaku);
-                molah.updateStokBahan(mplayer.getIdPlayer(username), 1, gula);
-                molah.updateStokBahan(mplayer.getIdPlayer(username), 8, susu);
-                molah.tambahProduk(idproduk, getIdKualitas, mplayer.getIdPlayer(username),
+                molah.updateStokBuah(username, idbuah, getIdKualitas, manggaku);
+                molah.updateStokBahan(username, 1, gula);
+                molah.updateStokBahan(username, 8, susu);
+                molah.tambahProduk(idproduk, getIdKualitas, username,
                         (maset.getJmlProduk(username, idproduk, getIdKualitas) + 7));
                 //  vpengolahan.popupgif();
-                vpengolahan.tampilPesan2("Pengolahan Berhasil");
+                vpengolahan.tampilPesan(vpengolahan.popup(), "Pengolahan Berhasil");
                 vpengolahan.setJmlMangga(maset.getJmlBuahAll(username, idbuah));
                 vpengolahan.setJmlSusu(susu);
                 vpengolahan.setJmlGula(gula);
@@ -912,7 +935,7 @@ public class pengolahanc {
                 vpengolahan.popup().setVisible(true);
             }
         } else {
-            vpengolahan.tampilPesan2("Anda tidak memiliki buah dengan kualitas " + vpengolahan.getTeksKualitas());
+            vpengolahan.tampilPesan(vpengolahan.popup(), "Anda tidak memiliki buah dengan kualitas " + vpengolahan.getTeksKualitas());
         }
     }
 
@@ -927,20 +950,20 @@ public class pengolahanc {
             if (Pilih == 0) {
                 int manggaku = (maset.getJmlBuah(username, idbuah, getIdKualitas)) - 1;
                 mentega = mentega - 6;
-                gula = gula - 40;
+                gula = gula - 30;
                 pengembang = pengembang - 1;
                 telur = telur - 10;
                 tepungt = tepungt - 40;
-                molah.updateStokBuah(mplayer.getIdPlayer(username), idbuah, getIdKualitas, manggaku);
-                molah.updateStokBahan(mplayer.getIdPlayer(username), 1, gula);
-                molah.updateStokBahan(mplayer.getIdPlayer(username), 4, mentega);
-                molah.updateStokBahan(mplayer.getIdPlayer(username), 10, tepungt);
-                molah.updateStokBahan(mplayer.getIdPlayer(username), 9, pengembang);
-                molah.updateStokBahan(mplayer.getIdPlayer(username), 7, telur);
-                molah.tambahProduk(idproduk, getIdKualitas, mplayer.getIdPlayer(username),
+                molah.updateStokBuah(username, idbuah, getIdKualitas, manggaku);
+                molah.updateStokBahan(username, 1, gula);
+                molah.updateStokBahan(username, 4, mentega);
+                molah.updateStokBahan(username, 10, tepungt);
+                molah.updateStokBahan(username, 9, pengembang);
+                molah.updateStokBahan(username, 7, telur);
+                molah.tambahProduk(idproduk, getIdKualitas, username,
                         (maset.getJmlProduk(username, idproduk, getIdKualitas) + 4));
                 //  vpengolahan.popupgif();
-                vpengolahan.tampilPesan2("Pengolahan Berhasil");
+                vpengolahan.tampilPesan(vpengolahan.popup(), "Pengolahan Berhasil");
                 vpengolahan.setJmlMangga(maset.getJmlBuahAll(username, idbuah));
                 vpengolahan.setJmlMentega(mentega);
                 vpengolahan.setJmlGula(gula);
@@ -953,7 +976,7 @@ public class pengolahanc {
                 vpengolahan.popup().setVisible(true);
             }
         } else {
-            vpengolahan.tampilPesan2("Anda tidak memiliki buah dengan kualitas " + vpengolahan.getTeksKualitas());
+            vpengolahan.tampilPesan(vpengolahan.popup(), "Anda tidak memiliki buah dengan kualitas " + vpengolahan.getTeksKualitas());
 
         }
     }
@@ -973,16 +996,16 @@ public class pengolahanc {
                 pengembang = pengembang - 1;
                 telur = telur - 10;
                 tepungt = tepungt - 40;
-                molah.updateStokBuah(mplayer.getIdPlayer(username), idbuah, getIdKualitas, melonku);
-                molah.updateStokBahan(mplayer.getIdPlayer(username), 1, gula);
-                molah.updateStokBahan(mplayer.getIdPlayer(username), 4, mentega);
-                molah.updateStokBahan(mplayer.getIdPlayer(username), 10, tepungt);
-                molah.updateStokBahan(mplayer.getIdPlayer(username), 9, pengembang);
-                molah.updateStokBahan(mplayer.getIdPlayer(username), 7, telur);
-                molah.tambahProduk(idproduk, getIdKualitas, mplayer.getIdPlayer(username),
+                molah.updateStokBuah(username, idbuah, getIdKualitas, melonku);
+                molah.updateStokBahan(username, 1, gula);
+                molah.updateStokBahan(username, 4, mentega);
+                molah.updateStokBahan(username, 10, tepungt);
+                molah.updateStokBahan(username, 9, pengembang);
+                molah.updateStokBahan(username, 7, telur);
+                molah.tambahProduk(idproduk, getIdKualitas, username,
                         (maset.getJmlProduk(username, idproduk, getIdKualitas) + 4));
                 //  vpengolahan.popupgif();
-                vpengolahan.tampilPesan2("Pengolahan Berhasil");
+                vpengolahan.tampilPesan(vpengolahan.popup(), "Pengolahan Berhasil");
                 vpengolahan.setJmlMelon(maset.getJmlBuahAll(username, idbuah));
                 vpengolahan.setJmlMentega(mentega);
                 vpengolahan.setJmlGula(gula);
@@ -995,7 +1018,7 @@ public class pengolahanc {
                 vpengolahan.popup().setVisible(true);
             }
         } else {
-            vpengolahan.tampilPesan2("Anda tidak memiliki buah dengan kualitas " + vpengolahan.getTeksKualitas());
+            vpengolahan.tampilPesan(vpengolahan.popup(), "Anda tidak memiliki buah dengan kualitas " + vpengolahan.getTeksKualitas());
         }
     }
 
@@ -1014,16 +1037,16 @@ public class pengolahanc {
                 pengembang = pengembang - 1;
                 telur = telur - 10;
                 tepungt = tepungt - 40;
-                molah.updateStokBuah(mplayer.getIdPlayer(username), idbuah, getIdKualitas, semangkaku);
-                molah.updateStokBahan(mplayer.getIdPlayer(username), 1, gula);
-                molah.updateStokBahan(mplayer.getIdPlayer(username), 4, mentega);
-                molah.updateStokBahan(mplayer.getIdPlayer(username), 10, tepungt);
-                molah.updateStokBahan(mplayer.getIdPlayer(username), 9, pengembang);
-                molah.updateStokBahan(mplayer.getIdPlayer(username), 7, telur);
-                molah.tambahProduk(idproduk, getIdKualitas, mplayer.getIdPlayer(username),
+                molah.updateStokBuah(username, idbuah, getIdKualitas, semangkaku);
+                molah.updateStokBahan(username, 1, gula);
+                molah.updateStokBahan(username, 4, mentega);
+                molah.updateStokBahan(username, 10, tepungt);
+                molah.updateStokBahan(username, 9, pengembang);
+                molah.updateStokBahan(username, 7, telur);
+                molah.tambahProduk(idproduk, getIdKualitas, username,
                         (maset.getJmlProduk(username, idproduk, getIdKualitas) + 4));
                 //  vpengolahan.popupgif();
-                vpengolahan.tampilPesan2("Pengolahan Berhasil");
+                vpengolahan.tampilPesan(vpengolahan.popup(), "Pengolahan Berhasil");
                 vpengolahan.setJmlSemangka(maset.getJmlBuahAll(username, idbuah));
                 vpengolahan.setJmlMentega(mentega);
                 vpengolahan.setJmlGula(gula);
@@ -1036,7 +1059,7 @@ public class pengolahanc {
                 vpengolahan.popup().setVisible(true);
             }
         } else {
-            vpengolahan.tampilPesan2("Anda tidak memiliki buah dengan kualitas " + vpengolahan.getTeksKualitas());
+            vpengolahan.tampilPesan(vpengolahan.popup(), "Anda tidak memiliki buah dengan kualitas " + vpengolahan.getTeksKualitas());
         }
     }
 
@@ -1055,16 +1078,16 @@ public class pengolahanc {
                 pengembang = pengembang - 1;
                 telur = telur - 10;
                 tepungt = tepungt - 40;
-                molah.updateStokBuah(mplayer.getIdPlayer(username), idbuah, getIdKualitas, pisangku);
-                molah.updateStokBahan(mplayer.getIdPlayer(username), 1, gula);
-                molah.updateStokBahan(mplayer.getIdPlayer(username), 4, mentega);
-                molah.updateStokBahan(mplayer.getIdPlayer(username), 10, tepungt);
-                molah.updateStokBahan(mplayer.getIdPlayer(username), 9, pengembang);
-                molah.updateStokBahan(mplayer.getIdPlayer(username), 7, telur);
-                molah.tambahProduk(idproduk, getIdKualitas, mplayer.getIdPlayer(username),
+                molah.updateStokBuah(username, idbuah, getIdKualitas, pisangku);
+                molah.updateStokBahan(username, 1, gula);
+                molah.updateStokBahan(username, 4, mentega);
+                molah.updateStokBahan(username, 10, tepungt);
+                molah.updateStokBahan(username, 9, pengembang);
+                molah.updateStokBahan(username, 7, telur);
+                molah.tambahProduk(idproduk, getIdKualitas, username,
                         (maset.getJmlProduk(username, idproduk, getIdKualitas) + 4));
                 //  vpengolahan.popupgif();
-                vpengolahan.tampilPesan2("Pengolahan Berhasil");
+                vpengolahan.tampilPesan(vpengolahan.popup(), "Pengolahan Berhasil");
                 vpengolahan.setJmlPisang(maset.getJmlBuahAll(username, idbuah));
                 vpengolahan.setJmlMentega(mentega);
                 vpengolahan.setJmlGula(gula);
@@ -1077,7 +1100,7 @@ public class pengolahanc {
                 vpengolahan.popup().setVisible(true);
             }
         } else {
-            vpengolahan.tampilPesan2("Anda tidak memiliki buah dengan kualitas " + vpengolahan.getTeksKualitas());
+            vpengolahan.tampilPesan(vpengolahan.popup(), "Anda tidak memiliki buah dengan kualitas " + vpengolahan.getTeksKualitas());
         }
     }
 
@@ -1096,16 +1119,16 @@ public class pengolahanc {
                 pengembang = pengembang - 1;
                 telur = telur - 10;
                 tepungt = tepungt - 40;
-                molah.updateStokBuah(mplayer.getIdPlayer(username), idbuah, getIdKualitas, apelku);
-                molah.updateStokBahan(mplayer.getIdPlayer(username), 1, gula);
-                molah.updateStokBahan(mplayer.getIdPlayer(username), 4, mentega);
-                molah.updateStokBahan(mplayer.getIdPlayer(username), 10, tepungt);
-                molah.updateStokBahan(mplayer.getIdPlayer(username), 9, pengembang);
-                molah.updateStokBahan(mplayer.getIdPlayer(username), 7, telur);
-                molah.tambahProduk(idproduk, getIdKualitas, mplayer.getIdPlayer(username),
+                molah.updateStokBuah(username, idbuah, getIdKualitas, apelku);
+                molah.updateStokBahan(username, 1, gula);
+                molah.updateStokBahan(username, 4, mentega);
+                molah.updateStokBahan(username, 10, tepungt);
+                molah.updateStokBahan(username, 9, pengembang);
+                molah.updateStokBahan(username, 7, telur);
+                molah.tambahProduk(idproduk, getIdKualitas, username,
                         (maset.getJmlProduk(username, idproduk, getIdKualitas) + 4));
                 //  vpengolahan.popupgif();
-                vpengolahan.tampilPesan2("Pengolahan Berhasil");
+                vpengolahan.tampilPesan(vpengolahan.popup(), "Pengolahan Berhasil");
                 vpengolahan.setJmlApel(maset.getJmlBuahAll(username, idbuah));
                 vpengolahan.setJmlMentega(mentega);
                 vpengolahan.setJmlGula(gula);
@@ -1118,7 +1141,7 @@ public class pengolahanc {
                 vpengolahan.popup().setVisible(true);
             }
         } else {
-            vpengolahan.tampilPesan2("Anda tidak memiliki buah dengan kualitas " + vpengolahan.getTeksKualitas());
+            vpengolahan.tampilPesan(vpengolahan.popup(), "Anda tidak memiliki buah dengan kualitas " + vpengolahan.getTeksKualitas());
         }
     }
 
@@ -1134,13 +1157,13 @@ public class pengolahanc {
                 int apelku = (maset.getJmlBuah(username, idbuah, getIdKualitas)) - 1;
                 minyak = minyak - 3;
                 gula = gula - 10;
-                molah.updateStokBuah(mplayer.getIdPlayer(username), idbuah, getIdKualitas, apelku);
-                molah.updateStokBahan(mplayer.getIdPlayer(username), 3, minyak);
-                molah.updateStokBahan(mplayer.getIdPlayer(username), 1, gula);
-                molah.tambahProduk(idproduk, getIdKualitas, mplayer.getIdPlayer(username),
+                molah.updateStokBuah(username, idbuah, getIdKualitas, apelku);
+                molah.updateStokBahan(username, 3, minyak);
+                molah.updateStokBahan(username, 1, gula);
+                molah.tambahProduk(idproduk, getIdKualitas, username,
                         (maset.getJmlProduk(username, idproduk, getIdKualitas) + 3));
                 //  vpengolahan.popupgif();
-                vpengolahan.tampilPesan2("Pengolahan Berhasil");
+                vpengolahan.tampilPesan(vpengolahan.popup(), "Pengolahan Berhasil");
                 vpengolahan.setJmlApel(maset.getJmlBuahAll(username, idbuah));
                 vpengolahan.setJmlMinyak(minyak);
                 vpengolahan.setJmlGula(gula);
@@ -1153,7 +1176,7 @@ public class pengolahanc {
                 vpengolahan.popup().setVisible(true);
             }
         } else {
-            vpengolahan.tampilPesan2("Anda tidak memiliki buah dengan kualitas " + vpengolahan.getTeksKualitas());
+            vpengolahan.tampilPesan(vpengolahan.popup(), "Anda tidak memiliki buah dengan kualitas " + vpengolahan.getTeksKualitas());
         }
     }
 
@@ -1169,13 +1192,13 @@ public class pengolahanc {
                 int pisangku = (maset.getJmlBuah(username, idbuah, getIdKualitas)) - 1;
                 minyak = minyak - 3;
                 gula = gula - 10;
-                molah.updateStokBuah(mplayer.getIdPlayer(username), idbuah, getIdKualitas, pisangku);
-                molah.updateStokBahan(mplayer.getIdPlayer(username), 3, minyak);
-                molah.updateStokBahan(mplayer.getIdPlayer(username), 1, gula);
-                molah.tambahProduk(idproduk, getIdKualitas, mplayer.getIdPlayer(username),
+                molah.updateStokBuah(username, idbuah, getIdKualitas, pisangku);
+                molah.updateStokBahan(username, 3, minyak);
+                molah.updateStokBahan(username, 1, gula);
+                molah.tambahProduk(idproduk, getIdKualitas, username,
                         (maset.getJmlProduk(username, idproduk, getIdKualitas) + 3));
                 //   vpengolahan.popupgif();
-                vpengolahan.tampilPesan2("Pengolahan Berhasil");
+                vpengolahan.tampilPesan(vpengolahan.popup(), "Pengolahan Berhasil");
                 vpengolahan.setJmlPisang(maset.getJmlBuahAll(username, idbuah));
                 vpengolahan.setJmlMinyak(minyak);
                 vpengolahan.setJmlGula(gula);
@@ -1188,7 +1211,7 @@ public class pengolahanc {
                 vpengolahan.popup().setVisible(true);
             }
         } else {
-            vpengolahan.tampilPesan2("Anda tidak memiliki buah dengan kualitas " + vpengolahan.getTeksKualitas());
+            vpengolahan.tampilPesan(vpengolahan.popup(), "Anda tidak memiliki buah dengan kualitas " + vpengolahan.getTeksKualitas());
         }
     }
 
@@ -1204,13 +1227,13 @@ public class pengolahanc {
                 int manggaku = (maset.getJmlBuah(username, idbuah, getIdKualitas)) - 1;
                 minyak = minyak - 3;
                 gula = gula - 10;
-                molah.updateStokBuah(mplayer.getIdPlayer(username), idbuah, getIdKualitas, manggaku);
-                molah.updateStokBahan(mplayer.getIdPlayer(username), 3, minyak);
-                molah.updateStokBahan(mplayer.getIdPlayer(username), 1, gula);
-                molah.tambahProduk(idproduk, getIdKualitas, mplayer.getIdPlayer(username),
+                molah.updateStokBuah(username, idbuah, getIdKualitas, manggaku);
+                molah.updateStokBahan(username, 3, minyak);
+                molah.updateStokBahan(username, 1, gula);
+                molah.tambahProduk(idproduk, getIdKualitas, username,
                         (maset.getJmlProduk(username, idproduk, getIdKualitas) + 3));
                 //  vpengolahan.popupgif();
-                vpengolahan.tampilPesan2("Pengolahan Berhasil");
+                vpengolahan.tampilPesan(vpengolahan.popup(), "Pengolahan Berhasil");
                 vpengolahan.setJmlMangga(maset.getJmlBuahAll(username, idbuah));
                 vpengolahan.setJmlMinyak(minyak);
                 vpengolahan.setJmlGula(gula);
@@ -1223,7 +1246,7 @@ public class pengolahanc {
                 vpengolahan.popup().setVisible(true);
             }
         } else {
-            vpengolahan.tampilPesan2("Anda tidak memiliki buah dengan kualitas " + vpengolahan.getTeksKualitas());
+            vpengolahan.tampilPesan(vpengolahan.popup(), "Anda tidak memiliki buah dengan kualitas " + vpengolahan.getTeksKualitas());
         }
     }
 
@@ -1242,16 +1265,16 @@ public class pengolahanc {
                 tepungb = tepungb - 1;
                 tepungt = tepungt - 12;
                 gula = gula - 25;
-                molah.updateStokBuah(mplayer.getIdPlayer(username), idbuah, getIdKualitas, pisangku);
-                molah.updateStokBahan(mplayer.getIdPlayer(username), 3, minyak);
-                molah.updateStokBahan(mplayer.getIdPlayer(username), 10, tepungt);
-                molah.updateStokBahan(mplayer.getIdPlayer(username), 2, tepungb);
-                molah.updateStokBahan(mplayer.getIdPlayer(username), 4, mentega);
-                molah.updateStokBahan(mplayer.getIdPlayer(username), 1, gula);
-                molah.tambahProduk(idproduk, getIdKualitas, mplayer.getIdPlayer(username),
+                molah.updateStokBuah(username, idbuah, getIdKualitas, pisangku);
+                molah.updateStokBahan(username, 3, minyak);
+                molah.updateStokBahan(username, 10, tepungt);
+                molah.updateStokBahan(username, 2, tepungb);
+                molah.updateStokBahan(username, 4, mentega);
+                molah.updateStokBahan(username, 1, gula);
+                molah.tambahProduk(idproduk, getIdKualitas, username,
                         (maset.getJmlProduk(username, idproduk, getIdKualitas) + 3));
                 //  vpengolahan.popupgif();
-                vpengolahan.tampilPesan2("Pengolahan Berhasil");
+                vpengolahan.tampilPesan(vpengolahan.popup(), "Pengolahan Berhasil");
                 vpengolahan.setJmlPisang(maset.getJmlBuahAll(username, idbuah));
                 vpengolahan.setJmlMinyak(minyak);
                 vpengolahan.setJmlMentega(mentega);
@@ -1264,7 +1287,7 @@ public class pengolahanc {
                 vpengolahan.popup().setVisible(true);
             }
         } else {
-            vpengolahan.tampilPesan2("Anda tidak memiliki buah dengan kualitas " + vpengolahan.getTeksKualitas());
+            vpengolahan.tampilPesan(vpengolahan.popup(), "Anda tidak memiliki buah dengan kualitas " + vpengolahan.getTeksKualitas());
         }
     }
 
@@ -1284,15 +1307,15 @@ public class pengolahanc {
                 int apelku = (maset.getJmlBuah(username, 1, getIdKualitas)) - 1;
                 int semangkaku = (maset.getJmlBuah(username, 4, getIdKualitas)) - 1;
                 sirup = sirup - 1;
-                molah.updateStokBuah(mplayer.getIdPlayer(username), 1, getIdKualitas, apelku);
-                molah.updateStokBuah(mplayer.getIdPlayer(username), 3, getIdKualitas, manggaku);
-                molah.updateStokBuah(mplayer.getIdPlayer(username), 4, getIdKualitas, semangkaku);
-                molah.updateStokBuah(mplayer.getIdPlayer(username), 5, getIdKualitas, melonku);
-                molah.updateStokBahan(mplayer.getIdPlayer(username), 5, sirup);
-                molah.tambahProduk(idproduk, getIdKualitas, mplayer.getIdPlayer(username),
+                molah.updateStokBuah(username, 1, getIdKualitas, apelku);
+                molah.updateStokBuah(username, 3, getIdKualitas, manggaku);
+                molah.updateStokBuah(username, 4, getIdKualitas, semangkaku);
+                molah.updateStokBuah(username, 5, getIdKualitas, melonku);
+                molah.updateStokBahan(username, 5, sirup);
+                molah.tambahProduk(idproduk, getIdKualitas, username,
                         (maset.getJmlProduk(username, idproduk, getIdKualitas) + 50));
                 //  vpengolahan.popupgif();
-                vpengolahan.tampilPesan2("Pengolahan Berhasil");
+                vpengolahan.tampilPesan(vpengolahan.popup(), "Pengolahan Berhasil");
                 vpengolahan.setJmlApel(maset.getJmlBuahAll(username, 1));
                 vpengolahan.setJmlSemangka(maset.getJmlBuahAll(username, 4));
                 vpengolahan.setJmlMangga(maset.getJmlBuahAll(username, 3));
@@ -1304,7 +1327,7 @@ public class pengolahanc {
                 vpengolahan.popup().setVisible(true);
             }
         } else if (kualitasapel < 1 && kualitasmangga < 1 && kualitassemangka < 1 && kualitasmelon < 1) {
-            vpengolahan.tampilPesan2("Anda tidak memiliki beberapa buah dengan kualitas " + vpengolahan.getTeksKualitas());
+            vpengolahan.tampilPesan(vpengolahan.popup(), "Anda tidak memiliki beberapa buah dengan kualitas " + vpengolahan.getTeksKualitas());
         }
     }
 
@@ -1325,16 +1348,16 @@ public class pengolahanc {
                 int semangkaku = (maset.getJmlBuah(username, 4, getIdKualitas)) - 1;
                 susu = susu - 25;
                 mayo = mayo - 13;
-                molah.updateStokBuah(mplayer.getIdPlayer(username), 1, getIdKualitas, apelku);
-                molah.updateStokBuah(mplayer.getIdPlayer(username), 3, getIdKualitas, manggaku);
-                molah.updateStokBuah(mplayer.getIdPlayer(username), 4, getIdKualitas, semangkaku);
-                molah.updateStokBuah(mplayer.getIdPlayer(username), 5, getIdKualitas, melonku);
-                molah.updateStokBahan(mplayer.getIdPlayer(username), 8, susu);
-                molah.updateStokBahan(mplayer.getIdPlayer(username), 6, mayo);
-                molah.tambahProduk(idproduk, getIdKualitas, mplayer.getIdPlayer(username),
+                molah.updateStokBuah(username, 1, getIdKualitas, apelku);
+                molah.updateStokBuah(username, 3, getIdKualitas, manggaku);
+                molah.updateStokBuah(username, 4, getIdKualitas, semangkaku);
+                molah.updateStokBuah(username, 5, getIdKualitas, melonku);
+                molah.updateStokBahan(username, 8, susu);
+                molah.updateStokBahan(username, 6, mayo);
+                molah.tambahProduk(idproduk, getIdKualitas, username,
                         (maset.getJmlProduk(username, idproduk, getIdKualitas) + 25));
                 //  vpengolahan.popupgif();
-                vpengolahan.tampilPesan2("Pengolahan Berhasil");
+                vpengolahan.tampilPesan(vpengolahan.popup(), "Pengolahan Berhasil");
                 vpengolahan.setJmlApel(maset.getJmlBuahAll(username, 1));
                 vpengolahan.setJmlSemangka(maset.getJmlBuahAll(username, 4));
                 vpengolahan.setJmlMangga(maset.getJmlBuahAll(username, 3));
@@ -1350,7 +1373,8 @@ public class pengolahanc {
                 vpengolahan.popup().setVisible(true);
             }
         } else if (kualitasapel < 1 && kualitasmangga < 1 && kualitassemangka < 1 && kualitasmelon < 1) {
-            vpengolahan.tampilPesan2("Anda tidak memiliki beberapa buah dengan kualitas " + vpengolahan.getTeksKualitas());
+            vpengolahan.tampilPesan(vpengolahan.popup(), "Anda tidak memiliki beberapa buah dengan kualitas " + vpengolahan.getTeksKualitas());
+
         }
     }
 
@@ -1482,6 +1506,14 @@ public class pengolahanc {
             } else if (stbrownissemangka) {
                 try {
                     BrownisSemangkaAction();
+                } catch (SQLException ex) {
+                    Logger.getLogger(pengolahanc.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(pengolahanc.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else if (stbrownisapel) {
+                try {
+                    BrownisApelAction();
                 } catch (SQLException ex) {
                     Logger.getLogger(pengolahanc.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (InterruptedException ex) {

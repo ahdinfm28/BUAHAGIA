@@ -15,10 +15,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
-import m.aset;
-import m.pembelian;
-import m.pengolahan;
-import m.player;
+import m.maset;
+import m.mpembelian;
+import m.molah;
+import m.mjual;
+import m.mplayer;
 import v.mainmenu;
 import v.map;
 import v.pasarmap;
@@ -32,19 +33,18 @@ public class mapc {
     map vmap;
     pasarmap vmappasar;
     String username;
-    aset maset;
-    pembelian mbeli;
+    maset maset;
+    mpembelian mbeli;
+    mjual mjual;
     int number;
-    player mplayer;
-    pengolahan molah;
+    molah molah;
 
     public mapc(String username) throws SQLException {
         this.username = username;
-        this.maset = new aset();
+        this.maset = new maset();
+        this.mbeli = new mpembelian();
+        this.molah = new molah();
         this.vmap = new map();
-        this.mplayer = new player();
-        this.mbeli = new pembelian();
-        this.molah = new pengolahan();
         vmap.setVisible(true);
         vmap.enabledAll();
         vmap.klikKembali(new acttombolkembali());
@@ -62,10 +62,10 @@ public class mapc {
         this.vmap = v;
         v.setVisible(true);
         this.username = username;
-        this.maset = new aset();
-        this.mplayer = new player();
-        this.mbeli = new pembelian();
-        this.molah = new pengolahan();
+        this.maset = new maset();
+        this.mbeli = new mpembelian();
+        this.molah = new molah();
+        this.mjual = new mjual();
         v.klikKembali(new acttombolkembali());
         v.klikLanjut(new acttombollanjut());
         v.klikPermainanBaru(new acttombolnewgame());
@@ -77,8 +77,6 @@ public class mapc {
 
         @Override
         public void actionPerformed(ActionEvent ae) {
-            // mainmenu v = new mainmenu();
-            // cmenu c = new cmenu(v);
             vmap.dispose();
         }
     }
@@ -102,17 +100,16 @@ public class mapc {
         public void actionPerformed(ActionEvent ae) {
             try {
 
-                mbeli.resetPembelianBahan(mplayer.getIdPlayer(username));
-                mbeli.resetPembelianBuah(mplayer.getIdPlayer(username));
-                molah.resetHasilPengolahan(mplayer.getIdPlayer(username));
-                maset.resetUang(mplayer.getIdPlayer(username));
-                maset.resetPenghargaan(mplayer.getIdPlayer(username));
-                maset.resetResep(mplayer.getIdPlayer(username));
-                maset.insertResep(mplayer.getIdPlayer(username), "jusbuah");
-                maset.insertResep(mplayer.getIdPlayer(username), "brownis");
-                mbeli.resetBeliBahan(mplayer.getIdPlayer(username));//gausa
-                mbeli.resetBeliBuah(mplayer.getIdPlayer(username));//gausa
-                molah.resetOlah(mplayer.getIdPlayer(username));//gausa
+                mbeli.resetPembelianBahan(username);
+                mbeli.resetPembelianBuah(username);
+                molah.resetHasilPengolahan(username);
+                maset.resetUang(username);
+                mjual.resetPenjualan(username);
+                maset.resetPenghargaan(username);
+                maset.resetResep(username);
+                mbeli.resetBeliBahan(username);//gausa
+                mbeli.resetBeliBuah(username);//gausa
+                molah.resetOlah(username);//gausa
                 new mapc(username);
                 // vmap.setUang(maset.getUang(username) + "");
             } catch (SQLException ex) {

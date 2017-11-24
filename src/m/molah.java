@@ -12,9 +12,9 @@ import java.sql.SQLException;
  *
  * @author Farisya
  */
-public class pengolahan extends func {
+public class molah extends func {
 
-    public pengolahan() throws SQLException {
+    public molah() throws SQLException {
 
     }
 
@@ -53,31 +53,25 @@ public class pengolahan extends func {
         System.out.println(query);
         return getStatusQuery(query);
     }
-
-    public int cekIdHasilOlah() throws SQLException {
-        String query = "select idHasilOlah from hasilpengolahan where idHasilOlah = ";
-        return checkId(query);
-    }
+//
+//    public int cekIdHasilOlah() throws SQLException {
+//        String query = "select idHasilOlah from hasilpengolahan where idHasilOlah = ";
+//        return checkId(query);
+//    }
 
     public int updateStok(String kualitas) throws SQLException {
         String query = "select idKualitas from kualitas where Kualitas = '" + kualitas + "'";
         return getDataInt(query);
     }
 
-    public boolean resetHasilPengolahan(String idPlayer) throws SQLException {
-        String query = "UPDATE `hasilpengolahan` SET `Jumlah` = '0' WHERE idPlayer = '" + idPlayer + "'";
+    public boolean resetHasilPengolahan(String username) throws SQLException {
+        String query = "UPDATE `hasilpengolahan` SET `Jumlah` = '0' "
+                + "WHERE idPlayer = (select idPlayer from player where username = '"+username+"')";
         return getStatusQuery(query);
     }
 
-    public boolean insertHasilOlah(int idHasilOlah, int idProduk, int idKualitas, String idPlayer, int jml) {
-        String query = "INSERT INTO `hasilpengolahan`(`idHasilOlah`, `idProduk`, `idKualitas`, `idPlayer`, `Jumlah`) "
-                + "VALUES ('" + idHasilOlah + "','" + idProduk + "','" + idKualitas + "','" + idPlayer + "','" + jml + "')";
-        System.out.println(query);
-        return getStatusQuery(query);
-    }
-
-    public boolean resetOlah(String idPlayer) throws SQLException { //gausamasuk
-        String query = "Delete from olahproduk WHERE idPlayer = '" + idPlayer + "'";
+    public boolean resetOlah(String username) throws SQLException { //gausamasuk
+        String query = "Delete from olahproduk WHERE idPlayer = (select idPlayer from player where username = '"+username+"')";
         return getStatusQuery(query);
     }
 
@@ -137,23 +131,24 @@ public class pengolahan extends func {
         return getStatusQuery(query);
     }
 
-    public boolean updateStokBuah(String idPlayer, int idBuah, int idKualitas, int jml) throws SQLException {
-        String query = "UPDATE pembelianbuah "
-                + "set JumlahBeli='" + jml + "' "
-                + "WHERE idBuah='" + idBuah + "' and idKualitas='" + idKualitas + "' and idPlayer='" + idPlayer + "'";
+    public boolean updateStokBuah(String username, int idBuah, int idKualitas, int jml) throws SQLException {
+        String query = "UPDATE pembelianbuah set JumlahBeli='"+jml+"' "
+                + "WHERE idBuah='"+idBuah+"' and idKualitas='"+idKualitas+"' and "
+                + "idPlayer=(select idPlayer from player where username = '"+username+"') ";
         return getStatusQuery(query);
     }
 
-    public boolean updateStokBahan(String idPlayer, int idBahan, int jml) throws SQLException {
-        String query = "UPDATE pembelianbahan "
-                + "set JumlahBeli='" + jml + "' "
-                + "WHERE idBahan='" + idBahan + "' and idPlayer='" + idPlayer + "'";
+    public boolean updateStokBahan(String username, int idBahan, int jml) throws SQLException {
+        String query = "UPDATE pembelianbahan set JumlahBeli='"+jml+"' "
+                + "WHERE idBahan='"+idBahan+"' and "
+                + "idPlayer=(select idPlayer from player where username = '"+username+"')";
         return getStatusQuery(query);
     }
 
-    public boolean tambahProduk(int idProduk, int idKualitas, String idPlayer, int jml) throws SQLException {
+    public boolean tambahProduk(int idProduk, int idKualitas, String username, int jml) throws SQLException {
         String query = "UPDATE `hasilpengolahan` SET `Jumlah` = '" + jml + "' WHERE `idProduk` = '" + idProduk + "'"
-                + "and idKualitas='" + idKualitas + "' and idPlayer='" + idPlayer + "'";
+                + "and idKualitas='" + idKualitas + "' and "
+                + "idPlayer=(select idPlayer from player where username = '"+username+"')";
         System.out.println(query);
         return getStatusQuery(query);
     }

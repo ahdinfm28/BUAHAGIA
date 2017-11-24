@@ -11,8 +11,8 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.geometry.VPos;
-import m.aset;
-import m.player;
+import m.maset;
+import m.mplayer;
 import v.achievement;
 
 /**
@@ -23,23 +23,23 @@ public class penghargaanc {
 
     String username;
     achievement v;
-    aset maset;
-    player mplayer;
-    int lgnd = 0, sdgr = 0;
+    maset maset;
+    mplayer mplayer;
+    int legend;
     boolean maniakapel, maniakmangga, maniakmelon, simanis, sigembul, sisehat, tukangblender, kriuk, ramerasanya,
-            juraganroti, pebisnisesbuah, pengusahasale, legend, saudagar;
+            juraganroti, pebisnisesbuah, pengusahasale, saudagar;
     boolean maniakapel2, maniakmangga2, maniakmelon2, simanis2, sigembul2, sisehat2, tukangblender2, kriuk2, ramerasanya2,
-            juraganroti2, pebisnisesbuah2, pengusahasale2, legend2, saudagar2;
+            juraganroti2, pebisnisesbuah2, pengusahasale2, saudagar2;
     boolean maniakapel1, maniakmangga1, maniakmelon1, simanis1, sigembul1, sisehat1, tukangblender1, kriuk1, ramerasanya1,
-            juraganroti1, pebisnisesbuah1, pengusahasale1, legend1, saudagar1;
+            juraganroti1, pebisnisesbuah1, pengusahasale1, saudagar1;
     boolean km, ka, kp;
 
     public penghargaanc(String username) throws SQLException {
         this.username = username;
         this.v = new achievement();
         v.setVisible(true);
-        this.maset = new aset();
-        this.mplayer = new player();
+        this.maset = new maset();
+        this.mplayer = new mplayer();
         cekPenghargaan();
         cekPenghargaanKhusus();
         acctombolDetail();
@@ -84,7 +84,6 @@ public class penghargaanc {
         pebisnisesbuah = maset.cekAchv(username, "pebisnisesbuah", 1);
         pengusahasale = maset.cekAchv(username, "pengusahasale", 1);
         saudagar = maset.cekAchv(username, "saudagar", 1);
-        legend = maset.cekAchv(username, "legend", 1);
 
         maniakapel2 = maset.cekAchv(username, "maniakapel", 2);
         maniakmangga2 = maset.cekAchv(username, "maniakmangga", 2);
@@ -99,7 +98,6 @@ public class penghargaanc {
         pebisnisesbuah2 = maset.cekAchv(username, "pebisnisesbuah", 2);
         pengusahasale2 = maset.cekAchv(username, "pengusahasale", 2);
         saudagar2 = maset.cekAchv(username, "saudagar", 2);
-        legend2 = maset.cekAchv(username, "legend", 2);
 
         maniakapel1 = maset.cekAchv(username, "maniakapel", 3);
         maniakmangga1 = maset.cekAchv(username, "maniakmangga", 3);
@@ -114,7 +112,8 @@ public class penghargaanc {
         pebisnisesbuah1 = maset.cekAchv(username, "pebisnisesbuah", 3);
         pengusahasale1 = maset.cekAchv(username, "pengusahasale", 3);
         saudagar1 = maset.cekAchv(username, "saudagar", 3);
-        legend1 = maset.cekAchv(username, "legend", 3);
+
+        legend = maset.getStatusLegend(username);
     }
 
     public void cekResep() throws SQLException {
@@ -177,6 +176,7 @@ public class penghargaanc {
         } else if (sigembul1) {
             v.sigembul.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ui export/logorank1.png")));
             v.sigembul.setEnabled(true);
+
         } else {
             v.sigembul.setEnabled(false);
         }
@@ -233,6 +233,7 @@ public class penghargaanc {
         } else if (pebisnisesbuah1) {
             v.pebisnisesbuah.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ui export/logorank1.png")));
             v.pebisnisesbuah.setEnabled(true);
+
         } else {
             v.pebisnisesbuah.setEnabled(false);
         }
@@ -244,6 +245,7 @@ public class penghargaanc {
         } else if (pengusahasale1) {
             v.pengusahasale.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ui export/logorank1.png")));
             v.pengusahasale.setEnabled(true);
+
         } else {
             v.pengusahasale.setEnabled(false);
         }
@@ -258,11 +260,6 @@ public class penghargaanc {
         } else {
             v.juraganroti.setEnabled(false);
         }
-
-    }
-
-    public void cekPenghargaanKhusus() throws SQLException {
-        int uang = maset.getUang(username);
         if (saudagar) {
             v.saudagar.setEnabled(true);
         } else if (saudagar2) {
@@ -271,54 +268,40 @@ public class penghargaanc {
         } else if (saudagar1) {
             v.saudagar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ui export/logosaudagar1.png")));
             v.saudagar.setEnabled(true);
+
         } else {
             v.saudagar.setEnabled(false);
         }
-        if (lgnd >= 5) {
+    }
+
+    public void cekPenghargaanKhusus() throws SQLException {
+        int uang = maset.getUang(username);
+        if (legend >= 5) {
             v.legend.setEnabled(true);
-            if (lgnd == 5) {
-                maset.updateUang((uang + 1000000), mplayer.getIdPlayer(username));
+            if (legend == 5) {
+                maset.updateUang((uang + 1000000), username);
                 v.tampilPesan("LEGEND RANK 3 TERBUKA\n ANDA MENDAPATKAN UANG 1.000.000");
+                maset.updatePenghargaan(username, "legend", legend + 1);
             }
-        } else if (lgnd >= 8) {
+        } else if (legend >= 9) {
             v.legend.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ui export/logolegend2.png")));
             v.legend.setEnabled(true);
-            if (lgnd == 8) {
-                maset.updateUang((uang + 1500000), mplayer.getIdPlayer(username));
-                v.tampilPesan("LEGEND RANK 1 TERBUKA\n ANDA MENDAPATKAN UANG 1.500.000");
+            if (legend == 9) {
+                maset.updateUang((uang + 1500000), username);
+                maset.updatePenghargaan(username, "legend", legend + 1);
+                v.tampilPesan("LEGEND RANK 2 TERBUKA\n ANDA MENDAPATKAN UANG 1.500.000");
             }
-        } else if (lgnd >= 12) {
+        } else if (legend >= 14) {
             v.legend.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ui export/logolegend1.png")));
             v.legend.setEnabled(true);
-            if (lgnd == 12) {
+            if (legend == 14) {
+                maset.updatePenghargaan(username, "legend", legend + 1);
                 v.popup().setVisible(true);
+                v.setGambar().setIcon(new javax.swing.ImageIcon(getClass().getResource("/ui export/legend.png")));
             }
         } else {
             v.legend.setEnabled(false);
         }
-//        if (maset.getUang(username) >= 5000000) {
-//            v.saudagar.setEnabled(true);
-//            if (maset.getUang(username) == 5000000) {
-//                maset.updateUang((uang + 150000), mplayer.getIdPlayer(username));
-//                v.tampilPesan("SAUDAGAR RANK 3 TERBUKA\n ANDA MENDAPATKAN UANG 150.000");
-//            }
-//        } else if (sdgr >= 8) {
-//            v.saudagar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ui export/logosaudagar2.png")));
-//            v.saudagar.setEnabled(true);
-//            if (sdgr == 8) {
-//                maset.updateUang((uang + 250000), mplayer.getIdPlayer(username));
-//                v.tampilPesan("SAUDAGAR RANK 2 TERBUKA\n ANDA MENDAPATKAN UANG 250.000");
-//            }
-//        } else if (sdgr >= 12) {
-//            v.saudagar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ui export/logosaudagar1.png")));
-//            v.saudagar.setEnabled(true);
-//            if (sdgr == 12) {
-//                maset.updateUang((uang + 500000), mplayer.getIdPlayer(username));
-//                v.tampilPesan("SAUDAGAR RANK 1 TERBUKA\n ANDA MENDAPATKAN UANG 500.000");
-//            }
-//        } else {
-//            v.saudagar.setEnabled(false);
-//        }
     }
 
     private class acttombolManiakApel implements ActionListener {

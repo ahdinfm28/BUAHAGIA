@@ -11,9 +11,9 @@ import java.sql.SQLException;
  *
  * @author Farisya
  */
-public class pembelian extends func {
+public class mpembelian extends func {
 
-    public pembelian() throws SQLException {
+    public mpembelian() throws SQLException {
 
     }
 
@@ -37,6 +37,7 @@ public class pembelian extends func {
                 + "where b.idBahan = '" + idBahan + "' and p.username ='" + username + "' ";
         return getDataInt(query);
     }
+
     public int getBuah(String username, int idBuah) throws SQLException {
         String query = "select sum(Jumlah) from belibuah b join player p on p.idPlayer=b.idPlayer "
                 + "where b.idBuah = '" + idBuah + "' and p.username ='" + username + "' ";
@@ -50,16 +51,17 @@ public class pembelian extends func {
         return getStatusQuery(query);
     }
 
-    public boolean beliBahan(int idBahan, String idPlayer, int jml) { //gausamasuksequence dan kelasdig
+    public boolean beliBahan(int idBahan, String username, int jml) { //gausamasuksequence dan kelasdig
         String query = "INSERT INTO `belibahan`(`id`,`idBahan`,`idPlayer`,`Jumlah`) "
-                + "VALUES (null,'" + idBahan + "','" + idPlayer + "','" + jml + "')";
+                + "VALUES (null,'" + idBahan + "',(select idPlayer from player where username = '" + username + "'),'" + jml + "')";
         System.out.println("ye");
         System.out.println(query);
         return getStatusQuery(query);
     }
-    public boolean beliBuah(int idBuah, String idPlayer, int jml) { //gausamasuksequence dan kelasdig
+
+    public boolean beliBuah(int idBuah, String username, int jml) { //gausamasuksequence dan kelasdig
         String query = "INSERT INTO `belibuah`(`id`,`idBUah`,`idPlayer`,`Jumlah`) "
-                + "VALUES (null,'" + idBuah + "','" + idPlayer + "','" + jml + "')";
+                + "VALUES (null,'" + idBuah + "',(select idPlayer from player where username = '" + username + "'),'" + jml + "')";
         System.out.println("ye");
         System.out.println(query);
         return getStatusQuery(query);
@@ -113,35 +115,40 @@ public class pembelian extends func {
         return getStatusQuery(query);
     }
 
-    public boolean tambahPembelianBuah(int jml, int idBuah, int idKualitas, String idPlayer) throws SQLException {
+    public boolean tambahPembelianBuah(int jml, int idBuah, int idKualitas, String username) throws SQLException {
         String query = "UPDATE `pembelianbuah` SET `JumlahBeli` = '" + jml + "' WHERE `idBuah` = '" + idBuah + "'"
-                + "and idKualitas='" + idKualitas + "' and idPlayer='" + idPlayer + "'";
+                + "and idKualitas='" + idKualitas + "' and "
+                + "idPlayer=(select idPlayer from player where username = '" + username + "')";
         System.out.println(query);
         return getStatusQuery(query);
     }
 
-    public boolean tambahPembelianBahan(int jml, int idBahan, String idPlayer) throws SQLException {
+    public boolean tambahPembelianBahan(int jml, int idBahan, String username) throws SQLException {
         String query = "UPDATE `pembelianbahan` SET `JumlahBeli` = '" + jml + "' WHERE `idBahan` = '" + idBahan + "'"
-                + "and idPlayer = '" + idPlayer + "'";
+                + "and idPlayer = (select idPlayer from player where username = '" + username + "')";
         System.out.println(query);
         return getStatusQuery(query);
     }
 
-    public boolean resetPembelianBahan(String idPlayer) throws SQLException {
-        String query = "UPDATE `pembelianbahan` SET `JumlahBeli` = '0' WHERE idPlayer = '" + idPlayer + "'";
-        return getStatusQuery(query);
-    }
-    public boolean resetBeliBahan(String idPlayer) throws SQLException {
-        String query = "Delete from belibahan WHERE idPlayer = '" + idPlayer + "'";
-        return getStatusQuery(query);
-    }
-    public boolean resetBeliBuah(String idPlayer) throws SQLException {
-        String query = "Delete from belibuah WHERE idPlayer = '" + idPlayer + "'";
+    public boolean resetPembelianBahan(String username) throws SQLException {
+        String query = "UPDATE `pembelianbahan` SET `JumlahBeli` = '0' "
+                + "WHERE idPlayer = (select idPlayer from player where username = '" + username + "')";
         return getStatusQuery(query);
     }
 
-    public boolean resetPembelianBuah(String idPlayer) throws SQLException {
-        String query = "UPDATE `pembelianbuah` SET `JumlahBeli` = '0' WHERE idPlayer = '" + idPlayer + "'";
+    public boolean resetBeliBahan(String username) throws SQLException {
+        String query = "Delete from belibahan WHERE idPlayer = (select idPlayer from player where username = '" + username + "')";
+        return getStatusQuery(query);
+    }
+
+    public boolean resetBeliBuah(String username) throws SQLException {
+        String query = "Delete from belibuah WHERE idPlayer = (select idPlayer from player where username = '" + username + "')";
+        return getStatusQuery(query);
+    }
+
+    public boolean resetPembelianBuah(String username) throws SQLException {
+        String query = "UPDATE `pembelianbuah` SET `JumlahBeli` = '0' "
+                + "WHERE idPlayer = (select idPlayer from player where username = '" + username + "')";
         return getStatusQuery(query);
     }
 

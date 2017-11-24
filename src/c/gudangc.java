@@ -10,7 +10,7 @@ import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import m.aset;
+import m.maset;
 import v.ingudang;
 import v.map;
 //cek coba anu
@@ -23,7 +23,7 @@ public class gudangc {
 
     map vmap;
     String username;
-    aset maset;
+    maset maset;
     ingudang vgudang;
     int apel1, apel2, apel3, semangka1, semangka2, semangka3, melon1, melon2, melon3, mangga1, mangga2, mangga3, pisang1, pisang2, pisang3;
     int brownisapel1, brownisapel2, brownisapel3, brownissemangka1, brownissemangka2, brownissemangka3, brownismelon1,
@@ -32,11 +32,11 @@ public class gudangc {
             jussemangka3, juspisang1, juspisang2, juspisang3;
     int kripikapel1, kripikapel2, kripikapel3, kripikpisang1, kripikpisang2, kripikpisang3, kripikmangga1, kripikmangga2, kripikmangga3;
     int esbuah1, esbuah2, esbuah3, salad1, salad2, salad3, sale1, sale2, sale3;
-    int mayo,susu,telur,mentega,tepungterigu,tepungberas,sirup,minyak,pengembang,gula;
+    int mayo, susu, telur, mentega, tepungterigu, tepungberas, sirup, minyak, pengembang, gula;
 
     public gudangc(String username) throws SQLException {
         this.username = username;
-        this.maset = new aset();
+        this.maset = new maset();
         this.vgudang = new ingudang();
         vgudang.setVisible(true);
         setStokProduk();
@@ -71,6 +71,7 @@ public class gudangc {
             vgudang.showbahan().setVisible(true);
         }
     }
+
     private class acttombolnexttoProduk implements ActionListener {
 
         @Override
@@ -88,6 +89,7 @@ public class gudangc {
             vgudang.showbahan().setVisible(false);
         }
     }
+
     private class acttombolprevioustoBahan implements ActionListener {
 
         @Override
@@ -98,85 +100,110 @@ public class gudangc {
     }
 
     public void setStokBuah() throws SQLException {
-        apel1 = vgudang.setJmlApel1(maset.getJmlBuah(username, 1, 1));
-        apel2 = vgudang.setJmlApel2(maset.getJmlBuah(username, 1, 2));
-        apel3 = vgudang.setJmlApel3(maset.getJmlBuah(username, 1, 3));
-        pisang1 = vgudang.setJmlPisang1(maset.getJmlBuah(username, 2, 1));
-        pisang2 = vgudang.setJmlPisang2(maset.getJmlBuah(username, 2, 2));
-        pisang3 = vgudang.setJmlPisang3(maset.getJmlBuah(username, 2, 3));
-        mangga1 = vgudang.setJmlMangga1(maset.getJmlBuah(username, 3, 1));
-        mangga2 = vgudang.setJmlMangga2(maset.getJmlBuah(username, 3, 2));
-        mangga3 = vgudang.setJmlMangga3(maset.getJmlBuah(username, 3, 3));
-        semangka1 = vgudang.setJmlSemangka1(maset.getJmlBuah(username, 4, 1));
-        semangka2 = vgudang.setJmlSemangka2(maset.getJmlBuah(username, 4, 2));
-        semangka3 = vgudang.setJmlSemangka3(maset.getJmlBuah(username, 4, 3));
-        melon1 = vgudang.setJmlMelon1(maset.getJmlBuah(username, 5, 1));
-        melon2 = vgudang.setJmlMelon2(maset.getJmlBuah(username, 5, 2));
-        melon3 = vgudang.setJmlMelon3(maset.getJmlBuah(username, 5, 3));
+        getStokBuah();
+        vgudang.setStokBuah1(mangga1, apel1, melon1, semangka1, pisang1);
+        vgudang.setStokBuah2(mangga2, apel2, melon2, semangka2, pisang2);
+        vgudang.setStokBuah3(mangga3, apel3, melon3, semangka3, pisang3);
     }
 
     public void setStokBahan() throws SQLException {
-        mayo=vgudang.setJmlMayo(maset.getJmlBahan(username, 6));
-        susu=vgudang.setJmlSusu(maset.getJmlBahan(username,8));
-        gula=vgudang.setJmlGula(maset.getJmlBahan(username, 1));
-        tepungberas = vgudang.setJmlTepungB(maset.getJmlBahan(username, 2));
-        minyak=vgudang.setJmlMinyak(maset.getJmlBahan(username,3));
-        mentega = vgudang.setJmlMentega(maset.getJmlBahan(username,4));
-        sirup=vgudang.setJmlSirup(maset.getJmlBahan(username, 5));
-        telur=vgudang.setJmlTelur(maset.getJmlBahan(username, 7));
-        pengembang=vgudang.setJmlPengembang(maset.getJmlBahan(username, 9));
-        tepungterigu=vgudang.setJmlTepungT(maset.getJmlBahan(username,10));
-                
+        getStokBahan();
+        vgudang.setStokBahan(gula, minyak, mayo, mentega, sirup, telur, telur, telur, susu, susu);
     }
 
     public void setStokProduk() throws SQLException {
-        brownispisang1 = vgudang.setJmlBrownisPisang1(maset.getJmlProduk(username, 9, 1));
-        brownispisang2 = vgudang.setJmlBrownisPisang2(maset.getJmlProduk(username, 9, 2));
-        brownispisang3 = vgudang.setJmlBrownisPisang3(maset.getJmlProduk(username, 9, 3));
-        brownisapel1 = vgudang.setJmlBrownisA1(maset.getJmlProduk(username, 10, 1));
-        brownisapel2 = vgudang.setJmlBrownisA2(maset.getJmlProduk(username, 10, 2));
-        brownisapel3 = vgudang.setJmlBrownisA3(maset.getJmlProduk(username, 10, 3));
-        brownismangga1 = vgudang.setJmlBrownisMangga1(maset.getJmlProduk(username, 13, 1));
-        brownismangga2 = vgudang.setJmlBrownisMangga2(maset.getJmlProduk(username, 13, 2));
-        brownismangga3 = vgudang.setJmlBrownisMangga3(maset.getJmlProduk(username, 13, 3));
-        brownismelon1 = vgudang.setJmlBrownisMelon1(maset.getJmlProduk(username, 11, 1));
-        brownismelon2 = vgudang.setJmlBrownisMelon2(maset.getJmlProduk(username, 11, 2));
-        brownismelon3 = vgudang.setJmlBrownisMelon3(maset.getJmlProduk(username, 11, 3));
-        brownissemangka1 = vgudang.setJmlBrownisSemangka1(maset.getJmlProduk(username, 12, 1));
-        brownissemangka2 = vgudang.setJmlBrownisSemangka2(maset.getJmlProduk(username, 12, 2));
-        brownissemangka3 = vgudang.setJmlBrownisSemangka3(maset.getJmlProduk(username, 12, 3));
-        jusapel1 = vgudang.setJmlJusApel1(maset.getJmlProduk(username, 1, 1));
-        jusapel2 = vgudang.setJmlJusApel2(maset.getJmlProduk(username, 1, 2));
-        jusapel3 = vgudang.setJmlJusApel3(maset.getJmlProduk(username, 1, 3));
-        juspisang1 = vgudang.setJmlJusPisang1(maset.getJmlProduk(username, 2, 1));
-        juspisang2 = vgudang.setJmlJusPisang2(maset.getJmlProduk(username, 2, 2));
-        juspisang3 = vgudang.setJmlJusPisang3(maset.getJmlProduk(username, 2, 3));
-        jusmangga1 = vgudang.setJmlJusMangga1(maset.getJmlProduk(username, 3, 1));
-        jusmangga2 = vgudang.setJmlJusMangga2(maset.getJmlProduk(username, 3, 2));
-        jusmangga3 = vgudang.setJmlJusMangga3(maset.getJmlProduk(username, 3, 3));
-        jusmelon1 = vgudang.setJmlJusMelon1(maset.getJmlProduk(username, 4, 1));
-        jusmelon2 = vgudang.setJmlJusMelon2(maset.getJmlProduk(username, 4, 2));
-        jusmelon3 = vgudang.setJmlJusMelon3(maset.getJmlProduk(username, 4, 3));
-        jussemangka1 = vgudang.setJmlJusSemangka1(maset.getJmlProduk(username, 5, 1));
-        jussemangka2 = vgudang.setJmlJusSemangka2(maset.getJmlProduk(username, 5, 2));
-        jussemangka3 = vgudang.setJmlJusSemangka3(maset.getJmlProduk(username, 5, 3));
-        kripikapel1 = vgudang.setJmlKripikApel1(maset.getJmlProduk(username, 6, 1));
-        kripikapel2 = vgudang.setJmlKripikApel2(maset.getJmlProduk(username, 6, 2));
-        kripikapel3 = vgudang.setJmlKripikApel3(maset.getJmlProduk(username, 6, 3));
-        kripikmangga1 = vgudang.setJmlKripikMangga1(maset.getJmlProduk(username, 7, 1));
-        kripikmangga2 = vgudang.setJmlKripikMangga2(maset.getJmlProduk(username, 7, 2));
-        kripikmangga3 = vgudang.setJmlKripikMangga3(maset.getJmlProduk(username, 7, 3));
-        kripikpisang1 = vgudang.setJmlKripikPisang1(maset.getJmlProduk(username, 8, 1));
-        kripikpisang2 = vgudang.setJmlKripikPisang2(maset.getJmlProduk(username, 8, 2));
-        kripikpisang3 = vgudang.setJmlKripikPisang3(maset.getJmlProduk(username, 8, 3));
-        esbuah1 = vgudang.setJmlEsbuah1(maset.getJmlProduk(username, 15, 1));
-        esbuah2 = vgudang.setJmlEsbuah2(maset.getJmlProduk(username, 15, 2));
-        esbuah3 = vgudang.setJmlEsbuah3(maset.getJmlProduk(username, 15, 3));
-        salad1 = vgudang.setJmlSaladbuah1(maset.getJmlProduk(username, 16, 1));
-        salad2 = vgudang.setJmlSaladbuah2(maset.getJmlProduk(username, 16, 2));
-        salad3 = vgudang.setJmlSaladbuah3(maset.getJmlProduk(username, 16, 3));
-        sale1 = vgudang.setJmlSale1(maset.getJmlProduk(username, 14, 1));
-        sale2 = vgudang.setJmlSale2(maset.getJmlProduk(username, 14, 2));
-        sale3 = vgudang.setJmlSale3(maset.getJmlProduk(username, 14, 3));
+        getStokProduk();
+        vgudang.setStokProduk1(brownisapel1, brownispisang1, brownissemangka1, brownismelon1,
+                brownismangga1, kripikapel1, kripikpisang1, kripikmangga1, juspisang1, jusmangga1,
+                jusmelon1, jussemangka1, jusapel1, esbuah1, salad1, sale1);
+        vgudang.setStokProduk2(brownisapel2, brownispisang2, brownissemangka2, brownismelon2,
+                brownismangga2, kripikapel2, kripikpisang2, kripikmangga2, juspisang2, jusmangga2,
+                jusmelon2, jussemangka2, jusapel2, esbuah2, salad2, sale2);
+        vgudang.setStokProduk3(brownisapel3, brownispisang3, brownissemangka3, brownismelon3,
+                brownismangga3, kripikapel3, kripikpisang3, kripikmangga3, juspisang3, jusmangga3,
+                jusmelon3, jussemangka3, jusapel3, esbuah3, salad3, sale3);
+    }
+
+    public void getStokBuah() throws SQLException {
+        apel1 = maset.getJmlBuah(username, 1, 1);
+        apel2 = maset.getJmlBuah(username, 1, 2);
+        apel3 = maset.getJmlBuah(username, 1, 3);
+        pisang1 = maset.getJmlBuah(username, 2, 1);
+        pisang2 = maset.getJmlBuah(username, 2, 2);
+        pisang3 = maset.getJmlBuah(username, 2, 3);
+        mangga1 = maset.getJmlBuah(username, 3, 1);
+        mangga2 = maset.getJmlBuah(username, 3, 2);
+        mangga3 = maset.getJmlBuah(username, 3, 3);
+        semangka1 = maset.getJmlBuah(username, 4, 1);
+        semangka2 = maset.getJmlBuah(username, 4, 2);
+        semangka3 = maset.getJmlBuah(username, 4, 3);
+        melon1 = maset.getJmlBuah(username, 5, 1);
+        melon2 = maset.getJmlBuah(username, 5, 2);
+        melon3 = maset.getJmlBuah(username, 5, 3);
+    }
+
+    public void getStokBahan() throws SQLException {
+        mayo = maset.getJmlBahan(username, 6);
+        susu = maset.getJmlBahan(username, 8);
+        gula = maset.getJmlBahan(username, 1);
+        tepungberas = maset.getJmlBahan(username, 2);
+        minyak = maset.getJmlBahan(username, 3);
+        mentega = maset.getJmlBahan(username, 4);
+        sirup = maset.getJmlBahan(username, 5);
+        telur = maset.getJmlBahan(username, 7);
+        pengembang = maset.getJmlBahan(username, 9);
+        tepungterigu = maset.getJmlBahan(username, 10);
+
+    }
+
+    public void getStokProduk() throws SQLException {
+        brownispisang1 = maset.getJmlProduk(username, 9, 1);
+        brownispisang2 = maset.getJmlProduk(username, 9, 2);
+        brownispisang3 = maset.getJmlProduk(username, 9, 3);
+        brownisapel1 = maset.getJmlProduk(username, 10, 1);
+        brownisapel2 = maset.getJmlProduk(username, 10, 2);
+        brownisapel3 = maset.getJmlProduk(username, 10, 3);
+        brownismangga1 = maset.getJmlProduk(username, 13, 1);
+        brownismangga2 = maset.getJmlProduk(username, 13, 2);
+        brownismangga3 = maset.getJmlProduk(username, 13, 3);
+        brownismelon1 = maset.getJmlProduk(username, 11, 1);
+        brownismelon2 = maset.getJmlProduk(username, 11, 2);
+        brownismelon3 = maset.getJmlProduk(username, 11, 3);
+        brownissemangka1 = maset.getJmlProduk(username, 12, 1);
+        brownissemangka2 = maset.getJmlProduk(username, 12, 2);
+        brownissemangka3 = maset.getJmlProduk(username, 12, 3);
+        jusapel1 = maset.getJmlProduk(username, 1, 1);
+        jusapel2 = maset.getJmlProduk(username, 1, 2);
+        jusapel3 = maset.getJmlProduk(username, 1, 3);
+        juspisang1 = maset.getJmlProduk(username, 2, 1);
+        juspisang2 = maset.getJmlProduk(username, 2, 2);
+        juspisang3 = maset.getJmlProduk(username, 2, 3);
+        jusmangga1 = maset.getJmlProduk(username, 3, 1);
+        jusmangga2 = maset.getJmlProduk(username, 3, 2);
+        jusmangga3 = maset.getJmlProduk(username, 3, 3);
+        jusmelon1 = maset.getJmlProduk(username, 4, 1);
+        jusmelon2 = maset.getJmlProduk(username, 4, 2);
+        jusmelon3 = maset.getJmlProduk(username, 4, 3);
+        jussemangka1 = maset.getJmlProduk(username, 5, 1);
+        jussemangka2 = maset.getJmlProduk(username, 5, 2);
+        jussemangka3 = maset.getJmlProduk(username, 5, 3);
+        kripikapel1 = maset.getJmlProduk(username, 6, 1);
+        kripikapel2 = maset.getJmlProduk(username, 6, 2);
+        kripikapel3 = maset.getJmlProduk(username, 6, 3);
+        kripikmangga1 = maset.getJmlProduk(username, 7, 1);
+        kripikmangga2 = maset.getJmlProduk(username, 7, 2);
+        kripikmangga3 = maset.getJmlProduk(username, 7, 3);
+        kripikpisang1 = maset.getJmlProduk(username, 8, 1);
+        kripikpisang2 = maset.getJmlProduk(username, 8, 2);
+        kripikpisang3 = maset.getJmlProduk(username, 8, 3);
+        esbuah1 = maset.getJmlProduk(username, 15, 1);
+        esbuah2 = maset.getJmlProduk(username, 15, 2);
+        esbuah3 = maset.getJmlProduk(username, 15, 3);
+        salad1 = maset.getJmlProduk(username, 16, 1);
+        salad2 = maset.getJmlProduk(username, 16, 2);
+        salad3 = maset.getJmlProduk(username, 16, 3);
+        sale1 = maset.getJmlProduk(username, 14, 1);
+        sale2 = maset.getJmlProduk(username, 14, 2);
+        sale3 = maset.getJmlProduk(username, 14, 3);
     }
 }

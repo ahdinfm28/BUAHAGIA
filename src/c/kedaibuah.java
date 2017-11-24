@@ -16,10 +16,10 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.swing.JOptionPane;
-import m.aset;
-import m.pembelian;
-import m.pengolahan;
-import m.player;
+import m.maset;
+import m.mpembelian;
+import m.molah;
+import m.mplayer;
 import v.inkedaibuah1;
 import v.inkedaibuah2;
 import v.pasarmap;
@@ -33,12 +33,12 @@ public class kedaibuah {
     boolean kedai1 = false;
     boolean kedai2 = false;
     String username;
-    aset maset;
-    player mplayer;
-    pembelian mbelibuah;
+    maset maset;
+    //   player mplayer;
+    mpembelian mbelibuah;
     inkedaibuah1 vkedai1;
     inkedaibuah2 vkedai2;
-    pengolahan molah;
+    molah molah;
     boolean mma1, mma2, mma3, ma1, ma2, ma3, mme1, mme2, mme3;
     boolean statusMelon = false;
     boolean statusMangga = false;
@@ -46,7 +46,7 @@ public class kedaibuah {
     boolean statusPisang = false;
     boolean statusSemangka = false;
     int mangga, melon, pisang, semangka, apel;
-    int uang, jml, kualitas = 1;
+    int uang, jml, kualitas = 1, legend;
     AudioInputStream audio;
     Clip clip;
 
@@ -54,16 +54,13 @@ public class kedaibuah {
         kedai1 = true;
         this.username = username;
         vkedai1 = new inkedaibuah1();
-        mplayer = new player();
-        molah = new pengolahan();
-        maset = new aset();
-        mbelibuah = new pembelian();
+        //       mplayer = new player();
+        molah = new molah();
+        maset = new maset();
+        mbelibuah = new mpembelian();
         uang = vkedai1.setUang(maset.getUang(username));
-        mangga = vkedai1.setJmlMangga(maset.getJmlBuahAll(username, 3));
-        melon = vkedai1.setJmlMelon(maset.getJmlBuahAll(username, 5));
-        apel = vkedai1.setJmlApel(maset.getJmlBuahAll(username, 1));
-        pisang = vkedai1.setJmlPisang(maset.getJmlBuahAll(username, 2));
-        semangka = vkedai1.setJmlSemangka(maset.getJmlBuahAll(username, 4));
+
+        setJmlBuah();
         jml = vkedai1.getTeksJumlah();
         vkedai1.setVisible(true);
         vkedai1.klikKembali(new acttombolkembali());
@@ -84,19 +81,14 @@ public class kedaibuah {
     public kedaibuah(String username, inkedaibuah2 v) throws SQLException {
         kedai2 = true;
         this.username = username;
-        mplayer = new player();
-        maset = new aset();
-        mbelibuah = new pembelian();
+        maset = new maset();
+        mbelibuah = new mpembelian();
         this.vkedai2 = v;
-        molah = new pengolahan();
+        molah = new molah();
 
         uang = v.setUang(maset.getUang(username));
-        mangga = v.setJmlMangga(maset.getJmlBuahAll(username, 3));
-        melon = v.setJmlMelon(maset.getJmlBuahAll(username, 5));
-        apel = v.setJmlApel(maset.getJmlBuahAll(username, 1));
-        pisang = v.setJmlPisang(maset.getJmlBuahAll(username, 2));
-        semangka = v.setJmlSemangka(maset.getJmlBuahAll(username, 4));
         jml = v.getTeksJumlah();
+        setJmlBuah();
 
         v.setVisible(true);
         v.klikKembali(new acttombolkembali());
@@ -114,11 +106,28 @@ public class kedaibuah {
 
     }
 
+    public void setJmlBuah() throws SQLException {
+        getJmlBuah();
+        if (kedai1) {
+            vkedai1.setJmlBuah(mangga, semangka, melon, apel, pisang);
+        } else if (kedai2) {
+            vkedai2.setJmlBuah(mangga, semangka, melon, apel, pisang);
+        }
+    }
+
+    public void getJmlBuah() throws SQLException {
+        apel = maset.getJmlBuahAll(username, 1);
+        mangga = maset.getJmlBuahAll(username, 3);
+        melon = maset.getJmlBuahAll(username, 5);
+        pisang = maset.getJmlBuahAll(username, 2);
+        semangka = maset.getJmlBuahAll(username, 4);
+    }
+
     private void cekPenghargaanManiakMelon() throws SQLException {
         int buah = mbelibuah.getBuah(username, 5);
         if (mme1) {
             if (buah >= 25) {
-                maset.updatePenghargaan(mplayer.getIdPlayer(username), "maniakmelon", 1);
+                maset.updatePenghargaan(username, "maniakmelon", 1);
                 if (kedai1) {
                     vkedai1.tampilPesan(vkedai1, "MANIAK MELON rank 3!!\nAnda berhasil mendapatkan penghargaan ini!");
                 } else if (kedai2) {
@@ -129,7 +138,7 @@ public class kedaibuah {
         if (mme2) {
             if (buah >= 50) {
                 System.out.println("yhaaaaaaaaa");
-                maset.updatePenghargaan(mplayer.getIdPlayer(username), "maniakmelon", 2);
+                maset.updatePenghargaan(username, "maniakmelon", 2);
                 if (kedai1) {
                     vkedai1.tampilPesan(vkedai1, "MANIAK MELON rank 2!!\nAnda berhasil mendapatkan penghargaan ini!");
                 } else if (kedai2) {
@@ -140,7 +149,9 @@ public class kedaibuah {
         if (mme3) {
             if (buah >= 100) {
                 System.out.println("yhaaaaaaaaa");
-                maset.updatePenghargaan(mplayer.getIdPlayer(username), "maniakmelon", 3);
+                maset.updatePenghargaan(username, "maniakmelon", 3);
+                maset.updatePenghargaan(username, "legend", legend + 1);
+
                 if (kedai1) {
                     vkedai1.tampilPesan(vkedai1, "MANIAK MELON rank 1!!\nAnda berhasil mendapatkan penghargaan ini!");
                 } else if (kedai2) {
@@ -154,7 +165,7 @@ public class kedaibuah {
         int buah = mbelibuah.getBuah(username, 3);
         if (mma1) {
             if (buah >= 25) {
-                maset.updatePenghargaan(mplayer.getIdPlayer(username), "maniakmangga", 1);
+                maset.updatePenghargaan(username, "maniakmangga", 1);
                 if (kedai1) {
                     vkedai1.tampilPesan(vkedai1, "MANIAK MANGGA rank 3!!\nAnda berhasil mendapatkan penghargaan ini!");
                 } else if (kedai2) {
@@ -164,7 +175,7 @@ public class kedaibuah {
         }
         if (mma2) {
             if (buah >= 50) {
-                maset.updatePenghargaan(mplayer.getIdPlayer(username), "maniakmangga", 2);
+                maset.updatePenghargaan(username, "maniakmangga", 2);
                 if (kedai1) {
                     vkedai1.tampilPesan(vkedai1, "MANIAK MANGGA rank 2!!\nAnda berhasil mendapatkan penghargaan ini!");
                 } else if (kedai2) {
@@ -174,7 +185,8 @@ public class kedaibuah {
         }
         if (mma3) {
             if (buah >= 100) {
-                maset.updatePenghargaan(mplayer.getIdPlayer(username), "maniakmangga", 3);
+                maset.updatePenghargaan(username, "maniakmangga", 3);
+                maset.updatePenghargaan(username, "legend", legend + 1);
                 if (kedai1) {
                     vkedai1.tampilPesan(vkedai1, "MANIAK MANGGA rank 1!!\nAnda berhasil mendapatkan penghargaan ini!");
                 } else if (kedai2) {
@@ -188,7 +200,7 @@ public class kedaibuah {
         int buah = mbelibuah.getBuah(username, 1);
         if (ma1) {
             if (buah >= 25) {
-                maset.updatePenghargaan(mplayer.getIdPlayer(username), "maniakapel", 1);
+                maset.updatePenghargaan(username, "maniakapel", 1);
                 if (kedai1) {
                     vkedai1.tampilPesan(vkedai1, "MANIAK APEL rank 3!!\nAnda berhasil mendapatkan penghargaan ini!");
                 } else if (kedai2) {
@@ -199,7 +211,7 @@ public class kedaibuah {
         if (ma2) {
             if (buah >= 50) {
                 System.out.println("yhaaaaaaaaa");
-                maset.updatePenghargaan(mplayer.getIdPlayer(username), "maniakapel", 2);
+                maset.updatePenghargaan(username, "maniakapel", 2);
                 if (kedai1) {
                     vkedai1.tampilPesan(vkedai1, "MANIAK APEL rank 2!!\nAnda berhasil mendapatkan penghargaan ini!");
                 } else if (kedai2) {
@@ -210,7 +222,8 @@ public class kedaibuah {
         if (ma3) {
             if (buah >= 100) {
                 System.out.println("yhaaaaaaaaa");
-                maset.updatePenghargaan(mplayer.getIdPlayer(username), "maniakapel", 3);
+                maset.updatePenghargaan(username, "maniakapel", 3);
+                maset.updatePenghargaan(username, "legend", legend + 1);
                 if (kedai1) {
                     vkedai1.tampilPesan(vkedai1, "MANIAK APEL rank 1!!\nAnda berhasil mendapatkan penghargaan ini!");
                 } else if (kedai2) {
@@ -454,6 +467,7 @@ public class kedaibuah {
         ma1 = maset.cekAchv(username, "maniakapel", 0);
         ma2 = maset.cekAchv(username, "maniakapel", 1);
         ma3 = maset.cekAchv(username, "maniakapel", 2);
+        legend = maset.getStatusLegend(username);
     }
 
     private void semangkaAction() throws SQLException {
@@ -470,9 +484,9 @@ public class kedaibuah {
                 if (Pilih == 0) {
                     uang = uang - (harga * jml);
                     semangka = semangka + jml;
-                    maset.updateUang(uang, mplayer.getIdPlayer(username));
+                    maset.updateUang(uang, username);
                     mbelibuah.tambahPembelianBuah((jmlbuah + jml), id,
-                            idKualitas, mplayer.getIdPlayer(username));
+                            idKualitas, username);
                     vkedai1.tampilPesan(vkedai1.popup(), "Transaksi Berhasil");
                     vkedai1.setUang(maset.getUang(username));
                     vkedai1.setJmlSemangka(semangka);
@@ -500,9 +514,9 @@ public class kedaibuah {
                 if (Pilih == 0) {
                     uang = uang - (harga * jml);
                     semangka = semangka + jml;
-                    maset.updateUang(uang, mplayer.getIdPlayer(username));
+                    maset.updateUang(uang, username);
                     mbelibuah.tambahPembelianBuah((jmlbuah + jml), id,
-                            idKualitas, mplayer.getIdPlayer(username));
+                            idKualitas, username);
                     vkedai2.tampilPesan(vkedai2.popup(), "Transaksi Berhasil");
                     vkedai2.setUang(maset.getUang(username));
                     vkedai2.setJmlSemangka(semangka);
@@ -533,13 +547,13 @@ public class kedaibuah {
                 if (Pilih == 0) {
                     uang = uang - (harga * jml);
                     melon = melon + jml;
-                    maset.updateUang(uang, mplayer.getIdPlayer(username));
+                    maset.updateUang(uang, username);
                     mbelibuah.tambahPembelianBuah((jmlbuah + jml), id,
-                            idKualitas, mplayer.getIdPlayer(username));
+                            idKualitas, username);
                     vkedai1.tampilPesan(vkedai1.popup(), "Transaksi Berhasil");
                     vkedai1.setUang(maset.getUang(username));
                     vkedai1.setJmlMelon(melon);
-                    mbelibuah.beliBuah(id, mplayer.getIdPlayer(username), jml);
+                    mbelibuah.beliBuah(id, username, jml);
                     cekStatusPenghargaan();
                     cekPenghargaanManiakMelon();
                     vkedai1.popup().setVisible(false);
@@ -564,13 +578,13 @@ public class kedaibuah {
                 if (Pilih == 0) {
                     melon = melon + jml;
                     uang = uang - (harga * jml);
-                    maset.updateUang(uang, mplayer.getIdPlayer(username));
+                    maset.updateUang(uang, username);
                     mbelibuah.tambahPembelianBuah((jmlbuah + jml), id,
-                            idKualitas, mplayer.getIdPlayer(username));
+                            idKualitas, username);
                     vkedai2.tampilPesan(vkedai2.popup(), "Transaksi Berhasil");
                     vkedai2.setUang(maset.getUang(username));
                     vkedai2.setJmlMelon(melon);
-                    mbelibuah.beliBuah(id, mplayer.getIdPlayer(username), jml);
+                    mbelibuah.beliBuah(id, username, jml);
                     cekStatusPenghargaan();
                     cekPenghargaanManiakMelon();
                     vkedai2.popup().setVisible(false);
@@ -600,13 +614,13 @@ public class kedaibuah {
                 if (Pilih == 0) {
                     mangga = mangga + jml;
                     uang = uang - (harga * jml);
-                    maset.updateUang(uang, mplayer.getIdPlayer(username));
+                    maset.updateUang(uang, username);
                     mbelibuah.tambahPembelianBuah((jmlbuah + jml), id,
-                            idKualitas, mplayer.getIdPlayer(username));
+                            idKualitas, username);
                     vkedai1.tampilPesan(vkedai1.popup(), "Transaksi Berhasil");
                     vkedai1.setUang(maset.getUang(username));
                     vkedai1.setJmlMangga(mangga);
-                    mbelibuah.beliBuah(id, mplayer.getIdPlayer(username), jml);
+                    mbelibuah.beliBuah(id, username, jml);
                     cekStatusPenghargaan();
                     cekPenghargaanManiakMangga();
                     vkedai1.popup().setVisible(false);
@@ -631,13 +645,13 @@ public class kedaibuah {
                 if (Pilih == 0) {
                     mangga = mangga + jml;
                     uang = uang - (harga * jml);
-                    maset.updateUang(uang, mplayer.getIdPlayer(username));
+                    maset.updateUang(uang, username);
                     mbelibuah.tambahPembelianBuah((jmlbuah + jml), id,
-                            idKualitas, mplayer.getIdPlayer(username));
+                            idKualitas, username);
                     vkedai2.tampilPesan(vkedai2.popup(), "Transaksi Berhasil");
                     vkedai2.setUang(maset.getUang(username));
                     vkedai2.setJmlMangga(mangga);
-                    mbelibuah.beliBuah(id, mplayer.getIdPlayer(username), jml);
+                    mbelibuah.beliBuah(id, username, jml);
                     cekStatusPenghargaan();
                     cekPenghargaanManiakMangga();
                     vkedai2.popup().setVisible(false);
@@ -667,13 +681,13 @@ public class kedaibuah {
                 if (Pilih == 0) {
                     apel = apel + jml;
                     uang = uang - (harga * jml);
-                    maset.updateUang(uang, mplayer.getIdPlayer(username));
+                    maset.updateUang(uang, username);
                     mbelibuah.tambahPembelianBuah((jmlbuah + jml), id,
-                            idKualitas, mplayer.getIdPlayer(username));
+                            idKualitas, username);
                     vkedai1.tampilPesan(vkedai1.popup(), "Transaksi Berhasil");
                     vkedai1.setUang(maset.getUang(username));
                     vkedai1.setJmlApel(apel);
-                    mbelibuah.beliBuah(id, mplayer.getIdPlayer(username), jml);
+                    mbelibuah.beliBuah(id, username, jml);
                     cekStatusPenghargaan();
                     cekPenghargaanManiakApel();
                     vkedai1.popup().setVisible(false);
@@ -698,13 +712,13 @@ public class kedaibuah {
                 if (Pilih == 0) {
                     apel = apel + jml;
                     uang = uang - (harga * jml);
-                    maset.updateUang(uang, mplayer.getIdPlayer(username));
+                    maset.updateUang(uang, username);
                     mbelibuah.tambahPembelianBuah((jmlbuah + jml), id,
-                            idKualitas, mplayer.getIdPlayer(username));
+                            idKualitas, username);
                     vkedai2.tampilPesan(vkedai2.popup(), "Transaksi Berhasil");
                     vkedai2.setUang(maset.getUang(username));
                     vkedai2.setJmlApel(apel);
-                    mbelibuah.beliBuah(id, mplayer.getIdPlayer(username), jml);
+                    mbelibuah.beliBuah(id, username, jml);
                     cekStatusPenghargaan();
                     cekPenghargaanManiakApel();
                     vkedai2.popup().setVisible(false);
@@ -734,9 +748,9 @@ public class kedaibuah {
                 if (Pilih == 0) {
                     uang = uang - (harga * jml);
                     pisang = pisang + jml;
-                    maset.updateUang(uang, mplayer.getIdPlayer(username));
+                    maset.updateUang(uang, username);
                     mbelibuah.tambahPembelianBuah((jmlbuah + jml), id,
-                            idKualitas, mplayer.getIdPlayer(username));
+                            idKualitas, username);
                     vkedai1.tampilPesan(vkedai1.popup(), "Transaksi Berhasil");
                     vkedai1.setUang(maset.getUang(username));
                     vkedai1.setJmlPisang(pisang);
@@ -762,9 +776,9 @@ public class kedaibuah {
                 if (Pilih == 0) {
                     uang = uang - (harga * jml);
                     pisang = pisang + jml;
-                    maset.updateUang(uang, mplayer.getIdPlayer(username));
+                    maset.updateUang(uang, username);
                     mbelibuah.tambahPembelianBuah((jmlbuah + jml), id,
-                            idKualitas, mplayer.getIdPlayer(username));
+                            idKualitas, username);
                     vkedai2.tampilPesan(vkedai2, "Transaksi Berhasil");
                     vkedai2.setUang(maset.getUang(username));
                     vkedai2.setJmlPisang(pisang);

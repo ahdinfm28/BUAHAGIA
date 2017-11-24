@@ -32,6 +32,14 @@ public class inkedaibuah2 extends javax.swing.JFrame {
         return text;
     }
 
+    public void setJmlBuah(int mangga, int semangka, int melon, int apel, int pisang) {
+        setJmlMangga(mangga);
+        setJmlApel(apel);
+        setJmlPisang(pisang);
+        setJmlSemangka(semangka);
+        setJmlMelon(melon);
+    }
+
     public int setJmlMangga(int text) {
         this.jmlmangga.setText(text + "");
         return text;
@@ -55,26 +63,6 @@ public class inkedaibuah2 extends javax.swing.JFrame {
     public int setJmlApel(int text) {
         this.jmlapel.setText(text + "");
         return text;
-    }
-
-    public String getJmlApel() {
-        return jmlapel.getText();
-    }
-
-    public String getJmlSemangka() {
-        return jmlsemangka.getText();
-    }
-
-    public String getJmlPisang() {
-        return jmlpisang.getText();
-    }
-
-    public String getJmlMangga() {
-        return jmlmangga.getText();
-    }
-
-    public String getJmlMelon() {
-        return jmlmelon.getText();
     }
 
     public void btnMelon(ActionListener a) {
@@ -168,10 +156,9 @@ public class inkedaibuah2 extends javax.swing.JFrame {
         return batal;
     }
 
-    public void tampilPesan(Component a,String pesan) {
+    public void tampilPesan(Component a, String pesan) {
         JOptionPane.showMessageDialog(a, pesan);
     }
-   
 
     /**
      * This method is called from within the constructor to initialize the form.

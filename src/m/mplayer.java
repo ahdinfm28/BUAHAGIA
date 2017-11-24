@@ -12,12 +12,12 @@ import java.sql.SQLException;
  *
  * @author Farisya
  */
-public class player extends func {
+public class mplayer extends func {
 
     ResultSet rs;
     koneksi con;
 
-    public player() throws SQLException {
+    public mplayer() throws SQLException {
         this.con = new koneksi();
         con = new koneksi();
     }
@@ -47,13 +47,6 @@ public class player extends func {
         return status;
     }
 
-    public String getIdPlayer(String username) throws SQLException {
-        String query = "SELECT `idPlayer` FROM `player` WHERE `username` = '" + username + "'";
-        ResultSet hasil = con.getResult(query);
-        hasil.next();
-        String data = hasil.getString(1).toUpperCase();
-        return data;
-    }
 
     public boolean cekUsername(String username) throws SQLException {
         String query = "SELECT `username` FROM `player` WHERE  `username` = '" + username + "'";

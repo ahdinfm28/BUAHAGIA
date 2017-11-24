@@ -22,14 +22,14 @@ public class func extends koneksi{
     }
 
     public boolean getStatusQuery(String query) {
-        boolean succesInput = false;
+        boolean status = false;
         try {
             con.executeQuery(query);
-            succesInput = true;
+            status = true;
         } catch (SQLException ex) {
-            succesInput = false;
+            status = false;
         }
-        return succesInput;
+        return status;
     }
 
     public int getDataInt(String query) throws SQLException {

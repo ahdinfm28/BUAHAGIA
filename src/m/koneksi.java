@@ -40,4 +40,13 @@ public class koneksi {
         return rs;
     }
 
+    public void close() {
+        try {
+            this.con.close();
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            System.out.println("close con");
+        }
+    }
 }

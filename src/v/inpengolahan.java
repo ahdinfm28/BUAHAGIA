@@ -127,6 +127,28 @@ public class inpengolahan extends javax.swing.JFrame {
         this.beliresepsale.addActionListener(a);
     }
 
+    public void setJmlBuah(int mangga, int apel, int melon, int semangka, int pisang) {
+        setJmlMangga(mangga);
+        setJmlApel(apel);
+        setJmlMelon(melon);
+        setJmlSemangka(semangka);
+        setJmlPisang(pisang);
+    }
+
+    public void setJmlBahan(int gula, int minyak, int mayo, int mentega, int sirup, int telur,
+            int tepungt, int tepungb, int sp, int susu) {
+        setJmlGula(gula);
+        setJmlMinyak(minyak);
+        setJmlTelur(telur);
+        setJmlSusu(susu);
+        setJmlSirup(sirup);
+        setJmlPengembang(sp);
+        setJmlMentega(mentega);
+        setJmlMayo(mayo);
+        setJmlTepungT(tepungt);
+        setJmlTepungB(tepungb);
+    }
+
     public int setJmlMangga(int t) {
         mangga1.setText(t + "");
         mangga2.setText(t + "");
@@ -260,194 +282,6 @@ public class inpengolahan extends javax.swing.JFrame {
         return teks;
     }
 
-    public String getJmlMelon() {
-        String x = melon1.getText();
-        String y = melon2.getText();
-        String z = melon3.getText();
-        String a = melon4.getText();
-        String get[] = {x, y, z, a};
-        String hasil = null;
-        for (int i = 0; i < 4; i++) {
-            hasil = get[i];
-        }
-        return hasil;
-    }
-
-    public String getJmlSemangka() {
-        String x = semangka1.getText();
-        String y = semangka2.getText();
-        String z = semangka3.getText();
-        String a = semangka4.getText();
-        String get[] = {x, y, z, a};
-        String hasil = null;
-        for (int i = 0; i < 4; i++) {
-            hasil = get[i];
-        }
-        return hasil;
-    }
-
-    public String getJmlApel() {
-        String x = apel1.getText();
-        String y = apel2.getText();
-        String z = apel3.getText();
-        String a = apel4.getText();
-        String b = apel5.getText();
-        String get[] = {x, y, z, a, b};
-        String hasil = null;
-        for (int i = 0; i < 5; i++) {
-            hasil = get[i];
-        }
-        return hasil;
-    }
-
-    public String getJmlMangga() {
-        String x = mangga1.getText();
-        String y = mangga2.getText();
-        String z = mangga3.getText();
-        String a = mangga4.getText();
-        String b = mangga5.getText();
-        String get[] = {x, y, z, a, b};
-        String hasil = null;
-        for (int i = 0; i < 5; i++) {
-            hasil = get[i];
-        }
-        return hasil;
-    }
-
-    public String getJmlPisang() {
-        String x = pisang1.getText();
-        String y = pisang2.getText();
-        String z = pisang3.getText();
-        String a = pisang4.getText();
-        String get[] = {x, y, z, a};
-        String hasil = null;
-        for (int i = 0; i < 4; i++) {
-            hasil = get[i];
-        }
-        return hasil;
-    }
-
-    public String getJmlMinyak() {
-        String x = minyak1.getText();
-        String y = minyak2.getText();
-        String z = minyak3.getText();
-        String get[] = {x, y, z};
-        String hasil = null;
-        for (int i = 0; i < 3; i++) {
-            hasil = get[i];
-        }
-        return hasil;
-    }
-
-    public String getJmlPengembang() {
-        String x = sp1.getText();
-        String y = sp2.getText();
-        String z = sp3.getText();
-        String a = sp4.getText();
-        String b = sp5.getText();
-        String get[] = {x, y, z, a, b};
-        String hasil = null;
-        for (int i = 0; i < 5; i++) {
-            hasil = get[i];
-        }
-        return hasil;
-    }
-
-    public String getJmlTelur() {
-        String x = telur1.getText();
-        String y = telur2.getText();
-        String z = telur3.getText();
-        String a = telur4.getText();
-        String b = telur5.getText();
-        String get[] = {x, y, z, a, b};
-        String hasil = null;
-        for (int i = 0; i < 5; i++) {
-            hasil = get[i];
-        }
-        return hasil;
-    }
-
-    public String getJmlTepungT() {
-        String x = tt1.getText();
-        String y = tt2.getText();
-        String z = tt3.getText();
-        String a = tt4.getText();
-        String b = tt5.getText();
-        String c = tt6.getText();
-        String get[] = {x, y, z, a, b, c};
-        String hasil = null;
-        for (int i = 0; i < 6; i++) {
-            hasil = get[i];
-        }
-        return hasil;
-    }
-
-    public String getJmlGula() {
-        String x = gula1.getText();
-        String y = gula2.getText();
-        String z = gula3.getText();
-        String a = gula4.getText();
-        String b = gula5.getText();
-        String c = gula6.getText();
-        String d = gula7.getText();
-        String e = gula8.getText();
-        String f = gula9.getText();
-        String g = gula10.getText();
-        String l = gula11.getText();
-        String h = gula12.getText();
-        String k = gula13.getText();
-        String j = gula14.getText();
-        String get[] = {x, y, z, a, b, c, d, e, f, g, h, k, j, l};
-        String hasil = null;
-        for (int i = 0; i < 13; i++) {
-            hasil = get[i];
-        }
-        return hasil;
-    }
-
-    public String getJmlSusu() {
-        String x = susu1.getText();
-        String y = susu2.getText();
-        String z = susu3.getText();
-        String a = susu4.getText();
-        String b = susu5.getText();
-        String h = susu11.getText();
-
-        String get[] = {x, y, z, a, b, h};
-        String hasil = null;
-        for (int i = 0; i < 6; i++) {
-            hasil = get[i];
-        }
-        return hasil;
-    }
-
-    public String getJmlMayo() {
-        return mayo1.getText();
-    }
-
-    public String getJmlMentega() {
-        String a = mentega1.getText();
-        String c = mentega4.getText();
-        String d = mentega5.getText();
-        String e = mentega3.getText();
-        String f = mentega6.getText();
-        String g = mentega2.getText();
-        String get[] = {a, c, d, e, f, g};
-        String hasil = null;
-        for (int i = 0; i < 6; i++) {
-            hasil = get[i];
-        }
-        return hasil;
-    }
-
-    public String getJmlSirup() {
-        return sirup1.getText();
-    }
-
-    public String getJmlTepungB() {
-        return tb1.getText();
-    }
-
     public void klikBatal(ActionListener action) {
         this.batal.addActionListener(action);
     }
@@ -508,14 +342,9 @@ public class inpengolahan extends javax.swing.JFrame {
         gifq.setVisible(false);
     }
 
-    public void tampilPesan1(String pesan) {
-        JOptionPane.showMessageDialog(this, pesan);
+    public void tampilPesan(Component c, String pesan) {
+        JOptionPane.showMessageDialog(c, pesan);
     }
-
-    public void tampilPesan2(String pesan) {
-        JOptionPane.showMessageDialog(popup, pesan);
-    }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

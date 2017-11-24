@@ -10,8 +10,8 @@ import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import m.aset;
-import m.pembelian;
+import m.maset;
+import m.mpembelian;
 import v.inkedaibuah2;
 import v.insupermarket;
 import v.mainmenu;
@@ -26,10 +26,10 @@ public class pasarc {
 
     pasarmap vpasar;
     String username;
-    aset maset;
+    maset maset;
     public pasarc(String username) throws SQLException {
         this.vpasar = new pasarmap();
-        this.maset = new aset();
+        this.maset = new maset();
         vpasar.setVisible(true);
         vpasar.klikKembali(new acttombolkembali());
         vpasar.klikSupermarket(new acttombolSupermarket());

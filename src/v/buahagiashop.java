@@ -5,6 +5,7 @@
  */
 package v;
 
+import java.awt.Component;
 import java.awt.event.ActionListener;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -74,7 +75,7 @@ public class buahagiashop extends javax.swing.JFrame {
         left.addActionListener(a);
     }
 
-    public void klikAdd(ActionListener a) {
+    public void klikTambah(ActionListener a) {
         add.addActionListener(a);
     }
 
@@ -152,8 +153,29 @@ public class buahagiashop extends javax.swing.JFrame {
 
     public int setJmlUang(int text) {
         this.uang.setText(text + "");
-        this.aset.setText(text + "");
+        this.aset.setText(text + ""); 
         return text;
+    }
+
+    public void setStokProduk(int ba,int bp, int bs, int bme,int bma, 
+            int ka,int kp, int km, int jp, int jma, int jme, int js, int ja,
+            int es,int sb, int sale) {
+        setJmlBrownisApel(ba);
+        setJmlBrownisMangga(bma);
+        setJmlBrownisMelon(bme);
+        setJmlBrownisPisang(bp);
+        setJmlBrownisSemangka(bs);
+        setJmlJusApel(ja);
+        setJmlJusMangga(jma);
+        setJmlJusMelon(jme);
+        setJmlJusPisang(jp);
+        setJmlJusSemangka(js);
+        setJmlKripikApel(ka);
+        setJmlKripikMangga(km);
+        setJmlKripikPisang(kp);
+        setJmlEs(es);
+        setJmlSalad(sb);
+        setJmlSale(sale);
     }
 
     public int setJmlKripikApel(int text) {
@@ -748,54 +770,63 @@ public class buahagiashop extends javax.swing.JFrame {
         this.totkm3.setText(tot + "");
         return tot;
     }
+
     public int setTotEs1() {
         String cb = es1.getText();
         int tot = Integer.valueOf(cb) * 6000;
         this.totes1.setText(tot + "");
         return tot;
     }
+
     public int setTotEs2() {
         String cb = es2.getText();
         int tot = Integer.valueOf(cb) * 5000;
         this.totes2.setText(tot + "");
         return tot;
     }
+
     public int setTotEs3() {
         String cb = es3.getText();
         int tot = Integer.valueOf(cb) * 4000;
         this.totes3.setText(tot + "");
         return tot;
     }
+
     public int setTotSalad1() {
         String cb = salad1.getText();
         int tot = Integer.valueOf(cb) * 10000;
         this.totsalad1.setText(tot + "");
         return tot;
     }
+
     public int setTotSalad2() {
         String cb = salad2.getText();
         int tot = Integer.valueOf(cb) * 9000;
         this.totsalad2.setText(tot + "");
         return tot;
     }
+
     public int setTotSalad3() {
         String cb = salad3.getText();
         int tot = Integer.valueOf(cb) * 8000;
         this.totsalad3.setText(tot + "");
         return tot;
     }
+
     public int setTotSale1() {
         String cb = sale1.getText();
         int tot = Integer.valueOf(cb) * 45000;
         this.totsale1.setText(tot + "");
         return tot;
     }
+
     public int setTotSale2() {
         String cb = sale2.getText();
         int tot = Integer.valueOf(cb) * 43000;
         this.totsale2.setText(tot + "");
         return tot;
     }
+
     public int setTotSale3() {
         String cb = sale3.getText();
         int tot = Integer.valueOf(cb) * 40000;
@@ -845,69 +876,6 @@ public class buahagiashop extends javax.swing.JFrame {
         return hasil;
     }
 
-//    public String getJmlKripikApel() {
-//        return ka1.getText();
-//    }
-//
-//    public String getJmlKripikMangga() {
-//        return km1.getText();
-//    }
-//
-//    public String getJmlKripikPisang() {
-//        return kp1.getText();
-//    }
-//
-//    public String getJmlJusPisang() {
-//        return jp1.getText();
-//    }
-//
-//    public String getJmlJusMangga() {
-//        return jma1.getText();
-//    }
-//
-//    public String getJmlJusMelon() {
-//        return jme1.getText();
-//    }
-//
-//    public String getJmlJusApel() {
-//        return ja1.getText();
-//    }
-//
-//    public String getJmlJusSemangka() {
-//        return js1.getText();
-//    }
-//
-//    public String getJmlBrownisSemangka() {
-//        return bs1.getText();
-//    }
-//
-//    public String getJmlBrownisApel() {
-//        return ba1.getText();
-//    }
-//
-//    public String getJmlBrownisMangga() {
-//        return bma1.getText();
-//    }
-//
-//    public String getJmlBrownisMelon() {
-//        return bme1.getText();
-//    }
-//
-//    public String getJmlBrownisPisang() {
-//        return bp1.getText();
-//    }
-//
-//    public String getJmlSalad() {
-//        return salad1.getText();
-//    }
-//
-//    public String getJmlSale() {
-//        return sale1.getText();
-//    }
-//
-//    public String getJmlEs() {
-//        return es1.getText();
-//    }
     public JFrame shop2() {
         return this.nextshop;
     }
@@ -916,7 +884,7 @@ public class buahagiashop extends javax.swing.JFrame {
         return this.popup;
     }
 
-    public void tampilPesan(String pesan) {
+    public void tampilPesan(Component c, String pesan) {
         JOptionPane.showMessageDialog(popup, pesan);
     }
 

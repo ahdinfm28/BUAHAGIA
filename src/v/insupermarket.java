@@ -27,20 +27,44 @@ public class insupermarket extends javax.swing.JFrame {
 
     }
 
-    public void klikBahan(ActionListener g, ActionListener mi, ActionListener ma,
-            ActionListener me, ActionListener si, ActionListener su, ActionListener t,
-            ActionListener tt, ActionListener tb, ActionListener p) {
+    public void btnGula(ActionListener g) {
         this.btngula.addActionListener(g);
-        this.btnminyak.addActionListener(mi);
-        this.btnmayo.addActionListener(ma);
-        this.btnmentega.addActionListener(me);
-        this.btnsirup.addActionListener(si);
-        this.btnsusu.addActionListener(su);
-        this.btntelur.addActionListener(t);
-        this.btntepungt.addActionListener(tt);
-        this.btntepungb.addActionListener(tb);
-        this.btnpengembang.addActionListener(p);
+    }
 
+    public void btnMinyak(ActionListener mi) {
+        this.btnminyak.addActionListener(mi);
+    }
+
+    public void btnMentega(ActionListener me) {
+        this.btnmentega.addActionListener(me);
+    }
+
+    public void btnMayo(ActionListener me) {
+        this.btnmayo.addActionListener(me);
+    }
+
+    public void btnSirup(ActionListener me) {
+        this.btnsirup.addActionListener(me);
+    }
+
+    public void btnTepungTerigu(ActionListener me) {
+        this.btntepungt.addActionListener(me);
+    }
+
+    public void btnTepungBeras(ActionListener me) {
+        this.btntepungb.addActionListener(me);
+    }
+
+    public void btnPengembang(ActionListener me) {
+        this.btnpengembang.addActionListener(me);
+    }
+
+    public void btnTelur(ActionListener me) {
+        this.btntelur.addActionListener(me);
+    }
+
+    public void btnSusu(ActionListener me) {
+        this.btnsusu.addActionListener(me);
     }
 
     public void setJmlBahan(int gula, int minyak, int mayo, int mentega, int sirup, int telur,
@@ -112,46 +136,6 @@ public class insupermarket extends javax.swing.JFrame {
         return jmluang;
     }
 
-    public String getjmlminyak() {
-        return jmlminyak.getText();
-    }
-
-    public String getjmlmayo() {
-        return jmlmayo.getText();
-    }
-
-    public String getjmltepungt() {
-        return jmltepung2.getText();
-    }
-
-    public String getjmltepungb() {
-        return jmltepung.getText();
-    }
-
-    public String getjmlpengembang() {
-        return jmlpengembang.getText();
-    }
-
-    public String getjmlsusu() {
-        return jmlsusu.getText();
-    }
-
-    public String getjmlgula() {
-        return jmlgula.getText();
-    }
-
-    public String getjmlmentega() {
-        return jmlmentega.getText();
-    }
-
-    public String getjmlsirup() {
-        return jmlminyak.getText();
-    }
-
-    public String getjmltelur() {
-        return jmltelur.getText();
-    }
-
     public void back(ActionListener a) {
         this.back.addActionListener(a);
     }
@@ -201,6 +185,7 @@ public class insupermarket extends javax.swing.JFrame {
     public void tampilPesan(String pesan) {
         JOptionPane.showMessageDialog(this, pesan);
     }
+
     public void tampilPesan2(String pesan) {
         JOptionPane.showMessageDialog(popup, pesan);
     }

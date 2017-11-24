@@ -33,6 +33,14 @@ public class inkedaibuah1 extends javax.swing.JFrame {
         return text;
     }
 
+    public void setJmlBuah(int mangga, int semangka, int melon, int apel, int pisang) {
+        setJmlMangga(mangga);
+        setJmlApel(apel);
+        setJmlPisang(pisang);
+        setJmlSemangka(semangka);
+        setJmlMelon(melon);
+    }
+
     public int setJmlMangga(int text) {
         this.jmlmangga.setText(text + "");
         return text;
@@ -58,25 +66,6 @@ public class inkedaibuah1 extends javax.swing.JFrame {
         return text;
     }
 
-    public String getJmlApel() {
-        return jmlapel.getText();
-    }
-
-    public String getJmlSemangka() {
-        return jmlsemangka.getText();
-    }
-
-    public String getJmlPisang() {
-        return jmlpisang.getText();
-    }
-
-    public String getJmlMangga() {
-        return jmlmangga.getText();
-    }
-
-    public String getJmlMelon() {
-        return jmlmelon.getText();
-    }
 
     public void btnMelon(ActionListener a) {
         this.btnmelon.addActionListener(a);

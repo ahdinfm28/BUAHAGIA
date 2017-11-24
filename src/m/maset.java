@@ -12,9 +12,9 @@ import java.sql.SQLException;
  *
  * @author Rangora
  */
-public class aset extends func {
+public class maset extends func {
 
-    public aset() throws SQLException {
+    public maset() throws SQLException {
     }
 
     public int getUang(String username) throws SQLException {
@@ -87,6 +87,12 @@ public class aset extends func {
                 + "WHERE hasilpengolahan.idProduk=14 and player.username='" + username + "' ";
         return getDataInt(query);
     }
+    public int getStatusLegend(String username) throws SQLException {
+        String query = "SELECT status from penghargaan a join player b "
+                + "on a.idPlayer = b.idPlayer "
+                + "where a.penghargaan = 'legend' and b.username='"+username+"' ";
+        return getDataInt(query);
+    }
 
     public boolean insertAset(int idPlayer) {
         String query = "UPDATE `player` SET `uang` = 500000 WHERE `player`.`idPlayer` = '" + idPlayer + "';";
@@ -94,20 +100,21 @@ public class aset extends func {
         return getStatusQuery(query);
     }
 
-    public boolean insertResep(String idPlayer, String resep) {
+    public boolean insertResep(String username, String resep) {
         String query = "INSERT INTO `resep`(`id`, `idPlayer`, `resep`) "
-                + "VALUES (null, '" + idPlayer + "','" + resep + "')";
+                + "VALUES (null, (select idPlayer from player where username = '"+username+"'),'" + resep + "')";
         System.out.println(query);
         return getStatusQuery(query);
     }
 
-    public boolean updateUang(int uang, String idPlayer) throws SQLException {
-        String query = "UPDATE `player` SET `uang` = '" + (uang + "") + "' WHERE `player`.`idPlayer` = '" + idPlayer + "';";
+    public boolean updateUang(int uang, String username) throws SQLException {
+        String query = "UPDATE `player` SET `uang` = '" + (uang + "") + "' WHERE `player`.`username` = '" + username + "'";
+        System.out.println(query);
         return getStatusQuery(query);
     }
 
-    public boolean resetUang(String idPlayer) throws SQLException {
-        String query = "UPDATE `player` SET `uang` = 500000 WHERE `player`.`idPlayer` = '" + idPlayer + "';";
+    public boolean resetUang(String username) throws SQLException {
+        String query = "UPDATE `player` SET `uang` = 500000 WHERE `player`.`username` = '" + username + "';";
         System.out.println(query);
         return getStatusQuery(query);
     }
@@ -118,16 +125,18 @@ public class aset extends func {
         return getStatusQuery(query);
     }
 
-    public boolean resetResep(String idPlayer) throws SQLException {
-        String query = "DELETE FROM `resep` WHERE idPlayer='" + idPlayer + "'";
+    public boolean resetResep(String username) throws SQLException {
+        String query = "DELETE FROM `resep` WHERE "
+                + "idPlayer=(SELECT idPlayer from player where username='"+username+"' "
+                + "and resep not in ('jusbuah','brownis')";
         System.out.println(query);
         return getStatusQuery(query);
     }
 
-    public boolean updatePenghargaan(String idPlayer, String penghargaan,int status) throws SQLException {
-        String query = "UPDATE `penghargaan` SET `status` = '"+status+"' "
-                + " WHERE `penghargaan`.`idPlayer` = '" + idPlayer + "' "
-                + "and `penghargaan`.`penghargaan`='"+penghargaan+"'";
+    public boolean updatePenghargaan(String username, String penghargaan,int status) throws SQLException {
+        String query = "UPDATE `penghargaan` SET status = '"+status+"' "
+                + "where penghargaan='"+penghargaan+"' "
+                + "and idPlayer=(SELECT idPlayer from player where username = '"+username+"')";
         System.out.println(query);
         return getStatusQuery(query);
     }
